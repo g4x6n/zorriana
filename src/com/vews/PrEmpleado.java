@@ -185,8 +185,8 @@ public class PrEmpleado extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        bg = new javax.swing.JPanel();
+        fondo = new javax.swing.JPanel();
         TITULO = new javax.swing.JLabel();
         DIRECCIÓN = new javax.swing.JLabel();
         CALLE = new javax.swing.JLabel();
@@ -234,64 +234,44 @@ public class PrEmpleado extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1040, 560));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setPreferredSize(new java.awt.Dimension(1040, 560));
 
         TITULO.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         TITULO.setText("EMPLEADOS");
-        jPanel1.add(TITULO, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
 
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
-        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 80, -1));
 
         CALLE.setText("CALLE");
-        jPanel1.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 40, -1));
-        jPanel1.add(CalleTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 370, -1));
 
         EXTERIOR.setText("EXTERIOR");
-        jPanel1.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 60, -1));
 
         ExtTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExtTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 80, -1));
 
         INTERIOR.setText("INTERIOR");
-        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 390, 60, -1));
-        jPanel1.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 70, -1));
 
         CP.setText("C.P.");
-        jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 30, -1));
-        jPanel1.add(CPTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 390, 90, 30));
 
         COLONIA.setText("COLONIA");
-        jPanel1.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 60, -1));
 
         ColTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ColTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 130, -1));
 
         AlcalMun.setText("ALCAL/MUN");
-        jPanel1.add(AlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, 70, -1));
-        jPanel1.add(AlcalMunTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 120, -1));
 
         ESTADO.setText("ESTADO");
-        jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 50, -1));
 
         EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 150, -1));
 
         Nombre.setText("NOMBRE");
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
         jTextFieldNombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -300,20 +280,16 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 360, -1));
 
         ApPat.setText("APELLIDO PATERNO");
-        jPanel1.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 20));
 
         jTextFieldApPaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 80, -1));
 
         ApMat.setText("APELLIDO MATERNO");
-        jPanel1.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, -1, 20));
 
         jTextFieldApMaterno.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
@@ -321,63 +297,50 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 90, -1));
 
         FechaReg.setText("FECHA DE REGISTRO");
-        jPanel1.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
 
         jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 120, -1));
 
         Puesto.setText("PUESTO");
-        jPanel1.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
 
         PuestoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(PuestoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 110, -1));
 
         Correo.setText("CORREO");
-        jPanel1.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
 
         jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 360, -1));
 
         Salario.setText("SALARIO");
-        jPanel1.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         SalTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SalTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 180, -1));
 
         Usuario.setText("USUARIO");
-        jPanel1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, -1, -1));
 
         UserTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 110, -1));
 
         Contraseña.setText("CONTRASEÑA");
-        jPanel1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
         PswTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PswTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, 120, -1));
 
         resultsTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -420,17 +383,13 @@ public class PrEmpleado extends javax.swing.JPanel {
         jScrollPane1.setViewportView(resultsTable);
         resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 220, 390, 270));
-
         searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbarActionPerformed(evt);
             }
         });
-        jPanel1.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 250, -1));
 
         jLabel7.setText("FILTRAR:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         jButton1.setText("BUSCAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -438,7 +397,6 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 190, 80, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         jButton3.setContentAreaFilled(false);
@@ -448,7 +406,6 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         jButton4.setContentAreaFilled(false);
@@ -458,7 +415,6 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, -1, -1));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
@@ -468,7 +424,6 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
@@ -478,19 +433,210 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, -1, -1));
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
+        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
+        fondo.setLayout(fondoLayout);
+        fondoLayout.setHorizontalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(TITULO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(285, 285, 285))
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(Nombre)
+                        .addGap(11, 11, 11)
+                        .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(ApPat)
+                        .addGap(12, 12, 12)
+                        .addComponent(jTextFieldApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(ApMat)
+                        .addGap(8, 8, 8)
+                        .addComponent(jTextFieldApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addComponent(jButton3)
+                .addGap(45, 45, 45)
+                .addComponent(jButton4)
+                .addGap(45, 45, 45)
+                .addComponent(jButton5)
+                .addGap(35, 35, 35)
+                .addComponent(jButton6))
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(FechaReg)
+                        .addGap(21, 21, 21)
+                        .addComponent(jTextFieldFechaReg, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(Puesto)
+                        .addGap(8, 8, 8)
+                        .addComponent(PuestoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(Salario)
+                        .addGap(13, 13, 13)
+                        .addComponent(SalTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(Usuario)
+                        .addGap(11, 11, 11)
+                        .addComponent(UserTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(Contraseña)
+                        .addGap(14, 14, 14)
+                        .addComponent(PswTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(Correo)
+                        .addGap(14, 14, 14)
+                        .addComponent(jTextFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(180, 180, 180)
+                        .addComponent(DIRECCIÓN, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(CALLE, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(CalleTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(EXTERIOR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(ExtTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(INTERIOR, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(IntTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(CP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(CPTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(COLONIA, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(ColTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(AlcalMun, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(AlcalMunTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(ESTADO, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(EDO_BOX, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(4, 4, 4)
+                        .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        fondoLayout.setVerticalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(TITULO, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Nombre)
+                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ApPat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ApMat, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6))
+                .addGap(8, 8, 8)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(FechaReg)
+                            .addComponent(jTextFieldFechaReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Puesto)
+                            .addComponent(PuestoCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Salario)
+                            .addComponent(SalTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Usuario)
+                            .addComponent(UserTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Contraseña)
+                            .addComponent(PswTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Correo)
+                            .addComponent(jTextFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(DIRECCIÓN)
+                        .addGap(14, 14, 14)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CALLE)
+                            .addComponent(CalleTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(EXTERIOR)
+                            .addComponent(ExtTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(INTERIOR)
+                            .addComponent(IntTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CP)
+                            .addComponent(CPTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(COLONIA)
+                            .addComponent(ColTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AlcalMun)
+                            .addComponent(AlcalMunTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ESTADO)
+                            .addComponent(EDO_BOX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(30, 30, 30))
+        );
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(fondo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(58, 58, 58))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleParent(this);
@@ -681,14 +827,14 @@ agregarEmpleado();
     private javax.swing.JLabel TITULO;
     private javax.swing.JTextField UserTxtF;
     private javax.swing.JLabel Usuario;
+    private javax.swing.JPanel bg;
+    private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldApMaterno;
     private javax.swing.JTextField jTextFieldApPaterno;

@@ -32,8 +32,8 @@ public class PrCompras extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        bg = new javax.swing.JPanel();
+        fondo = new javax.swing.JPanel();
         searchbar1 = new javax.swing.JTextField();
         FILTRO = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -42,7 +42,7 @@ public class PrCompras extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         AGREGAR_BOTON = new javax.swing.JButton();
         ELIMINAR_BOTON = new javax.swing.JButton();
-        JPanelVenta = new javax.swing.JPanel();
+        compras = new javax.swing.JPanel();
         jLabelFechaVenta = new javax.swing.JLabel();
         jTextFieldFechaVenta = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -56,21 +56,16 @@ public class PrCompras extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setPreferredSize(new java.awt.Dimension(1040, 560));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setPreferredSize(new java.awt.Dimension(1040, 560));
 
         searchbar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbar1ActionPerformed(evt);
             }
         });
-        jPanel1.add(searchbar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 280, -1));
 
         FILTRO.setText("FILTRAR:");
-        jPanel1.add(FILTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, 20));
 
         resultsTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         resultsTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -113,8 +108,6 @@ public class PrCompras extends javax.swing.JPanel {
         jScrollPane2.setViewportView(resultsTable1);
         resultsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 880, 240));
-
         BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         BUSCAR.setBorder(null);
         BUSCAR.setBorderPainted(false);
@@ -123,11 +116,9 @@ public class PrCompras extends javax.swing.JPanel {
                 BUSCARActionPerformed(evt);
             }
         });
-        jPanel1.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 240, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel9.setText("COMPRAS");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 250, 60));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
@@ -136,25 +127,19 @@ public class PrCompras extends javax.swing.JPanel {
                 AGREGAR_BOTONActionPerformed(evt);
             }
         });
-        jPanel1.add(AGREGAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
-        jPanel1.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, -1, -1));
 
-        JPanelVenta.setBackground(new java.awt.Color(255, 255, 255));
-        JPanelVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        JPanelVenta.setForeground(new java.awt.Color(204, 204, 204));
-        JPanelVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        compras.setBackground(new java.awt.Color(255, 255, 255));
+        compras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        compras.setForeground(new java.awt.Color(204, 204, 204));
 
         jLabelFechaVenta.setText("FECHA DE COMPRA");
-        JPanelVenta.add(jLabelFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
 
         jTextFieldFechaVenta.setText("jTextField1");
-        JPanelVenta.add(jTextFieldFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 80, -1));
 
         jLabel2.setText("ESTADO COMRA");
-        JPanelVenta.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, 20));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -162,19 +147,14 @@ public class PrCompras extends javax.swing.JPanel {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        JPanelVenta.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 60, -1));
 
         jLabel3.setText("PROVEEDOR");
-        JPanelVenta.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 24, -1, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JPanelVenta.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 320, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JPanelVenta.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 320, -1));
 
         jLabel4.setText("EMPLEADO");
-        JPanelVenta.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
 
         EDITAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
         EDITAR_BOTON.setContentAreaFilled(false);
@@ -183,21 +163,129 @@ public class PrCompras extends javax.swing.JPanel {
                 EDITAR_BOTONActionPerformed(evt);
             }
         });
-        JPanelVenta.add(EDITAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 60, -1, -1));
 
-        jPanel1.add(JPanelVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 880, 110));
+        javax.swing.GroupLayout comprasLayout = new javax.swing.GroupLayout(compras);
+        compras.setLayout(comprasLayout);
+        comprasLayout.setHorizontalGroup(
+            comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(comprasLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(comprasLayout.createSequentialGroup()
+                        .addComponent(jLabelFechaVenta)
+                        .addGap(3, 3, 3)
+                        .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jLabel2)
+                        .addGap(21, 21, 21)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel3)
+                        .addGap(14, 14, 14)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(comprasLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(9, 9, 9)
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(380, 380, 380)
+                        .addComponent(EDITAR_BOTON))))
+        );
+        comprasLayout.setVerticalGroup(
+            comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(comprasLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(comprasLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel3))
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(EDITAR_BOTON)
+                    .addGroup(comprasLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
 
-        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
+        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
+        fondo.setLayout(fondoLayout);
+        fondoLayout.setHorizontalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(330, 330, 330)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(compras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(AGREGAR_BOTON)
+                .addGap(9, 9, 9)
+                .addComponent(ELIMINAR_BOTON)
+                .addGap(335, 335, 335)
+                .addComponent(FILTRO)
+                .addGap(4, 4, 4)
+                .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(BUSCAR))
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        fondoLayout.setVerticalGroup(
+            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fondoLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(compras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(AGREGAR_BOTON)
+                    .addComponent(ELIMINAR_BOTON)
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(FILTRO, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(BUSCAR)))
+                .addGap(7, 7, 7)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleParent(this);
@@ -234,7 +322,9 @@ public class PrCompras extends javax.swing.JPanel {
     private javax.swing.JButton EDITAR_BOTON;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel FILTRO;
-    private javax.swing.JPanel JPanelVenta;
+    private javax.swing.JPanel bg;
+    private javax.swing.JPanel compras;
+    private javax.swing.JPanel fondo;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -243,8 +333,6 @@ public class PrCompras extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelFechaVenta;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldFechaVenta;
     private javax.swing.JTable resultsTable1;
