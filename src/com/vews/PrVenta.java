@@ -274,38 +274,29 @@ public class PrVenta extends javax.swing.JPanel {
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldNombreActionPerformed
 
     private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
 
     private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+
     }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
 
     private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
 
     private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
     private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+
     }//GEN-LAST:event_jTextFieldDireccionActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
@@ -314,47 +305,10 @@ public class PrVenta extends javax.swing.JPanel {
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
 
-        int filaSeleccionada = resultsTable.getSelectedRow();
-
-        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-            // Obtén los valores de las columnas de la fila seleccionada
-            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
-
-        }
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
 
-        if (filtro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Instancia de DaoClientes para acceder al método de búsqueda
-            DaoClientes daoCliente = new DaoClientes();
-            List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
-
-            // Crea un modelo para la tabla, excluyendo la columna del ID
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-            // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-            for (Object[] fila : resultados) {
-                model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-            }
-
-            // Asigna el modelo a la tabla
-            resultsTable.setModel(model);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -416,7 +370,4 @@ public class PrVenta extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldFechaVenta;
     // End of variables declaration//GEN-END:variables
 
-    public void setLocation(double d) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-}
+
