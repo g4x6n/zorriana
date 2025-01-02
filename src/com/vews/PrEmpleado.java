@@ -64,10 +64,10 @@ public class PrEmpleado extends javax.swing.JPanel {
         jTextFieldCorreo = new javax.swing.JTextField();
         Salario = new javax.swing.JLabel();
         SalTxtF = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jTextFieldApMaterno1 = new javax.swing.JTextField();
-        jTextFieldApMaterno2 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
+        Usuario = new javax.swing.JLabel();
+        UserTxtF = new javax.swing.JTextField();
+        Contraseña = new javax.swing.JLabel();
+        PswTxtF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
         searchbar = new javax.swing.JTextField();
@@ -87,145 +87,149 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TITULO.setFont(new java.awt.Font("Jost", 0, 36)); // NOI18N
+        TITULO.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         TITULO.setText("EMPLEADOS");
-        jPanel1.add(TITULO, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+        jPanel1.add(TITULO, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
 
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
-        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 80, -1));
+        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 80, -1));
 
         CALLE.setText("CALLE");
-        jPanel1.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
-        jPanel1.add(CalleTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 360, -1));
+        jPanel1.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 40, -1));
+        jPanel1.add(CalleTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 370, -1));
 
         EXTERIOR.setText("EXTERIOR");
-        jPanel1.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
+        jPanel1.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 60, -1));
 
         ExtTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExtTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 70, -1));
+        jPanel1.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 80, -1));
 
         INTERIOR.setText("INTERIOR");
-        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, -1, -1));
-        jPanel1.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 70, -1));
+        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 390, 60, -1));
+        jPanel1.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 70, -1));
 
         CP.setText("C.P.");
-        jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
-        jPanel1.add(CPTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 80, 20));
+        jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 30, -1));
+        jPanel1.add(CPTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 390, 90, 30));
 
         COLONIA.setText("COLONIA");
-        jPanel1.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
+        jPanel1.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 60, -1));
 
         ColTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ColTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 420, 130, -1));
+        jPanel1.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 130, -1));
 
         AlcalMun.setText("ALCAL/MUN");
-        jPanel1.add(AlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, -1, -1));
-        jPanel1.add(AlcalMunTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 420, 120, -1));
+        jPanel1.add(AlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 430, 70, -1));
+        jPanel1.add(AlcalMunTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 120, -1));
 
         ESTADO.setText("ESTADO");
-        jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+        jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 50, -1));
 
         EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 140, -1));
+        jPanel1.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 150, -1));
 
         Nombre.setText("NOMBRE");
-        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+        jPanel1.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
+        jTextFieldNombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 360, -1));
+        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 360, -1));
 
         ApPat.setText("APELLIDO PATERNO");
-        jPanel1.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
+        jPanel1.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 20));
 
         jTextFieldApPaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 150, 80, -1));
+        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 80, -1));
 
         ApMat.setText("APELLIDO MATERNO");
-        jPanel1.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, 20));
+        jPanel1.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, -1, 20));
 
+        jTextFieldApMaterno.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 90, -1));
+        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 90, -1));
 
         FechaReg.setText("FECHA DE REGISTRO");
-        jPanel1.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
+        jPanel1.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
 
         jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 120, -1));
+        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 120, -1));
 
         Puesto.setText("PUESTO");
-        jPanel1.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
+        jPanel1.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
 
         PuestoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(PuestoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 110, -1));
+        jPanel1.add(PuestoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 110, -1));
 
         Correo.setText("CORREO");
-        jPanel1.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+        jPanel1.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
 
         jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 360, -1));
+        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 360, -1));
 
         Salario.setText("SALARIO");
-        jPanel1.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+        jPanel1.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
 
         SalTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SalTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 180, -1));
+        jPanel1.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 180, -1));
 
-        jLabel11.setText("USUARIO");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
+        Usuario.setText("USUARIO");
+        jPanel1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, -1, -1));
 
-        jTextFieldApMaterno1.addActionListener(new java.awt.event.ActionListener() {
+        UserTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldApMaterno1ActionPerformed(evt);
+                UserTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 110, -1));
+        jPanel1.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 110, -1));
 
-        jTextFieldApMaterno2.addActionListener(new java.awt.event.ActionListener() {
+        Contraseña.setText("CONTRASEÑA");
+        jPanel1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
+
+        PswTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldApMaterno2ActionPerformed(evt);
+                PswTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 120, -1));
+        jPanel1.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 260, 120, -1));
 
-        jLabel12.setText("CONTRASEÑA");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
-
+        resultsTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -263,17 +267,17 @@ public class PrEmpleado extends javax.swing.JPanel {
         jScrollPane1.setViewportView(resultsTable);
         resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 210, 390, 270));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 220, 390, 270));
 
         searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbarActionPerformed(evt);
             }
         });
-        jPanel1.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 180, 260, -1));
+        jPanel1.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 190, 250, -1));
 
         jLabel7.setText("FILTRAR:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, -1, -1));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 190, -1, -1));
 
         jButton1.setText("BUSCAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -281,7 +285,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 180, 70, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 190, 80, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         jButton3.setContentAreaFilled(false);
@@ -291,7 +295,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, -1));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, -1, -1));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         jButton4.setContentAreaFilled(false);
@@ -301,17 +305,17 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 110, -1, -1));
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, -1, -1));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, -1, -1));
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, -1, -1));
+        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -329,61 +333,13 @@ public class PrEmpleado extends javax.swing.JPanel {
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldNombreActionPerformed
-
-    private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
-
-    private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
-
-    private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
-
-    private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldCorreoActionPerformed
-
-    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
-
-    }//GEN-LAST:event_searchbarActionPerformed
-
-    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-
-        int filaSeleccionada = resultsTable.getSelectedRow();
-
-        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-            // Obtén los valores de las columnas de la fila seleccionada
-            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
-
-            // Configura los valores en los cuadros de texto
-            jTextFieldNombre.setText(nombre);
-            jTextFieldApPaterno.setText(apPaterno);
-            jTextFieldApMaterno.setText(apMaterno);
-            jTextFieldFechaReg.setText(fechaReg);
-            jTextFieldCorreo.setText(correo);
-
-        }
-    }//GEN-LAST:event_resultsTableMouseClicked
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
@@ -415,25 +371,73 @@ public class PrEmpleado extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
+
+    }//GEN-LAST:event_searchbarActionPerformed
+
+    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+
+        int filaSeleccionada = resultsTable.getSelectedRow();
+
+        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
+            // Obtén los valores de las columnas de la fila seleccionada
+            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
+            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
+            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
+            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
+
+            // Configura los valores en los cuadros de texto
+            jTextFieldNombre.setText(nombre);
+            jTextFieldApPaterno.setText(apPaterno);
+            jTextFieldApMaterno.setText(apMaterno);
+            jTextFieldFechaReg.setText(fechaReg);
+            jTextFieldCorreo.setText(correo);
+
+        }
+    }//GEN-LAST:event_resultsTableMouseClicked
+
+    private void PswTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PswTxtFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PswTxtFActionPerformed
+
+    private void UserTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserTxtFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UserTxtFActionPerformed
+
     private void SalTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalTxtFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SalTxtFActionPerformed
 
-    private void jTextFieldApMaterno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaterno1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldApMaterno1ActionPerformed
+    private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
 
-    private void jTextFieldApMaterno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaterno2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldApMaterno2ActionPerformed
+        jTextFieldNombre.setText(""); // Elimina el texto inicial
+        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        jTextFieldNombre.setText(""); // Elimina el texto inicial
+        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
+
+    private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
+
+        jTextFieldNombre.setText(""); // Elimina el texto inicial
+        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
+
+    private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
+
+        jTextFieldNombre.setText(""); // Elimina el texto inicial
+        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
+
+    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+
+        jTextFieldNombre.setText(""); // Elimina el texto inicial
+        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldNombreActionPerformed
 
     private void ColTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColTxtFActionPerformed
         // TODO add your handling code here:
@@ -455,6 +459,7 @@ public class PrEmpleado extends javax.swing.JPanel {
     private javax.swing.JTextField CPTxtF;
     private javax.swing.JTextField CalleTxtF;
     private javax.swing.JTextField ColTxtF;
+    private javax.swing.JLabel Contraseña;
     private javax.swing.JLabel Correo;
     private javax.swing.JLabel DIRECCIÓN;
     private javax.swing.JComboBox<String> EDO_BOX;
@@ -465,25 +470,24 @@ public class PrEmpleado extends javax.swing.JPanel {
     private javax.swing.JLabel INTERIOR;
     private javax.swing.JTextField IntTxtF;
     private javax.swing.JLabel Nombre;
+    private javax.swing.JTextField PswTxtF;
     private javax.swing.JLabel Puesto;
     private javax.swing.JComboBox<String> PuestoCB;
     private javax.swing.JTextField SalTxtF;
     private javax.swing.JLabel Salario;
     private javax.swing.JLabel TITULO;
+    private javax.swing.JTextField UserTxtF;
+    private javax.swing.JLabel Usuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldApMaterno;
-    private javax.swing.JTextField jTextFieldApMaterno1;
-    private javax.swing.JTextField jTextFieldApMaterno2;
     private javax.swing.JTextField jTextFieldApPaterno;
     private javax.swing.JTextField jTextFieldCorreo;
     private javax.swing.JTextField jTextFieldFechaReg;
