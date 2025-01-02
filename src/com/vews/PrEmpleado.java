@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.vews;
-import database.dao.DaoClientes;
+import database.dao.DaoEmpleado;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -13,6 +13,10 @@ import javax.swing.JOptionPane;
  * @author Alex
  */
 public class PrEmpleado extends javax.swing.JPanel {
+    
+
+     private final DaoEmpleado daoEmpleado = new DaoEmpleado(); // Instancia del DAO para manejo de empleados
+ 
 
     public static PrEmpleado cl;
 
@@ -21,7 +25,156 @@ public class PrEmpleado extends javax.swing.JPanel {
      */
     public PrEmpleado() {
         initComponents();
+        cargarEstados();
+        cargarPuestos();
+        cargarEmpleados();
     }
+     private void cargarEstados() {
+        // Llenar la lista de estados en el combo box
+        try {
+            List<String> estados = daoEmpleado.obtenerEstados(); // Implementar este método en DaoEmpleado
+            EDO_BOX.removeAllItems();
+            for (String estado : estados) {
+                EDO_BOX.addItem(estado);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar estados: " + e.getMessage());
+        }
+    }
+
+    private void cargarPuestos() {
+        // Llenar la lista de puestos en el combo box
+        try {
+            List<String> puestos = daoEmpleado.obtenerPuestos(); // Implementar este método en DaoEmpleado
+            PuestoCB.removeAllItems();
+            for (String puesto : puestos) {
+                PuestoCB.addItem(puesto);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar puestos: " + e.getMessage());
+        }
+    }
+
+    private void cargarEmpleados() {
+        // Cargar los empleados en la tabla
+        try {
+            List<Object[]> empleados = daoEmpleado.listEmployees();
+            DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+            );
+            for (Object[] empleado : empleados) {
+                model.addRow(new Object[]{
+                    empleado[1], empleado[2], empleado[3], empleado[4], empleado[6], empleado[9]
+                });
+            }
+            resultsTable.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage());
+        }
+    }
+
+    private void agregarEmpleado() {
+        // Método para agregar un empleado
+        try {
+            Object[] empleado = obtenerDatosEmpleado();
+            boolean exito = daoEmpleado.addEmployee(empleado);
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
+                cargarEmpleados();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al agregar empleado.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + e.getMessage());
+        }
+    }
+
+    private void editarEmpleado() {
+        // Método para editar un empleado
+        try {
+            int filaSeleccionada = resultsTable.getSelectedRow();
+            if (filaSeleccionada == -1) {
+                JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.");
+                return;
+            }
+
+            Object[] empleado = obtenerDatosEmpleado();
+            boolean exito = daoEmpleado.updateEmployee(empleado);
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Empleado editado correctamente.");
+                cargarEmpleados();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al editar empleado.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al editar empleado: " + e.getMessage());
+        }
+    }
+
+   private void eliminarEmpleado() {
+    try {
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
+            return;
+        }
+
+        // Obtén el ID del empleado seleccionado
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+
+        // Obtén el ID de la dirección asociada al empleado
+        String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
+
+        if (idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.");
+            return;
+        }
+
+        // Llama al método deleteEmployee con ambos IDs
+        boolean exito = daoEmpleado.deleteEmployee(idEmpleado, idDireccion);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
+            cargarEmpleados(); // Recarga la tabla
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar el empleado: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+
+
+ private Object[] obtenerDatosEmpleado() {
+    // Método para obtener los datos del formulario
+    try {
+        String nombre = jTextFieldNombre.getText().trim();
+        String apPaterno = jTextFieldApPaterno.getText().trim();
+        String apMaterno = jTextFieldApMaterno.getText().trim();
+        String fechaReg = jTextFieldFechaReg.getText().trim();
+        String usuario = UserTxtF.getText().trim();
+        String contrasena = PswTxtF.getText().trim();
+        String correo = jTextFieldCorreo.getText().trim();
+        String puesto = (String) PuestoCB.getSelectedItem();
+        float salario = Float.parseFloat(SalTxtF.getText().trim());
+        String calle = CalleTxtF.getText().trim();
+        String exterior = ExtTxtF.getText().trim();
+        String interior = IntTxtF.getText().trim();
+        String colonia = ColTxtF.getText().trim();
+        String cp = CPTxtF.getText().trim();
+        String alcalMun = AlcalMunTxtF.getText().trim();
+        String estado = (String) EDO_BOX.getSelectedItem();
+
+        return new Object[]{
+            nombre, apPaterno, apMaterno, fechaReg, usuario, contrasena, correo,
+            puesto, salario, calle, exterior, interior, colonia, cp, alcalMun, estado
+        };
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error en el formato de sueldo. Asegúrate de ingresar un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        return null;
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -310,11 +463,21 @@ public class PrEmpleado extends javax.swing.JPanel {
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 120, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 120, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
@@ -334,41 +497,49 @@ public class PrEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+     editarEmpleado();   
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+agregarEmpleado();        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
+     String filtro = searchbar.getText().trim(); // Obtén el texto de la barra de búsqueda
 
-        if (filtro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // Llama al método de búsqueda en el DAO
+        List<Object[]> resultados = daoEmpleado.buscarEmpleado(filtro);
+
+        // Configura el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+        );
+
+        // Llena la tabla con los resultados
+        for (Object[] fila : resultados) {
+            model.addRow(new Object[]{
+                fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
+            });
         }
 
-        try {
-            // Instancia de DaoClientes para acceder al método de búsqueda
-            DaoClientes daoCliente = new DaoClientes();
-            List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
+        resultsTable.setModel(model);
 
-            // Crea un modelo para la tabla, excluyendo la columna del ID
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-            // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-            for (Object[] fila : resultados) {
-                model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-            }
-
-            // Asigna el modelo a la tabla
-            resultsTable.setModel(model);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
+        // Verifica si no hay resultados
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
@@ -376,25 +547,37 @@ public class PrEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_searchbarActionPerformed
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+    int filaSeleccionada = resultsTable.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
 
-        int filaSeleccionada = resultsTable.getSelectedRow();
+        // Llamar al DAO para obtener los detalles completos del empleado
+        Object[] empleado = daoEmpleado.obtenerEmpleadoPorId(idEmpleado);
 
-        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-            // Obtén los valores de las columnas de la fila seleccionada
-            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
+        if (empleado != null) {
+            // Asignar valores a los campos del formulario
+            jTextFieldNombre.setText((String) empleado[1]); // Nombre
+            jTextFieldApPaterno.setText((String) empleado[2]); // Apellido Paterno
+            jTextFieldApMaterno.setText((String) empleado[3]); // Apellido Materno
+            jTextFieldFechaReg.setText(empleado[4] != null ? empleado[4].toString() : ""); // Fecha de Registro
+            UserTxtF.setText((String) empleado[5]); // Usuario
+            PswTxtF.setText((String) empleado[6]); // Contraseña
+            jTextFieldCorreo.setText((String) empleado[7]); // Correo
+            PuestoCB.setSelectedItem((String) empleado[8]); // Puesto
+            SalTxtF.setText(String.valueOf(empleado[9])); // Sueldo
 
-            // Configura los valores en los cuadros de texto
-            jTextFieldNombre.setText(nombre);
-            jTextFieldApPaterno.setText(apPaterno);
-            jTextFieldApMaterno.setText(apMaterno);
-            jTextFieldFechaReg.setText(fechaReg);
-            jTextFieldCorreo.setText(correo);
-
+            // Asignar dirección
+            CalleTxtF.setText((String) empleado[10]); // Calle
+            ExtTxtF.setText((String) empleado[11]); // Exterior
+            IntTxtF.setText((String) empleado[12]); // Interior
+            ColTxtF.setText((String) empleado[13]); // Colonia
+            CPTxtF.setText((String) empleado[14]); // CP
+            AlcalMunTxtF.setText((String) empleado[15]); // Alcaldía/Municipio
+            EDO_BOX.setSelectedItem((String) empleado[16]); // Estado
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo cargar la información del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void PswTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PswTxtFActionPerformed
@@ -446,6 +629,25 @@ public class PrEmpleado extends javax.swing.JPanel {
     private void ExtTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExtTxtFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ExtTxtFActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       eliminarEmpleado();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+      Object[] datosEmpleado = obtenerDatosEmpleado();
+    if (datosEmpleado == null) {
+        return; // Si hay un error en los datos, no continúa
+    }
+    
+    boolean exito = daoEmpleado.addEmployee(datosEmpleado);
+    if (exito) {
+        JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
+        cargarEmpleados(); // Recarga la tabla de empleados
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al agregar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
