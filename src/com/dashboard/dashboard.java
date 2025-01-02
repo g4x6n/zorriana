@@ -75,25 +75,6 @@ public class dashboard extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         dateText = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
-        clientes = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextFieldNombre = new javax.swing.JTextField();
-        jTextFieldApPaterno = new javax.swing.JTextField();
-        jTextFieldApMaterno = new javax.swing.JTextField();
-        jTextFieldFechaReg = new javax.swing.JTextField();
-        jTextFieldCorreo = new javax.swing.JTextField();
-        jTextFieldDireccion = new javax.swing.JTextField();
-        searchbar = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        resultsTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -308,215 +289,16 @@ public class dashboard extends javax.swing.JFrame {
         content.setName(""); // NOI18N
         content.setPreferredSize(new java.awt.Dimension(642, 552));
 
-        clientes.setBackground(new java.awt.Color(255, 255, 255));
-        clientes.setName(""); // NOI18N
-        clientes.setPreferredSize(new java.awt.Dimension(642, 552));
-
-        jLabel1.setText("NOMBRE");
-
-        jLabel2.setText("APELLIDO PATERNO");
-
-        jLabel3.setText("APELLIDO MATERNO");
-
-        jLabel4.setText("FECHA DE REGISTRO");
-
-        jLabel5.setText("CORREO");
-
-        jLabel6.setText("DIRECCIÓN");
-
-        jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldNombreActionPerformed(evt);
-            }
-        });
-
-        jTextFieldApPaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldApPaternoActionPerformed(evt);
-            }
-        });
-
-        jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldApMaternoActionPerformed(evt);
-            }
-        });
-
-        jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldFechaRegActionPerformed(evt);
-            }
-        });
-
-        jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldCorreoActionPerformed(evt);
-            }
-        });
-
-        jTextFieldDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldDireccionActionPerformed(evt);
-            }
-        });
-
-        searchbar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbarActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("FILTRO");
-
-        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "CORREO", "DIRECCIÓN"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                resultsTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(resultsTable);
-
-        jButton1.setText("BUSQUEDA");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("DATOS DEL CLIENTE");
-
-        javax.swing.GroupLayout clientesLayout = new javax.swing.GroupLayout(clientes);
-        clientes.setLayout(clientesLayout);
-        clientesLayout.setHorizontalGroup(
-            clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(clientesLayout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(clientesLayout.createSequentialGroup()
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(clientesLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(clientesLayout.createSequentialGroup()
-                                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldApPaterno)
-                                    .addComponent(jTextFieldFechaReg, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldApMaterno))
-                            .addGroup(clientesLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldDireccion))
-                            .addGroup(clientesLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(clientesLayout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton1)
-                                    .addGroup(clientesLayout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(52, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, clientesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addContainerGap())))
-                    .addGroup(clientesLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addContainerGap())))
-        );
-        clientesLayout.setVerticalGroup(
-            clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(clientesLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchbar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(clientesLayout.createSequentialGroup()
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextFieldApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextFieldFechaReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jTextFieldCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(clientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextFieldDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(292, Short.MAX_VALUE))
-        );
-
-        jTextFieldNombre.getAccessibleContext().setAccessibleName("jTextFieldNombre");
-        searchbar.getAccessibleContext().setAccessibleName("searchbar");
-
         javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
         content.setLayout(contentLayout);
         contentLayout.setHorizontalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(contentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(clientes, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGap(0, 937, Short.MAX_VALUE)
         );
         contentLayout.setVerticalGroup(
             contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(contentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(clientes, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGap(0, 571, Short.MAX_VALUE)
         );
-
-        clientes.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -563,7 +345,6 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_InicioActionPerformed
 
     private void Boton_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ClienteActionPerformed
-            // Asegúrate de que 'content' sea el contenedor principal y 'clientes' sea el JPanel que quieres mostrar
     content.removeAll(); // Limpia el contenido actual en el contenedor
     content.add(clientes); // Agrega el JPanel 'clientes' al contenedor
     content.revalidate(); // Vuelve a validar el contenedor para aplicar los cambios
@@ -582,103 +363,6 @@ public class dashboard extends javax.swing.JFrame {
     private void Boton_ProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ProductosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Boton_ProductosActionPerformed
-
-    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
-       
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
-
-    private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
-        
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldCorreoActionPerformed
-
-    private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
-      
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
-
-    private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
-       
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
-
-    private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
-     
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
-
-    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
-    
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-        
-    }//GEN-LAST:event_jTextFieldNombreActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
-
-    if (filtro.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    try {
-        // Instancia de DaoClientes para acceder al método de búsqueda
-        DaoClientes daoCliente = new DaoClientes();
-        List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
-
-        // Crea un modelo para la tabla, excluyendo la columna del ID
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-        // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-        for (Object[] fila : resultados) {
-            model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-        }
-
-        // Asigna el modelo a la tabla
-        resultsTable.setModel(model);
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
-
-    }//GEN-LAST:event_searchbarActionPerformed
-
-    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-
-    int filaSeleccionada = resultsTable.getSelectedRow();
-    
-    if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-        // Obtén los valores de las columnas de la fila seleccionada
-        String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-        String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-        String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-        String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-        String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
-        
-        // Configura los valores en los cuadros de texto
-        jTextFieldNombre.setText(nombre);
-        jTextFieldApPaterno.setText(apPaterno);
-        jTextFieldApMaterno.setText(apMaterno);
-        jTextFieldFechaReg.setText(fechaReg);
-        jTextFieldCorreo.setText(correo);
-        
-        // Si también necesitas la dirección, consulta en la base de datos
-        DaoClientes daoCliente = new DaoClientes();
-        String direccion = daoCliente.getDireccionByClientName(nombre);
-        jTextFieldDireccion.setText(direccion);
-    }
-    }//GEN-LAST:event_resultsTableMouseClicked
     private void SetDate (){
         LocalDate now = LocalDate.now();
         int year = now.getYear();
@@ -736,29 +420,10 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel Header;
     private javax.swing.JLabel Label_Dia;
     private javax.swing.JPanel Menu;
-    private javax.swing.JPanel clientes;
     private javax.swing.JPanel content;
     private javax.swing.JLabel dateText;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextFieldApMaterno;
-    private javax.swing.JTextField jTextFieldApPaterno;
-    private javax.swing.JTextField jTextFieldCorreo;
-    private javax.swing.JTextField jTextFieldDireccion;
-    private javax.swing.JTextField jTextFieldFechaReg;
-    private javax.swing.JTextField jTextFieldNombre;
-    private javax.swing.JTable resultsTable;
-    private javax.swing.JTextField searchbar;
     // End of variables declaration//GEN-END:variables
 }
