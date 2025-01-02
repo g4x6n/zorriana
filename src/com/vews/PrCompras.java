@@ -209,54 +209,10 @@ public class PrCompras extends javax.swing.JPanel {
 
     private void resultsTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTable1MouseClicked
 
-        int filaSeleccionada = resultsTable.getSelectedRow();
-
-        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-            // Obtén los valores de las columnas de la fila seleccionada
-            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
-
-            // Configura los valores en los cuadros de texto
-            jTextFieldNombre.setText(nombre);
-            jTextFieldApPaterno.setText(apPaterno);
-            jTextFieldApMaterno.setText(apMaterno);
-            jTextFieldFechaReg.setText(fechaReg);
-            jTextFieldCorreo.setText(correo);
-
-        }
     }//GEN-LAST:event_resultsTable1MouseClicked
 
     private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
-        String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
-
-        if (filtro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Instancia de DaoClientes para acceder al método de búsqueda
-            DaoClientes daoCliente = new DaoClientes();
-            List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
-
-            // Crea un modelo para la tabla, excluyendo la columna del ID
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-            // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-            for (Object[] fila : resultados) {
-                model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-            }
-
-            // Asigna el modelo a la tabla
-            resultsTable.setModel(model);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
+    
     }//GEN-LAST:event_BUSCARActionPerformed
 
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
