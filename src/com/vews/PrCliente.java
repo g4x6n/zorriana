@@ -73,7 +73,7 @@ public class PrCliente extends javax.swing.JPanel {
         ELIMINAR_BOTON = new javax.swing.JButton();
         ESTADO = new javax.swing.JLabel();
         jTextFieldDireccion = new javax.swing.JTextField();
-        jTextFieldEstado = new javax.swing.JTextField();
+        jComboBoxEstado = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -275,12 +275,8 @@ public class PrCliente extends javax.swing.JPanel {
         jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
         jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 290, -1));
 
-        jTextFieldEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldEstadoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jTextFieldEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 140, -1));
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 110, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -333,91 +329,75 @@ public class PrCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_searchbarActionPerformed
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-    int filaSeleccionada = resultsTable.getSelectedRow();
+   int filaSeleccionada = resultsTable.getSelectedRow();
+if (filaSeleccionada != -1) {
+    String idCliente = resultsTable.getValueAt(filaSeleccionada, 0).toString();
 
-    if (filaSeleccionada != -1) {
-        // Obtener los valores de las columnas de la fila seleccionada
-        String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-        String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-        String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-        String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-        String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
+    // Llamar al DAO para obtener los detalles completos del cliente
+    DaoClientes daoCliente = new DaoClientes();
+    Object[] cliente = daoCliente.obtenerClientePorId(idCliente);
 
-        // Elementos de la dirección desde la tabla
-        String calle = resultsTable.getValueAt(filaSeleccionada, 5).toString();
-        String exterior = resultsTable.getValueAt(filaSeleccionada, 6).toString();
-        String interior = resultsTable.getValueAt(filaSeleccionada, 7).toString();
-        String colonia = resultsTable.getValueAt(filaSeleccionada, 8).toString();
-        String alcalMun = resultsTable.getValueAt(filaSeleccionada, 9).toString();
-        String estado = resultsTable.getValueAt(filaSeleccionada, 10).toString();
-        String cp = resultsTable.getValueAt(filaSeleccionada, 11).toString();
+    if (cliente != null) {
+        // Asignar valores a los campos del formulario
+        jTextFieldNombre.setText((String) cliente[1]); // Nombre
+        jTextFieldApPaterno.setText((String) cliente[2]); // Apellido Paterno
+        jTextFieldApMaterno.setText((String) cliente[3]); // Apellido Materno
+        jTextFieldFechaReg.setText(cliente[4] != null ? cliente[4].toString() : ""); // Fecha de Registro
+        jTextFieldCorreo.setText((String) cliente[5]); // Correo
 
-        // Asignar los valores a los cuadros de texto
-        jTextFieldNombre.setText(nombre);
-        jTextFieldApPaterno.setText(apPaterno);
-        jTextFieldApMaterno.setText(apMaterno);
-        jTextFieldFechaReg.setText(fechaReg);
-        jTextFieldCorreo.setText(correo);
-
-        // Asignar los valores de la dirección
-        jTextFieldCalle.setText(calle);
-        jTextFieldExterior.setText(exterior);
-        jTextFieldInterior.setText(interior);
-        jTextFieldColonia.setText(colonia);
-        jTextFieldAlcalMun.setText(alcalMun);
-        jTextFieldEstado.setText(estado);
-        jTextFieldCP.setText(cp);
+        // Asignar dirección
+        jTextFieldCalle.setText((String) cliente[6]); // Calle
+        jTextFieldExterior.setText((String) cliente[7]); // Exterior
+        jTextFieldInterior.setText((String) cliente[8]); // Interior
+        jTextFieldColonia.setText((String) cliente[9]); // Colonia
+        jTextFieldCP.setText((String) cliente[10]); // CP
+        jTextFieldAlcalMun.setText((String) cliente[11]); // Alcaldía/Municipio
+        jComboBoxEstado.setSelectedItem((String) cliente[12]); // Estado
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+} else {
+    JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+}
+
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
-   String filtro = searchbar.getText().trim();
+   String filtro = searchbar.getText().trim(); // Obtén el texto de la barra de búsqueda
 
-    if (filtro.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+if (filtro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
 
+try {
+    // Llama al método de búsqueda en el DAO de clientes
     DaoClientes daoCliente = new DaoClientes();
-    List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
+    List<Object[]> resultados = daoCliente.buscarClientes(filtro);
 
-    if (resultados == null || resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron resultados.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
+    // Configura el modelo de la tabla
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+    );
 
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("Nombre");
-    model.addColumn("Apellido Paterno");
-    model.addColumn("Apellido Materno");
-    model.addColumn("Fecha Registro");
-    model.addColumn("Correo");
-    model.addColumn("Calle");
-    model.addColumn("Número Exterior");
-    model.addColumn("Número Interior");
-    model.addColumn("Colonia");
-    model.addColumn("Alcaldía/Municipio");
-    model.addColumn("Estado");
-    model.addColumn("Código Postal");
-
-    for (Object[] cliente : resultados) {
+    // Llena la tabla con los resultados
+    for (Object[] fila : resultados) {
         model.addRow(new Object[]{
-            cliente[1], // Nombre
-            cliente[2], // Apellido Paterno
-            cliente[3], // Apellido Materno
-            cliente[4], // Fecha Registro
-            cliente[5], // Correo
-            cliente[6], // Calle
-            cliente[7], // Número Exterior
-            cliente[8], // Número Interior
-            cliente[9], // Colonia
-            cliente[10], // Alcaldía/Municipio
-            cliente[11], // Estado
-            cliente[12]  // Código Postal
+            fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
         });
     }
 
     resultsTable.setModel(model);
+
+    // Verifica si no hay resultados
+    if (resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron clientes con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+
 } 
 
 // Método para mostrar un solo cliente (puedes adaptar esto a tu interfaz)
@@ -480,10 +460,6 @@ private void mostrarResultados(List<Object[]> resultados) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCalleActionPerformed
 
-    private void jTextFieldEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldEstadoActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
@@ -505,6 +481,7 @@ private void mostrarResultados(List<Object[]> resultados) {
     private javax.swing.JButton GUARDAR_BOTON;
     private javax.swing.JLabel INTERIOR;
     private javax.swing.JLabel NOMBRE;
+    private javax.swing.JComboBox<String> jComboBoxEstado;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -517,7 +494,6 @@ private void mostrarResultados(List<Object[]> resultados) {
     private javax.swing.JTextField jTextFieldColonia;
     private javax.swing.JTextField jTextFieldCorreo;
     private javax.swing.JTextField jTextFieldDireccion;
-    private javax.swing.JTextField jTextFieldEstado;
     private javax.swing.JTextField jTextFieldExterior;
     private javax.swing.JTextField jTextFieldFechaReg;
     private javax.swing.JTextField jTextFieldInterior;
