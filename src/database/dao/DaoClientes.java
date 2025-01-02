@@ -154,7 +154,141 @@ public class DaoClientes extends Conexion {
         }
         return clientes;
     }
+    public List<String> obtenerEstados() {
+        conectar();
+        List<String> estados = new ArrayList<>();
+        try {
+            String sql = "SELECT ESTADO FROM ESTADO";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                estados.add(rs.getString("ESTADO")); // Agrega el nombre del estado a la lista
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener estados: " + ex.getMessage());
+        } finally {
+            desconectar();
+        }
+        return estados;
+        }
+    
+  public boolean updateClient(Object[] cliente) {
+    conectar();
+    try {
+        // Actualizar dirección
+        String sqlDireccion = "UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
+                              "WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM CLIENTE WHERE ID_CLIENTE = ?)";
+        ps = conn.prepareStatement(sqlDireccion);
+        ps.setString(1, (String) cliente[3]); // Calle
+        ps.setString(2, (String) cliente[4]); // Exterior
+        ps.setString(3, (String) cliente[5]); // Interior
+        ps.setString(4, (String) cliente[6]); // Colonia
+        ps.setString(5, (String) cliente[7]); // CP
+        ps.setString(6, (String) cliente[8]); // Alcaldía/Municipio
+        ps.setString(7, obtenerCodigoEstado((String) cliente[10])); // Estado
+        ps.setString(8, (String) cliente[12]); // ID del cliente
 
+        ps.executeUpdate();
+
+        // Actualizar cliente
+        String sqlCliente = "UPDATE CLIENTE SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, CORREO = ? " +
+                            "WHERE ID_CLIENTE = ?";
+        ps = conn.prepareStatement(sqlCliente);
+        ps.setString(1, (String) cliente[0]); // Nombre
+        ps.setString(2, (String) cliente[1]); // Apellido Paterno
+        ps.setString(3, (String) cliente[2]); // Apellido Materno
+        ps.setDate(4, java.sql.Date.valueOf((String) cliente[9])); // Fecha de Registro
+        ps.setString(5, (String) cliente[11]); // Correo
+        ps.setString(6, (String) cliente[12]); // ID del cliente
+
+        int filasCliente = ps.executeUpdate();
+        return filasCliente > 0;
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar cliente: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return false;
+}
+
+  public boolean deleteClient(String idCliente, String idDireccion) {
+    conectar();
+    try {
+        // Eliminar cliente
+        String sqlCliente = "DELETE FROM CLIENTE WHERE ID_CLIENTE = ?";
+        ps = conn.prepareStatement(sqlCliente);
+        ps.setString(1, idCliente);
+        ps.executeUpdate();
+
+        // Eliminar dirección
+        String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
+        ps = conn.prepareStatement(sqlDireccion);
+        ps.setString(1, idDireccion);
+        ps.executeUpdate();
+
+        return true;
+    } catch (SQLException ex) {
+        System.out.println("Error al eliminar cliente: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return false;
+}
+
+  public String obtenerIdDireccionPorCliente(String idCliente) {
+    conectar();
+    String idDireccion = null;
+    try {
+        String sql = "SELECT ID_DIRECCION FROM CLIENTE WHERE ID_CLIENTE = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idCliente);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idDireccion = rs.getString("ID_DIRECCION");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID de la dirección: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idDireccion;
+}
+private javax.swing.JTable resultsTable;
+
+  public List<Object[]> cargarClientes() {
+    conectar();
+    List<Object[]> clientes = new ArrayList<>();
+    try {
+        String sql = "SELECT C.ID_CLIENTE, C.NOMBRE, C.AP_PATERNO, C.AP_MATERNO, C.FECHA_REG, C.CORREO, " +
+                     "D.CALLE || ' ' || NVL(D.EXTERIOR, '') || ' ' || NVL(D.INTERIOR, '') || ', ' || D.COLONIA || ', ' || D.ALCAL_MUN || ', ' || E.ESTADO AS DIR " +
+                     "FROM CLIENTE C " +
+                     "JOIN DIRECCION D ON C.ID_DIRECCION = D.ID_DIRECCION " +
+                     "JOIN ESTADO E ON D.ID_ESTADO = E.ID_ESTADO";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Object[] cliente = new Object[7];
+            cliente[0] = rs.getString("ID_CLIENTE");
+            cliente[1] = rs.getString("NOMBRE");
+            cliente[2] = rs.getString("AP_PATERNO");
+            cliente[3] = rs.getString("AP_MATERNO");
+            cliente[4] = rs.getDate("FECHA_REG");
+            cliente[5] = rs.getString("CORREO");
+            cliente[6] = rs.getString("DIR"); // Dirección concatenada
+            clientes.add(cliente);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al cargar clientes: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return clientes;
+}
+
+ 
+    
     // Obtener cliente por ID
     public Object[] obtenerClientePorId(String idCliente) {
         conectar(); 
