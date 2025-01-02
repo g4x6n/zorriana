@@ -252,10 +252,6 @@ public class PrProducto extends javax.swing.JPanel {
             jTextFieldFechaReg.setText(fechaReg);
             jTextFieldCorreo.setText(correo);
 
-            // Si también necesitas la dirección, consulta en la base de datos
-            DaoClientes daoCliente = new DaoClientes();
-            String direccion = daoCliente.getDireccionByClientName(nombre);
-            jTextFieldDireccion.setText(direccion);
         }
     }//GEN-LAST:event_resultsTableMouseClicked
 

@@ -251,11 +251,6 @@ public class PrProveedor extends javax.swing.JPanel {
             jTextFieldApMaterno.setText(apMaterno);
             jTextFieldFechaReg.setText(fechaReg);
             jTextFieldCorreo.setText(correo);
-
-            // Si también necesitas la dirección, consulta en la base de datos
-            DaoClientes daoCliente = new DaoClientes();
-            String direccion = daoCliente.getDireccionByClientName(nombre);
-            jTextFieldDireccion.setText(direccion);
         }
     }//GEN-LAST:event_resultsTableMouseClicked
 

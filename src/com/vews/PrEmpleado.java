@@ -33,25 +33,50 @@ public class PrEmpleado extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        DIRECCIÓN = new javax.swing.JLabel();
+        CALLE = new javax.swing.JLabel();
+        EXTERIOR = new javax.swing.JLabel();
+        COLONIA = new javax.swing.JLabel();
+        ESTADO = new javax.swing.JLabel();
+        EDO_BOX = new javax.swing.JComboBox<>();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        INTERIOR = new javax.swing.JLabel();
+        CP = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        DELEGACIÓN = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldApPaterno = new javax.swing.JTextField();
         jTextFieldApMaterno = new javax.swing.JTextField();
         jTextFieldFechaReg = new javax.swing.JTextField();
         jTextFieldCorreo = new javax.swing.JTextField();
-        jTextFieldDireccion = new javax.swing.JTextField();
-        searchbar = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel10 = new javax.swing.JLabel();
+        jTextFieldFechaReg1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextFieldApMaterno1 = new javax.swing.JTextField();
+        jTextFieldApMaterno2 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
+        searchbar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -60,23 +85,72 @@ public class PrEmpleado extends javax.swing.JPanel {
         jPanel2.setPreferredSize(new java.awt.Dimension(1040, 560));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setFont(new java.awt.Font("Jost", 0, 36)); // NOI18N
+        jLabel8.setText("EMPLEADOS");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+
+        DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DIRECCIÓN.setText("DIRECCIÓN");
+        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 80, -1));
+
+        CALLE.setText("CALLE");
+        jPanel1.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
+
+        EXTERIOR.setText("EXTERIOR");
+        jPanel1.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, -1, -1));
+
+        COLONIA.setText("COLONIA");
+        jPanel1.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
+
+        ESTADO.setText("ESTADO");
+        jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+
+        EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 140, -1));
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 420, 140, -1));
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 70, -1));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 360, -1));
+        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 70, -1));
+
+        INTERIOR.setText("INTERIOR");
+        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
+
+        CP.setText("C.P.");
+        jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
+        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 80, 20));
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 420, 120, -1));
+
+        DELEGACIÓN.setText("ALCAL/MUN");
+        jPanel1.add(DELEGACIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, -1, -1));
+
         jLabel1.setText("NOMBRE");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
         jLabel2.setText("APELLIDO PATERNO");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
 
         jLabel3.setText("APELLIDO MATERNO");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, 20));
 
         jLabel4.setText("FECHA DE REGISTRO");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
 
         jLabel5.setText("CORREO");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
-
-        jLabel6.setText("DIRECCIÓN");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -84,55 +158,85 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 290, -1));
+        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 370, -1));
 
         jTextFieldApPaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 130, -1));
+        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 100, -1));
 
         jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 130, -1));
+        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 100, -1));
 
         jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 140, -1));
+        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 190, -1));
 
         jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCorreoActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 310, -1));
+        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 370, -1));
 
-        jTextFieldDireccion.addActionListener(new java.awt.event.ActionListener() {
+        jLabel9.setText("PUESTO");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 190, 110, -1));
+
+        jLabel10.setText("SALARIO");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
+
+        jTextFieldFechaReg1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldDireccionActionPerformed(evt);
+                jTextFieldFechaReg1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 300, -1));
+        jPanel1.add(jTextFieldFechaReg1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 140, -1));
 
-        searchbar.addActionListener(new java.awt.event.ActionListener() {
+        jLabel11.setText("USUARIO");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
+
+        jTextFieldApMaterno1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbarActionPerformed(evt);
+                jTextFieldApMaterno1ActionPerformed(evt);
             }
         });
-        jPanel2.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 130, 260, -1));
+        jPanel1.add(jTextFieldApMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 120, -1));
 
-        jLabel7.setText("FILTRAR:");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, -1, -1));
+        jTextFieldApMaterno2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldApMaterno2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextFieldApMaterno2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 120, -1));
+
+        jLabel12.setText("CONTRASEÑA");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
 
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -157,27 +261,55 @@ public class PrEmpleado extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(resultsTable);
+        resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, -1, 250));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 210, 390, 270));
 
-        jButton1.setText("BUSQUEDA");
+        searchbar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchbarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 180, 260, -1));
+
+        jLabel7.setText("FILTRAR:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, -1, -1));
+
+        jButton1.setText("BUSCAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 130, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 180, 70, -1));
 
-        jLabel8.setText("DATOS DEL CLIENTE");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, -1, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        jButton3.setContentAreaFilled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, -1, -1));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, -1));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
+        jButton4.setContentAreaFilled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 110, -1, -1));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        jButton5.setContentAreaFilled(false);
+        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, -1, -1));
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        jButton6.setContentAreaFilled(false);
+        jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, -1, -1));
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -223,12 +355,6 @@ public class PrEmpleado extends javax.swing.JPanel {
         jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
-    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
-
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
 
     }//GEN-LAST:event_searchbarActionPerformed
@@ -252,10 +378,6 @@ public class PrEmpleado extends javax.swing.JPanel {
             jTextFieldFechaReg.setText(fechaReg);
             jTextFieldCorreo.setText(correo);
 
-            // Si también necesitas la dirección, consulta en la base de datos
-            DaoClientes daoCliente = new DaoClientes();
-            String direccion = daoCliente.getDireccionByClientName(nombre);
-            jTextFieldDireccion.setText(direccion);
         }
     }//GEN-LAST:event_resultsTableMouseClicked
 
@@ -289,29 +411,78 @@ public class PrEmpleado extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jTextFieldFechaReg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaReg1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jTextFieldFechaReg1ActionPerformed
+
+    private void jTextFieldApMaterno1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaterno1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldApMaterno1ActionPerformed
+
+    private void jTextFieldApMaterno2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaterno2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldApMaterno2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CALLE;
+    private javax.swing.JLabel COLONIA;
+    private javax.swing.JLabel CP;
+    private javax.swing.JLabel DELEGACIÓN;
+    private javax.swing.JLabel DIRECCIÓN;
+    private javax.swing.JComboBox<String> EDO_BOX;
+    private javax.swing.JLabel ESTADO;
+    private javax.swing.JLabel EXTERIOR;
+    private javax.swing.JLabel INTERIOR;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextFieldApMaterno;
+    private javax.swing.JTextField jTextFieldApMaterno1;
+    private javax.swing.JTextField jTextFieldApMaterno2;
     private javax.swing.JTextField jTextFieldApPaterno;
     private javax.swing.JTextField jTextFieldCorreo;
-    private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldFechaReg;
+    private javax.swing.JTextField jTextFieldFechaReg1;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTable resultsTable;
     private javax.swing.JTextField searchbar;
