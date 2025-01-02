@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.vews;
-import database.dao.DaoClientes;
-import java.util.List;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import database.dao.DaoClientes;
 
 /**
  *
@@ -53,22 +57,23 @@ public class PrCliente extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         CALLE = new javax.swing.JLabel();
         EXTERIOR = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldExterior = new javax.swing.JTextField();
+        jTextFieldCalle = new javax.swing.JTextField();
         INTERIOR = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldInterior = new javax.swing.JTextField();
         COLONIA = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jTextFieldColonia = new javax.swing.JTextField();
         DELEGACIÓN = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextFieldAlcalMun = new javax.swing.JTextField();
         CP = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jTextFieldCP = new javax.swing.JTextField();
         AGREGAR_BOTON = new javax.swing.JButton();
         GUARDAR_BOTON = new javax.swing.JButton();
         EDITAR_BOTON = new javax.swing.JButton();
         ELIMINAR_BOTON = new javax.swing.JButton();
         ESTADO = new javax.swing.JLabel();
-        EDO_BOX = new javax.swing.JComboBox<>();
+        jTextFieldDireccion = new javax.swing.JTextField();
+        jTextFieldEstado = new javax.swing.JTextField();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -96,7 +101,7 @@ public class PrCliente extends javax.swing.JPanel {
 
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
-        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 80, -1));
+        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 80, -1));
 
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -204,35 +209,41 @@ public class PrCliente extends javax.swing.JPanel {
         EXTERIOR.setText("EXTERIOR");
         jPanel1.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, -1));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldExterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldExteriorActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 70, -1));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 330, -1));
+        jPanel1.add(jTextFieldExterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 70, -1));
+
+        jTextFieldCalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCalleActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextFieldCalle, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 330, -1));
 
         INTERIOR.setText("INTERIOR");
         jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, -1, -1));
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 70, -1));
+        jPanel1.add(jTextFieldInterior, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 390, 70, -1));
 
         COLONIA.setText("COLONIA");
         jPanel1.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, -1, -1));
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldColonia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                jTextFieldColoniaActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 140, -1));
+        jPanel1.add(jTextFieldColonia, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 140, -1));
 
         DELEGACIÓN.setText("ALCAL/MUN");
         jPanel1.add(DELEGACIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 110, -1));
+        jPanel1.add(jTextFieldAlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 110, -1));
 
         CP.setText("C.P.");
         jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 390, -1, -1));
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 60, 30));
+        jPanel1.add(jTextFieldCP, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 60, 30));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
@@ -262,9 +273,14 @@ public class PrCliente extends javax.swing.JPanel {
 
         ESTADO.setText("ESTADO");
         jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
+        jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 290, -1));
 
-        EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 140, -1));
+        jTextFieldEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEstadoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jTextFieldEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 140, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -317,65 +333,140 @@ public class PrCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_searchbarActionPerformed
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+    int filaSeleccionada = resultsTable.getSelectedRow();
 
-        int filaSeleccionada = resultsTable.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        // Obtener los valores de las columnas de la fila seleccionada
+        String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+        String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
+        String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
+        String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
+        String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
 
-        if (filaSeleccionada != -1) { // Asegúrate de que hay una fila seleccionada
-            // Obtén los valores de las columnas de la fila seleccionada
-            String nombre = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-            String apPaterno = resultsTable.getValueAt(filaSeleccionada, 1).toString();
-            String apMaterno = resultsTable.getValueAt(filaSeleccionada, 2).toString();
-            String fechaReg = resultsTable.getValueAt(filaSeleccionada, 3).toString();
-            String correo = resultsTable.getValueAt(filaSeleccionada, 4).toString();
+        // Elementos de la dirección desde la tabla
+        String calle = resultsTable.getValueAt(filaSeleccionada, 5).toString();
+        String exterior = resultsTable.getValueAt(filaSeleccionada, 6).toString();
+        String interior = resultsTable.getValueAt(filaSeleccionada, 7).toString();
+        String colonia = resultsTable.getValueAt(filaSeleccionada, 8).toString();
+        String alcalMun = resultsTable.getValueAt(filaSeleccionada, 9).toString();
+        String estado = resultsTable.getValueAt(filaSeleccionada, 10).toString();
+        String cp = resultsTable.getValueAt(filaSeleccionada, 11).toString();
 
-            // Configura los valores en los cuadros de texto
-            jTextFieldNombre.setText(nombre);
-            jTextFieldApPaterno.setText(apPaterno);
-            jTextFieldApMaterno.setText(apMaterno);
-            jTextFieldFechaReg.setText(fechaReg);
-            jTextFieldCorreo.setText(correo);
+        // Asignar los valores a los cuadros de texto
+        jTextFieldNombre.setText(nombre);
+        jTextFieldApPaterno.setText(apPaterno);
+        jTextFieldApMaterno.setText(apMaterno);
+        jTextFieldFechaReg.setText(fechaReg);
+        jTextFieldCorreo.setText(correo);
 
- 
-        }
+        // Asignar los valores de la dirección
+        jTextFieldCalle.setText(calle);
+        jTextFieldExterior.setText(exterior);
+        jTextFieldInterior.setText(interior);
+        jTextFieldColonia.setText(colonia);
+        jTextFieldAlcalMun.setText(alcalMun);
+        jTextFieldEstado.setText(estado);
+        jTextFieldCP.setText(cp);
+    }
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
-        String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
+   String filtro = searchbar.getText().trim();
 
-        if (filtro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    DaoClientes daoCliente = new DaoClientes();
+    List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
+
+    if (resultados == null || resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron resultados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        return;
+    }
+
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Nombre");
+    model.addColumn("Apellido Paterno");
+    model.addColumn("Apellido Materno");
+    model.addColumn("Fecha Registro");
+    model.addColumn("Correo");
+    model.addColumn("Calle");
+    model.addColumn("Número Exterior");
+    model.addColumn("Número Interior");
+    model.addColumn("Colonia");
+    model.addColumn("Alcaldía/Municipio");
+    model.addColumn("Estado");
+    model.addColumn("Código Postal");
+
+    for (Object[] cliente : resultados) {
+        model.addRow(new Object[]{
+            cliente[1], // Nombre
+            cliente[2], // Apellido Paterno
+            cliente[3], // Apellido Materno
+            cliente[4], // Fecha Registro
+            cliente[5], // Correo
+            cliente[6], // Calle
+            cliente[7], // Número Exterior
+            cliente[8], // Número Interior
+            cliente[9], // Colonia
+            cliente[10], // Alcaldía/Municipio
+            cliente[11], // Estado
+            cliente[12]  // Código Postal
+        });
+    }
+
+    resultsTable.setModel(model);
+} 
+
+// Método para mostrar un solo cliente (puedes adaptar esto a tu interfaz)
+private void mostrarCliente(Object[] cliente) {
+    // Mostrar un mensaje con los datos del cliente, por ejemplo:
+    String clienteInfo = "Nombre: " + cliente[1] + " " + cliente[2] + " " + cliente[3] +
+                         "\nCorreo: " + cliente[5] + "\nDirección: " + cliente[6];
+    JOptionPane.showMessageDialog(this, clienteInfo, "Cliente Encontrado", JOptionPane.INFORMATION_MESSAGE);
+
+} 
+
+// Método para mostrar los resultados en una tabla o en otro componente
+private void mostrarResultados(List<Object[]> resultados) {
+    // Establecer el modelo de la tabla sin la columna "DIRECCIÓN"
+    DefaultTableModel model = new DefaultTableModel(
+        new Object [][] {}, // Inicializar la tabla vacía
+        new String [] {
+            "NOMBRE", "AP PAT", "AP MAT", "FECHA REG", "CORREO"
         }
+    ) {
+        boolean[] canEdit = new boolean [] {
+            false, false, false, false, false
+        };
 
-        try {
-            // Instancia de DaoClientes para acceder al método de búsqueda
-            DaoClientes daoCliente = new DaoClientes();
-            List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
-
-            // Crea un modelo para la tabla, excluyendo la columna del ID
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-            // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-            for (Object[] fila : resultados) {
-                model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-            }
-
-            // Asigna el modelo a la tabla
-            resultsTable.setModel(model);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit[columnIndex];
         }
+    };
+
+    // Limpiar la tabla antes de agregar los nuevos resultados
+    model.setRowCount(0);
+
+    // Recorrer los resultados y agregar cada cliente a la tabla
+    for (Object[] cliente : resultados) {
+        model.addRow(cliente); // Agregar los datos del cliente a la tabla
+    }
+
+    // Establecer el modelo actualizado a la JTable
+    resultsTable.setModel(model);
+
     }//GEN-LAST:event_BUSCARActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldExteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExteriorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldExteriorActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void jTextFieldColoniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldColoniaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_jTextFieldColoniaActionPerformed
 
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
         // TODO add your handling code here:
@@ -384,6 +475,14 @@ public class PrCliente extends javax.swing.JPanel {
     private void EDITAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDITAR_BOTONActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EDITAR_BOTONActionPerformed
+
+    private void jTextFieldCalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCalleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCalleActionPerformed
+
+    private void jTextFieldEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEstadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -398,7 +497,6 @@ public class PrCliente extends javax.swing.JPanel {
     private javax.swing.JLabel DELEGACIÓN;
     private javax.swing.JLabel DIRECCIÓN;
     private javax.swing.JButton EDITAR_BOTON;
-    private javax.swing.JComboBox<String> EDO_BOX;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel ESTADO;
     private javax.swing.JLabel EXTERIOR;
@@ -411,16 +509,18 @@ public class PrCliente extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextFieldAlcalMun;
     private javax.swing.JTextField jTextFieldApMaterno;
     private javax.swing.JTextField jTextFieldApPaterno;
+    private javax.swing.JTextField jTextFieldCP;
+    private javax.swing.JTextField jTextFieldCalle;
+    private javax.swing.JTextField jTextFieldColonia;
     private javax.swing.JTextField jTextFieldCorreo;
+    private javax.swing.JTextField jTextFieldDireccion;
+    private javax.swing.JTextField jTextFieldEstado;
+    private javax.swing.JTextField jTextFieldExterior;
     private javax.swing.JTextField jTextFieldFechaReg;
+    private javax.swing.JTextField jTextFieldInterior;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTable resultsTable;
     private javax.swing.JTextField searchbar;

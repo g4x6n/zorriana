@@ -342,33 +342,7 @@ public class PrEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String filtro = searchbar.getText().trim(); // Obtiene el texto de la barra de búsqueda
 
-        if (filtro.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe un nombre para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Instancia de DaoClientes para acceder al método de búsqueda
-            DaoClientes daoCliente = new DaoClientes();
-            List<Object[]> resultados = daoCliente.searchClientsByName(filtro);
-
-            // Crea un modelo para la tabla, excluyendo la columna del ID
-            DefaultTableModel model = new DefaultTableModel(new String[]{"Nombre", "Apellido Paterno", "Apellido Materno", "Fecha Registro"}, 0);
-
-            // Agrega las filas al modelo, omitiendo el ID (índice 0 del arreglo)
-            for (Object[] fila : resultados) {
-                model.addRow(new Object[]{fila[1], fila[2], fila[3], fila[4], fila[5]}); // Excluye fila[0] (ID)
-            }
-
-            // Asigna el modelo a la tabla
-            resultsTable.setModel(model);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar clientes: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
