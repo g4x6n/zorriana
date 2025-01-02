@@ -81,6 +81,11 @@ public class PrVenta extends javax.swing.JPanel {
         JPanelVenta.add(jLabelFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jTextFieldFechaVenta.setText("jTextField1");
+        jTextFieldFechaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFechaVentaActionPerformed(evt);
+            }
+        });
         JPanelVenta.add(jTextFieldFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 80, -1));
 
         jLabel2.setText("Estado venta");
@@ -98,6 +103,11 @@ public class PrVenta extends javax.swing.JPanel {
         JPanelVenta.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, 10));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
         JPanelVenta.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 320, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -128,6 +138,9 @@ public class PrVenta extends javax.swing.JPanel {
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -144,14 +157,14 @@ public class PrVenta extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanelDetalleVenta.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 450, 90));
+        jPanelDetalleVenta.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 450, 140));
 
-        jPanel2.add(jPanelDetalleVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 470, 110));
+        jPanel2.add(jPanelDetalleVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 470, 130));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Detalle venta");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 20));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 20));
 
         jButtonSave.setBackground(new java.awt.Color(255, 255, 255));
         jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
@@ -200,6 +213,11 @@ public class PrVenta extends javax.swing.JPanel {
         jTable2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -354,6 +372,14 @@ public class PrVenta extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextFieldFechaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFechaVentaActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
