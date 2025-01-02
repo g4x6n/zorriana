@@ -346,7 +346,7 @@ public class dashboard extends javax.swing.JFrame {
 
     private void Boton_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ClienteActionPerformed
     content.removeAll(); // Limpia el contenido actual en el contenedor
-    content.add(clientes); // Agrega el JPanel 'clientes' al contenedor
+   // content.add(clientes); // Agrega el JPanel 'clientes' al contenedor
     content.revalidate(); // Vuelve a validar el contenedor para aplicar los cambios
     content.repaint(); // Repinta el contenedor para que se muestre correctamente
     }//GEN-LAST:event_Boton_ClienteActionPerformed
