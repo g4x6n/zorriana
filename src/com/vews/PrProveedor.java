@@ -92,6 +92,7 @@ public class PrProveedor extends javax.swing.JPanel {
         jLabel2.setText("PROVEEDOR");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -116,9 +117,11 @@ public class PrProveedor extends javax.swing.JPanel {
         jLabelFechaVenta3.setText("EXTENCIÓN");
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
+        ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jTextFieldFechaVenta8.setText("jTextField1");
 
@@ -153,6 +156,7 @@ public class PrProveedor extends javax.swing.JPanel {
         jTextFieldFechaVenta15.setText("jTextField1");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -289,9 +293,11 @@ public class PrProveedor extends javax.swing.JPanel {
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
+        AGREGAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AGREGAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AGREGAR_BOTONActionPerformed(evt);
@@ -350,6 +356,7 @@ public class PrProveedor extends javax.swing.JPanel {
         BUSCAR1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         BUSCAR1.setBorder(null);
         BUSCAR1.setBorderPainted(false);
+        BUSCAR1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BUSCAR1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BUSCAR1ActionPerformed(evt);

@@ -98,9 +98,10 @@ public class PrCliente extends javax.swing.JPanel {
         CORREO.setText("CORREO");
         jPanel1.add(CORREO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
+        DIRECCIÓN.setFont(new java.awt.Font("Jost", 0, 12)); // NOI18N
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
-        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 80, -1));
+        jPanel1.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 70, -1));
 
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -190,13 +191,16 @@ public class PrCliente extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 450, 250));
 
-        BUSCAR.setText("BUSCAR");
+        BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        BUSCAR.setBorder(null);
+        BUSCAR.setBorderPainted(false);
+        BUSCAR.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         BUSCAR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BUSCARActionPerformed(evt);
             }
         });
-        jPanel1.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 200, -1, -1));
+        jPanel1.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 190, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel8.setText("CLIENTE");
@@ -246,6 +250,7 @@ public class PrCliente extends javax.swing.JPanel {
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
+        AGREGAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         AGREGAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AGREGAR_BOTONActionPerformed(evt);
@@ -255,10 +260,12 @@ public class PrCliente extends javax.swing.JPanel {
 
         GUARDAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         GUARDAR_BOTON.setContentAreaFilled(false);
+        GUARDAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(GUARDAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 130, -1, -1));
 
         EDITAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         EDITAR_BOTON.setContentAreaFilled(false);
+        EDITAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         EDITAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EDITAR_BOTONActionPerformed(evt);
@@ -268,12 +275,14 @@ public class PrCliente extends javax.swing.JPanel {
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
+        ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 130, -1, -1));
 
         ESTADO.setText("ESTADO");
         jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxEstado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 110, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
