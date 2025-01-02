@@ -33,7 +33,15 @@ public class PrVenta extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        searchbar1 = new javax.swing.JTextField();
+        FILTRO = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        resultsTable1 = new javax.swing.JTable();
+        BUSCAR = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        AGREGAR_BOTON = new javax.swing.JButton();
+        ELIMINAR_BOTON = new javax.swing.JButton();
         JPanelVenta = new javax.swing.JPanel();
         jLabelFechaVenta = new javax.swing.JLabel();
         jTextFieldFechaVenta = new javax.swing.JTextField();
@@ -43,53 +51,111 @@ public class PrVenta extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        EDITAR_BOTON = new javax.swing.JButton();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jPanelDetalleVenta = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButtonSave = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jPanelListaVentas = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
 
-        jPanel2.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(1040, 560));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel8.setText("Datos de la venta ");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        JPanelVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelFechaVenta.setText("Fecha venta");
-        JPanelVenta.add(jLabelFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
-
-        jTextFieldFechaVenta.setText("jTextField1");
-        jTextFieldFechaVenta.addActionListener(new java.awt.event.ActionListener() {
+        searchbar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldFechaVentaActionPerformed(evt);
+                searchbar1ActionPerformed(evt);
             }
         });
-        JPanelVenta.add(jTextFieldFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 80, -1));
+        jPanel1.add(searchbar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 250, 280, -1));
 
-        jLabel2.setText("Estado venta");
-        JPanelVenta.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, -1, -1));
+        FILTRO.setText("FILTRAR:");
+        jPanel1.add(FILTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, 20));
+
+        resultsTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        resultsTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "FECHA COMPRA", "PROVEEDOR", "EMPLEADO", "ESTADO COMPRA", "PRODUCTO", "CANTIDAD", "TOTAL"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        resultsTable1.setCellSelectionEnabled(true);
+        resultsTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resultsTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(resultsTable1);
+        resultsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 880, 240));
+
+        BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        BUSCAR.setBorder(null);
+        BUSCAR.setBorderPainted(false);
+        BUSCAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BUSCARActionPerformed(evt);
+            }
+        });
+        jPanel1.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 240, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
+        jLabel9.setText("VENTAS");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 30, 250, 60));
+
+        AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
+        AGREGAR_BOTON.setContentAreaFilled(false);
+        AGREGAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AGREGAR_BOTONActionPerformed(evt);
+            }
+        });
+        jPanel1.add(AGREGAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
+
+        ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        ELIMINAR_BOTON.setContentAreaFilled(false);
+        jPanel1.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, -1, -1));
+
+        JPanelVenta.setBackground(new java.awt.Color(255, 255, 255));
+        JPanelVenta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        JPanelVenta.setForeground(new java.awt.Color(204, 204, 204));
+        JPanelVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelFechaVenta.setText("FECHA DE VENTA");
+        JPanelVenta.add(jLabelFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
+
+        jTextFieldFechaVenta.setText("jTextField1");
+        JPanelVenta.add(jTextFieldFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, 80, -1));
+
+        jLabel2.setText("ESTADO COMRA");
+        JPanelVenta.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, 20));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -97,166 +163,35 @@ public class PrVenta extends javax.swing.JPanel {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        JPanelVenta.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 60, -1));
+        JPanelVenta.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 60, -1));
 
-        jLabel3.setText("Cliente");
-        JPanelVenta.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, 10));
+        jLabel3.setText("PROVEEDOR");
+        JPanelVenta.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 24, -1, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-        JPanelVenta.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 320, -1));
+        JPanelVenta.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 320, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JPanelVenta.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 320, -1));
+        JPanelVenta.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 320, -1));
 
-        jLabel4.setText("Empleado");
-        JPanelVenta.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
+        jLabel4.setText("EMPLEADO");
+        JPanelVenta.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, 20));
 
-        jLabel5.setText("Metodo pago:");
-        JPanelVenta.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+        EDITAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
+        EDITAR_BOTON.setContentAreaFilled(false);
+        EDITAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EDITAR_BOTONActionPerformed(evt);
+            }
+        });
+        JPanelVenta.add(EDITAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 60, -1, -1));
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JPanelVenta.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 170, -1));
+        JPanelVenta.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, 320, -1));
 
-        jTextField1.setText("jTextField1");
-        JPanelVenta.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, 90, -1));
+        jPanel1.add(JPanelVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 880, 110));
 
-        jLabel9.setText("Total a pagar:");
-        JPanelVenta.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, -1, -1));
-
-        jPanel2.add(JPanelVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 470, 170));
-
-        jPanelDetalleVenta.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTable1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Producto", "Cantidad", "Precio", "Total"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanelDetalleVenta.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 450, 140));
-
-        jPanel2.add(jPanelDetalleVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 470, 130));
-
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Detalle venta");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 20));
-
-        jButtonSave.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        jButtonSave.setBorder(null);
-        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSaveActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButtonSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 70, 40, 40));
-
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 40, -1));
-
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
-        jButton3.setBorderPainted(false);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 70, 40, -1));
-
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar venta.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 40, -1));
-
-        jPanelListaVentas.setForeground(new java.awt.Color(204, 204, 204));
-        jPanelListaVentas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTable2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Fecha Venta", "Cliente", "Empleado", "Estado venta ", "Metodo pago"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        jPanelListaVentas.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 380, 170));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel7.setText("Filtrar:");
-        jPanelListaVentas.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
-
-        jTextField2.setText("jTextField2");
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelListaVentas.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 220, 30));
-
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        jPanelListaVentas.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 60, 40));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel6.setText("Lista de ventas");
-        jPanelListaVentas.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 20));
-
-        jPanel2.add(jPanelListaVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 130, 410, 330));
-
-        jLabel10.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel10.setText("Ventas");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, -1, -1));
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -272,102 +207,56 @@ public class PrVenta extends javax.swing.JPanel {
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
+    private void searchbar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbar1ActionPerformed
 
-    }//GEN-LAST:event_jTextFieldNombreActionPerformed
+    }//GEN-LAST:event_searchbar1ActionPerformed
 
-    private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
+    private void resultsTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTable1MouseClicked
 
-    }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
+    }//GEN-LAST:event_resultsTable1MouseClicked
 
-    private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
+    private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
+    
+    }//GEN-LAST:event_BUSCARActionPerformed
 
-
-    }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
-
-    private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
-
-    }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
-
-    private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
-
-
-    }//GEN-LAST:event_jTextFieldCorreoActionPerformed
-
-    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
-
-
-    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
-
-    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
-
-    }//GEN-LAST:event_searchbarActionPerformed
-
-    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-
-    }//GEN-LAST:event_resultsTableMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void EDITAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDITAR_BOTONActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jTextFieldFechaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVentaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldFechaVentaActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_EDITAR_BOTONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AGREGAR_BOTON;
+    private javax.swing.JButton BUSCAR;
+    private javax.swing.JButton EDITAR_BOTON;
+    private javax.swing.JButton ELIMINAR_BOTON;
+    private javax.swing.JLabel FILTRO;
     private javax.swing.JPanel JPanelVenta;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButtonSave;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelFechaVenta;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanelDetalleVenta;
-    private javax.swing.JPanel jPanelListaVentas;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldFechaVenta;
+    private javax.swing.JTable resultsTable1;
+    private javax.swing.JTextField searchbar1;
     // End of variables declaration//GEN-END:variables
 
-
+    public void setLocation(double d) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+}
