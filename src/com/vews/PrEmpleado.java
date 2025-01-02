@@ -110,8 +110,8 @@ public class PrEmpleado extends javax.swing.JPanel {
         jPanel1.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 70, -1));
 
         INTERIOR.setText("INTERIOR");
-        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
-        jPanel1.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 70, -1));
+        jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, -1, -1));
+        jPanel1.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 70, -1));
 
         CP.setText("C.P.");
         jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, -1, -1));
@@ -125,7 +125,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 ColTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 420, 140, -1));
+        jPanel1.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 420, 130, -1));
 
         AlcalMun.setText("ALCAL/MUN");
         jPanel1.add(AlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, -1, -1));
@@ -146,7 +146,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 370, -1));
+        jPanel1.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 360, -1));
 
         ApPat.setText("APELLIDO PATERNO");
         jPanel1.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
@@ -156,7 +156,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 100, -1));
+        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 150, 80, -1));
 
         ApMat.setText("APELLIDO MATERNO");
         jPanel1.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, -1, 20));
@@ -166,7 +166,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 100, -1));
+        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 90, -1));
 
         FechaReg.setText("FECHA DE REGISTRO");
         jPanel1.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
@@ -176,7 +176,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 140, -1));
+        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 120, -1));
 
         Puesto.setText("PUESTO");
         jPanel1.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, -1, -1));
@@ -192,7 +192,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldCorreoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 370, -1));
+        jPanel1.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 360, -1));
 
         Salario.setText("SALARIO");
         jPanel1.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, -1));
@@ -202,7 +202,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 SalTxtFActionPerformed(evt);
             }
         });
-        jPanel1.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 190, -1));
+        jPanel1.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 180, -1));
 
         jLabel11.setText("USUARIO");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
@@ -212,14 +212,14 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApMaterno1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 120, -1));
+        jPanel1.add(jTextFieldApMaterno1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 110, -1));
 
         jTextFieldApMaterno2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApMaterno2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 120, -1));
+        jPanel1.add(jTextFieldApMaterno2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 120, -1));
 
         jLabel12.setText("CONTRASEÑA");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
@@ -285,6 +285,7 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         jButton3.setContentAreaFilled(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -294,6 +295,7 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -303,10 +305,12 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 110, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
