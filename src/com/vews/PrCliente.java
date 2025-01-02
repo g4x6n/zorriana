@@ -111,21 +111,21 @@ public class PrCliente extends javax.swing.JPanel {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 130, -1));
+        jPanel1.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 260, -1));
 
         jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 130, -1));
+        jPanel1.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 260, -1));
 
         jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 120, -1));
+        jPanel1.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 250, -1));
 
         jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,7 +164,7 @@ public class PrCliente extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "CORREO", "DIRECCIÓN"
+                "NOMBRE", "AP PAT", "AP MAT", "FECHA REG", "CORREO", "DIRECCIÓN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -210,7 +210,7 @@ public class PrCliente extends javax.swing.JPanel {
             }
         });
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, 70, -1));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 340, -1));
+        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 360, 330, -1));
 
         INTERIOR.setText("INTERIOR");
         jPanel1.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 390, -1, -1));
@@ -228,11 +228,11 @@ public class PrCliente extends javax.swing.JPanel {
 
         DELEGACIÓN.setText("ALCAL/MUN");
         jPanel1.add(DELEGACIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 120, -1));
+        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 110, -1));
 
         CP.setText("C.P.");
         jPanel1.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 390, -1, -1));
-        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 70, 30));
+        jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 390, 60, 30));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
