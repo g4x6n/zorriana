@@ -44,9 +44,9 @@ public class Principal extends javax.swing.JPanel {
         jLabel1.setText("BIENVENID@");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 430, 140));
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/saludo grande.png"))); // NOI18N
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 170, 450, 400));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 940, 400));
 
         jLabel2.setFont(new java.awt.Font("Jost", 0, 14)); // NOI18N
         jLabel2.setText("Prueba de texto en pantalla Luis");
