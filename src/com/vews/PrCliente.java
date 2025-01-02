@@ -72,7 +72,6 @@ public class PrCliente extends javax.swing.JPanel {
         EDITAR_BOTON = new javax.swing.JButton();
         ELIMINAR_BOTON = new javax.swing.JButton();
         ESTADO = new javax.swing.JLabel();
-        jTextFieldDireccion = new javax.swing.JTextField();
         jComboBoxEstado = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
@@ -273,7 +272,6 @@ public class PrCliente extends javax.swing.JPanel {
 
         ESTADO.setText("ESTADO");
         jPanel1.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, -1, -1));
-        jPanel1.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 310, 290, -1));
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel1.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 110, -1));
@@ -493,7 +491,6 @@ private void mostrarResultados(List<Object[]> resultados) {
     private javax.swing.JTextField jTextFieldCalle;
     private javax.swing.JTextField jTextFieldColonia;
     private javax.swing.JTextField jTextFieldCorreo;
-    private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldExterior;
     private javax.swing.JTextField jTextFieldFechaReg;
     private javax.swing.JTextField jTextFieldInterior;
