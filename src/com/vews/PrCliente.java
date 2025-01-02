@@ -44,15 +44,28 @@ public class PrCliente extends javax.swing.JPanel {
         jTextFieldApMaterno = new javax.swing.JTextField();
         jTextFieldFechaReg = new javax.swing.JTextField();
         jTextFieldCorreo = new javax.swing.JTextField();
-        jTextFieldDireccion = new javax.swing.JTextField();
         searchbar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -77,7 +90,7 @@ public class PrCliente extends javax.swing.JPanel {
         jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, -1, -1));
 
         jLabel6.setText("DIRECCIÓN");
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 80, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 80, -1));
 
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -114,13 +127,6 @@ public class PrCliente extends javax.swing.JPanel {
             }
         });
         jPanel2.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 310, -1));
-
-        jTextFieldDireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldDireccionActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jTextFieldDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 40, -1));
 
         searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,16 +178,67 @@ public class PrCliente extends javax.swing.JPanel {
         jLabel8.setText("DATOS DEL CLIENTE");
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel9.setText("CALLE");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
+
+        jLabel10.setText("EXTERIOR");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, -1, -1));
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, -1, -1));
+        jPanel2.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 40, -1));
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 80, -1));
 
-        jLabel9.setText("CP");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
+        jLabel11.setText("INTERIOR");
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 340, -1, -1));
+        jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 340, 30, -1));
+
+        jLabel12.setText("COLONIA");
+        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 90, -1));
+
+        jLabel13.setText("DELEGACION");
+        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 380, -1, -1));
+        jPanel2.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 90, -1));
+
+        jLabel14.setText("C.P.");
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 380, -1, -1));
+        jPanel2.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 380, 50, -1));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, -1, -1));
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        jButton3.setContentAreaFilled(false);
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 70, -1, -1));
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
+        jButton4.setContentAreaFilled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 70, -1, -1));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        jButton5.setContentAreaFilled(false);
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 70, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -200,38 +257,32 @@ public class PrCliente extends javax.swing.JPanel {
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
 
         jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+        jTextFieldNombre.setEditable(true); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldNombreActionPerformed
 
     private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
 
         jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+        jTextFieldNombre.setEditable(true); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
 
     private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
 
         jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+        jTextFieldNombre.setEditable(true); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
 
     private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
 
         jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+        jTextFieldNombre.setEditable(true); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
 
     private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
 
         jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
+        jTextFieldNombre.setEditable(true); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
-
-    private void jTextFieldDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDireccionActionPerformed
-
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
-    }//GEN-LAST:event_jTextFieldDireccionActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
 
@@ -256,10 +307,7 @@ public class PrCliente extends javax.swing.JPanel {
             jTextFieldFechaReg.setText(fechaReg);
             jTextFieldCorreo.setText(correo);
 
-            // Si también necesitas la dirección, consulta en la base de datos
-            DaoClientes daoCliente = new DaoClientes();
-            String direccion = daoCliente.getDireccionByClientName(nombre);
-            jTextFieldDireccion.setText(direccion);
+ 
         }
     }//GEN-LAST:event_resultsTableMouseClicked
 
@@ -293,15 +341,35 @@ public class PrCliente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -312,10 +380,15 @@ public class PrCliente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextFieldApMaterno;
     private javax.swing.JTextField jTextFieldApPaterno;
     private javax.swing.JTextField jTextFieldCorreo;
-    private javax.swing.JTextField jTextFieldDireccion;
     private javax.swing.JTextField jTextFieldFechaReg;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTable resultsTable;

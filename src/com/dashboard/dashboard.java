@@ -206,6 +206,11 @@ public class dashboard extends javax.swing.JFrame {
                 Boton_SalidaMouseClicked(evt);
             }
         });
+        Boton_Salida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Boton_SalidaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
         Menu.setLayout(MenuLayout);
@@ -345,10 +350,7 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_InicioActionPerformed
 
     private void Boton_ClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ClienteActionPerformed
-    content.removeAll(); // Limpia el contenido actual en el contenedor
-   // content.add(clientes); // Agrega el JPanel 'clientes' al contenedor
-    content.revalidate(); // Vuelve a validar el contenedor para aplicar los cambios
-    content.repaint(); // Repinta el contenedor para que se muestre correctamente
+
     }//GEN-LAST:event_Boton_ClienteActionPerformed
 
     private void Boton_SalidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Boton_SalidaMouseClicked
@@ -363,6 +365,10 @@ public class dashboard extends javax.swing.JFrame {
     private void Boton_ProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ProductosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Boton_ProductosActionPerformed
+
+    private void Boton_SalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_SalidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Boton_SalidaActionPerformed
     private void SetDate (){
         LocalDate now = LocalDate.now();
         int year = now.getYear();

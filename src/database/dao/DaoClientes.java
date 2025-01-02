@@ -7,16 +7,30 @@ import java.util.List;
 
 public class DaoClientes extends Conexion {
 
-    // Método para buscar clientes según un filtro de nombre
+    // Método para buscar clientes según un filtro de nombre, incluyendo dirección concatenada
     public List<Object[]> searchClientsByName(String filter) {
         conectar(); // Establece conexión con la base de datos
         List<Object[]> clients = new ArrayList<>(); // Lista para almacenar los resultados
 
         try {
-            // Consulta SQL para buscar clientes por nombre o caracteres similares
-            sentenciaSQL = "SELECT ID_CLIENTE, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, CORREO " +
-                           "FROM CLIENTE " +
-                           "WHERE UPPER(NOMBRE) LIKE UPPER(?)";
+            // Consulta SQL para buscar clientes por nombre con dirección concatenada
+            sentenciaSQL = "SELECT " +
+                           "C.NOMBRE, " +
+                           "C.AP_PATERNO, " +
+                           "C.AP_MATERNO, " +
+                           "C.FECHA_REG, " +
+                           "C.CORREO, " +
+                           "CONCAT(D.CALLE, ' ', " +
+                           "D.EXTERIOR, ' ', " +
+                           "COALESCE(D.INTERIOR, ''), ', ', " +
+                           "D.COLONIA, ', ', " +
+                           "D.ALCAL_MUN, ', ', " +
+                           "D.CP, ', ', " +
+                           "E.ESTADO) AS DIRECCION " +
+                           "FROM CLIENTE C " +
+                           "JOIN DIRECCION D ON C.ID_DIRECCION = D.ID_DIRECCION " +
+                           "JOIN ESTADO E ON D.ID_ESTADO = E.ID_ESTADO " +
+                           "WHERE UPPER(C.NOMBRE) LIKE UPPER(?)";
 
             ps = conn.prepareStatement(sentenciaSQL);
             ps.setString(1, filter + "%"); // Agrega el filtro con un comodín al final
@@ -26,12 +40,12 @@ public class DaoClientes extends Conexion {
             while (rs.next()) {
                 // Agrega cada resultado a la lista como un arreglo de objetos
                 Object[] client = new Object[6];
-                client[0] = rs.getObject("ID_CLIENTE");
-                client[1] = rs.getString("NOMBRE");
-                client[2] = rs.getString("AP_PATERNO");
-                client[3] = rs.getString("AP_MATERNO");
-                client[4] = rs.getDate("FECHA_REG");
-                client[5] = rs.getString("CORREO");
+                client[0] = rs.getString("NOMBRE");
+                client[1] = rs.getString("AP_PATERNO");
+                client[2] = rs.getString("AP_MATERNO");
+                client[3] = rs.getDate("FECHA_REG");
+                client[4] = rs.getString("CORREO");
+                client[5] = rs.getString("DIRECCION");
                 clients.add(client);
             }
         } catch (SQLException ex) {
@@ -44,29 +58,5 @@ public class DaoClientes extends Conexion {
         }
 
         return clients; // Retorna la lista de clientes o nulo si ocurrió un error
-    }
-
-    // Método para obtener la dirección de un cliente por nombre
-    public String getDireccionByClientName(String nombre) {
-        conectar(); // Establece conexión con la base de datos
-        String direccion = null;
-
-        try {
-            String sentenciaSQL = "SELECT DIRECCION FROM CLIENTE WHERE NOMBRE = ?";
-            PreparedStatement ps = conn.prepareStatement(sentenciaSQL);
-            ps.setString(1, nombre); // Establece el parámetro del nombre
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                direccion = rs.getString("DIRECCION"); // Obtiene la dirección
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error SQL: " + ex.getSQLState());
-            System.out.println("Mensaje: " + ex.getMessage());
-        } finally {
-            desconectar(); // Cierra la conexión
-        }
-
-        return direccion; // Devuelve la dirección o null si no se encontró
     }
 }
