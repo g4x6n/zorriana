@@ -109,7 +109,7 @@ public class PrVenta extends javax.swing.JPanel {
         JPanelVenta.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        JPanelVenta.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 110, -1));
+        JPanelVenta.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 170, -1));
 
         jTextField1.setText("jTextField1");
         JPanelVenta.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, 90, -1));
