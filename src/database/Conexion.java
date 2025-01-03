@@ -51,8 +51,6 @@ public class Conexion {
     }
 }
 
-
-
     
     // Lee los controladores de Oracle
     private void loadDriver(){
