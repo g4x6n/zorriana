@@ -56,22 +56,35 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
 
     private void cargarEmpleados() {
-        // Cargar los empleados en la tabla
-        try {
-            List<Object[]> empleados = daoEmpleado.listEmployees();
-            DefaultTableModel model = new DefaultTableModel(
-                new String[]{"Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-            );
-            for (Object[] empleado : empleados) {
-                model.addRow(new Object[]{
-                    empleado[1], empleado[2], empleado[3], empleado[4], empleado[6], empleado[9]
-                });
-            }
-            resultsTable.setModel(model);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage());
+    try {
+        // Obtiene los empleados desde el DAO
+        List<Object[]> empleados = daoEmpleado.listEmployees();
+
+        // Configura el modelo de la tabla con las columnas necesarias
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+        );
+
+        // Llena el modelo con los datos
+        for (Object[] empleado : empleados) {
+            model.addRow(new Object[]{
+                empleado[0], // ID
+                empleado[1], // Nombre
+                empleado[2], // Apellido Paterno
+                empleado[3], // Apellido Materno
+                empleado[4], // Fecha de Registro
+                empleado[6], // Correo
+                empleado[9]  // Dirección
+            });
         }
+
+        // Asigna el modelo a la tabla
+        resultsTable.setModel(model);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
+}
 
     private void agregarEmpleado() {
         // Método para agregar un empleado
@@ -659,7 +672,7 @@ agregarEmpleado();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     String filtro = searchbar.getText().trim(); // Obtén el texto de la barra de búsqueda
+     String filtro = searchbar.getText().trim();
 
     if (filtro.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -667,7 +680,7 @@ agregarEmpleado();
     }
 
     try {
-        // Llama al método de búsqueda en el DAO
+        // Realiza la búsqueda
         List<Object[]> resultados = daoEmpleado.buscarEmpleado(filtro);
 
         // Configura el modelo de la tabla
@@ -675,7 +688,7 @@ agregarEmpleado();
             new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
         );
 
-        // Llena la tabla con los resultados
+        // Llena el modelo con los resultados
         for (Object[] fila : resultados) {
             model.addRow(new Object[]{
                 fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
@@ -684,7 +697,7 @@ agregarEmpleado();
 
         resultsTable.setModel(model);
 
-        // Verifica si no hay resultados
+        // Muestra un mensaje si no hay resultados
         if (resultados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontraron empleados con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -702,13 +715,13 @@ agregarEmpleado();
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
     int filaSeleccionada = resultsTable.getSelectedRow();
     if (filaSeleccionada != -1) {
-        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
 
-        // Llamar al DAO para obtener los detalles completos del empleado
+        // Llama al DAO para obtener los detalles completos del empleado
         Object[] empleado = daoEmpleado.obtenerEmpleadoPorId(idEmpleado);
 
         if (empleado != null) {
-            // Asignar valores a los campos del formulario
+            // Asigna valores a los campos del formulario
             jTextFieldNombre.setText((String) empleado[1]); // Nombre
             jTextFieldApPaterno.setText((String) empleado[2]); // Apellido Paterno
             jTextFieldApMaterno.setText((String) empleado[3]); // Apellido Materno
@@ -719,7 +732,7 @@ agregarEmpleado();
             PuestoCB.setSelectedItem((String) empleado[8]); // Puesto
             SalTxtF.setText(String.valueOf(empleado[9])); // Sueldo
 
-            // Asignar dirección
+            // Asigna dirección
             CalleTxtF.setText((String) empleado[10]); // Calle
             ExtTxtF.setText((String) empleado[11]); // Exterior
             IntTxtF.setText((String) empleado[12]); // Interior

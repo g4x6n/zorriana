@@ -90,57 +90,66 @@ public class DaoEmpleado extends Conexion {
     }
 
     // Agregar un nuevo empleado
-    public boolean addEmployee(Object[] empleado) {
-        conectar();
-        String idEmpleado = generarIdEmpleado();
-        String idDireccion = generarIdDireccion();
-        try {
-            // Obtener códigos
-            String codigoEstado = obtenerCodigoEstado((String) empleado[14]);
-            String idPuesto = obtenerIdPuesto((String) empleado[7]);
+public boolean addEmployee(Object[] empleado) {
+    conectar(); // Conectar a la base de datos
+    String idEmpleado = generarIdEmpleado();
+    String idDireccion = generarIdDireccion();
 
-            // Insertar dirección
-            String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
-                                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(sqlDireccion);
-            ps.setString(1, idDireccion);
-            ps.setString(2, (String) empleado[8]); // Calle
-            ps.setString(3, (String) empleado[9]); // Exterior
-            ps.setString(4, (String) empleado[10]); // Interior
-            ps.setString(5, (String) empleado[11]); // Colonia
-            ps.setString(6, (String) empleado[12]); // CP
-            ps.setString(7, (String) empleado[13]); // Alcaldía/Municipio
-            ps.setString(8, codigoEstado);
+    try {
+        // Obtener códigos necesarios
+        String codigoEstado = obtenerCodigoEstado((String) empleado[14]); // Estado
+        String idPuesto = obtenerIdPuesto((String) empleado[7]); // Puesto
 
-            int filasDireccion = ps.executeUpdate();
-            if (filasDireccion > 0) {
-                // Insertar empleado
-                String sqlEmpleado = "INSERT INTO EMPLEADO (ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, USUARIO_EMPLEADO, " +
-                                     "CONTRASENIA_EMPLEADO, CORREO, ID_PUESTO, SUELDO, ID_DIRECCION) " +
-                                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                ps = conn.prepareStatement(sqlEmpleado);
-                ps.setString(1, idEmpleado);
-                ps.setString(2, (String) empleado[0]); // Nombre
-                ps.setString(3, (String) empleado[1]); // Apellido Paterno
-                ps.setString(4, (String) empleado[2]); // Apellido Materno
-                ps.setDate(5, (Date) empleado[3]); // Fecha de Registro
-                ps.setString(6, (String) empleado[4]); // Usuario
-                ps.setString(7, (String) empleado[5]); // Contraseña
-                ps.setString(8, (String) empleado[6]); // Correo
-                ps.setString(9, idPuesto); // ID del puesto
-                ps.setFloat(10, (Float) empleado[15]); // Sueldo
-                ps.setString(11, idDireccion); // ID Dirección
+        // Consulta SQL para insertar dirección
+        String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
+                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sqlDireccion);
+        ps.setString(1, idDireccion);
+        ps.setString(2, (String) empleado[8]);  // Calle
+        ps.setString(3, (String) empleado[9]);  // Exterior
+        ps.setString(4, (String) empleado[10]); // Interior
+        ps.setString(5, (String) empleado[11]); // Colonia
+        ps.setString(6, (String) empleado[12]); // CP
+        ps.setString(7, (String) empleado[13]); // Alcaldía/Municipio
+        ps.setString(8, codigoEstado);         // Código de estado
 
-                int filasEmpleado = ps.executeUpdate();
-                return filasEmpleado > 0;
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al agregar empleado: " + ex.getMessage());
-        } finally {
-            desconectar();
+        // Ejecutar la consulta de inserción de dirección
+        int filasDireccion = ps.executeUpdate();
+
+        // Si la dirección se inserta correctamente, proceder con empleado
+        if (filasDireccion > 0) {
+            // Consulta SQL para insertar empleado
+            String sqlEmpleado = "INSERT INTO EMPLEADO (ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, USUARIO_EMPLEADO, " +
+                                 "CONTRASENIA_EMPLEADO, CORREO, ID_PUESTO, SUELDO, ID_DIRECCION) " +
+                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(sqlEmpleado);
+            ps.setString(1, idEmpleado);
+            ps.setString(2, (String) empleado[0]); // Nombre
+            ps.setString(3, (String) empleado[1]); // Apellido Paterno
+            ps.setString(4, (String) empleado[2]); // Apellido Materno
+            ps.setDate(5, Date.valueOf(empleado[3].toString())); // Fecha de Registro
+            ps.setString(6, (String) empleado[4]); // Usuario
+            ps.setString(7, (String) empleado[5]); // Contraseña
+            ps.setString(8, (String) empleado[6]); // Correo
+            ps.setString(9, idPuesto);            // ID del puesto
+            ps.setFloat(10, (float) empleado[8]); // Sueldo
+            ps.setString(11, idDireccion);       // ID Dirección
+
+            // Ejecutar la consulta de inserción de empleado
+            int filasEmpleado = ps.executeUpdate();
+            System.out.println("Empleado agregado correctamente. Sueldo enviado: " + empleado[8]);
+            return filasEmpleado > 0;
         }
-        return false;
+    } catch (SQLException ex) {
+        System.out.println("Error al agregar empleado: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cerrar la conexión
     }
+    return false;
+}
+
+
 
     public Object[] obtenerEmpleadoPorId(String idEmpleado) {
     conectar();
@@ -190,51 +199,61 @@ public class DaoEmpleado extends Conexion {
 
     // Editar un empleado existente
     public boolean updateEmployee(Object[] empleado) {
-        conectar();
-        try {
-            String idDireccion = (String) empleado[16];
-            String idEmpleado = (String) empleado[17];
-
-            // Actualizar dirección
-            String sqlDireccion = "UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
-                                  "WHERE ID_DIRECCION = ?";
-            ps = conn.prepareStatement(sqlDireccion);
-            ps.setString(1, (String) empleado[8]);
-            ps.setString(2, (String) empleado[9]);
-            ps.setString(3, (String) empleado[10]);
-            ps.setString(4, (String) empleado[11]);
-            ps.setString(5, (String) empleado[12]);
-            ps.setString(6, (String) empleado[13]);
-            ps.setString(7, obtenerCodigoEstado((String) empleado[14]));
-            ps.setString(8, idDireccion);
-
-            ps.executeUpdate();
-
-            // Actualizar empleado
-            String sqlEmpleado = "UPDATE EMPLEADO SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, USUARIO_EMPLEADO = ?, " +
-                                 "CONTRASENIA_EMPLEADO = ?, CORREO = ?, ID_PUESTO = ?, SUELDO = ? " +
-                                 "WHERE ID_EMPLEADO = ?";
-            ps = conn.prepareStatement(sqlEmpleado);
-            ps.setString(1, (String) empleado[0]);
-            ps.setString(2, (String) empleado[1]);
-            ps.setString(3, (String) empleado[2]);
-            ps.setDate(4, (Date) empleado[3]);
-            ps.setString(5, (String) empleado[4]);
-            ps.setString(6, (String) empleado[5]);
-            ps.setString(7, (String) empleado[6]);
-            ps.setString(8, obtenerIdPuesto((String) empleado[7]));
-            ps.setFloat(9, (Float) empleado[15]);
-            ps.setString(10, idEmpleado);
-
-            int filasEmpleado = ps.executeUpdate();
-            return filasEmpleado > 0;
-        } catch (SQLException ex) {
-            System.out.println("Error al editar empleado: " + ex.getMessage());
-        } finally {
-            desconectar();
+    conectar();
+    try {
+        if (empleado.length < 18) {
+            throw new IllegalArgumentException("El array empleado no contiene los índices esperados.");
         }
-        return false;
+
+        String idDireccion = (String) empleado[16];
+        String idEmpleado = (String) empleado[17];
+
+        // Actualizar dirección
+        String sqlDireccion = "UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
+                              "WHERE ID_DIRECCION = ?";
+        ps = conn.prepareStatement(sqlDireccion);
+        ps.setString(1, (String) empleado[8]);  // Calle
+        ps.setString(2, (String) empleado[9]);  // Exterior
+        ps.setString(3, (String) empleado[10]); // Interior
+        ps.setString(4, (String) empleado[11]); // Colonia
+        ps.setString(5, (String) empleado[12]); // CP
+        ps.setString(6, (String) empleado[13]); // Alcaldía/Municipio
+        ps.setString(7, obtenerCodigoEstado((String) empleado[14])); // Estado
+        ps.setString(8, idDireccion);          // ID Dirección
+
+        ps.executeUpdate();
+
+        // Actualizar empleado
+        String sqlEmpleado = "UPDATE EMPLEADO SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, USUARIO_EMPLEADO = ?, " +
+                             "CONTRASENIA_EMPLEADO = ?, CORREO = ?, ID_PUESTO = ?, SUELDO = ? " +
+                             "WHERE ID_EMPLEADO = ?";
+        ps = conn.prepareStatement(sqlEmpleado);
+        ps.setString(1, (String) empleado[0]); // Nombre
+        ps.setString(2, (String) empleado[1]); // Apellido Paterno
+        ps.setString(3, (String) empleado[2]); // Apellido Materno
+        ps.setDate(4, Date.valueOf(empleado[3].toString())); // Fecha de Registro
+        ps.setString(5, (String) empleado[4]); // Usuario
+        ps.setString(6, (String) empleado[5]); // Contraseña
+        ps.setString(7, (String) empleado[6]); // Correo
+        ps.setString(8, obtenerIdPuesto((String) empleado[7])); // Puesto
+        ps.setFloat(9, (Float) empleado[8]);  // Salario
+        ps.setString(10, idEmpleado);          // ID Empleado
+
+        int filasEmpleado = ps.executeUpdate();
+        return filasEmpleado > 0;
+    } catch (SQLException ex) {
+        System.out.println("Error al editar empleado: " + ex.getMessage());
+        ex.printStackTrace();
+    } catch (IllegalArgumentException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    } finally {
+        desconectar();
     }
+    return false;
+}
+
+
+    
 public List<String> obtenerEstados() {
     conectar();
     List<String> estados = new ArrayList<>();
@@ -362,8 +381,8 @@ public Object[] getEmployeeByUsr(String usr, char[] psw) {
             String sentenciaSQL = "SELECT ID_EMPLEADO, ID_PUESTO, PUESTO, NOMBRE, AP_PATERNO, AP_MATERNO " +
                                   "FROM EMPLEADO " +
                                   "JOIN PUESTO USING (ID_PUESTO) " +
-                                  "WHERE UPPER(USUARIO_EMPLEADO) = UPPER(?) " +
-                                  "AND UPPER(CONTRASENIA_EMPLEADO) = UPPER(?)";
+                                  "WHERE UPPER(USUARIO_EMPLEADO) = ? " +
+                                  "AND UPPER(CONTRASENIA_EMPLEADO) = ?";
 
             ps = conn.prepareStatement(sentenciaSQL);
             ps.setString(1, usr); // Establece el parámetro del usuario
