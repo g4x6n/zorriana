@@ -4,120 +4,126 @@ import database.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+
 
 public class DaoClientes extends Conexion {
 
-    // Generar el ID del cliente
-    private String generarIdCliente() {
-        String idCliente = "";
-        try {
-            String sql = "SELECT MAX(ID_CLIENTE) FROM CLIENTE";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String maxId = rs.getString(1);
-                if (maxId != null) {
-                    int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
-                    idCliente = "C" + String.format("%04d", secuencia);
-                } else {
-                    idCliente = "C0001"; // Primer ID
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al generar ID del cliente: " + ex.getMessage());
-        }
-        return idCliente;
-    }
-
-    // Generar el ID de la dirección
-    private String generarIdDireccion() {
-        String idDireccion = "";
-        try {
-            String sql = "SELECT MAX(ID_DIRECCION) FROM DIRECCION WHERE ID_DIRECCION LIKE 'D%'";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String maxId = rs.getString(1);
-                if (maxId != null) {
-                    int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
-                    idDireccion = "D" + secuencia;
-                } else {
-                    idDireccion = "D80";
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al generar ID de la dirección: " + ex.getMessage());
-        }
-        return idDireccion;
-    }
-
-    // Obtener código del estado
-    private String obtenerCodigoEstado(String nombreEstado) {
-        String codigoEstado = "";
-        try {
-            String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, nombreEstado);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                codigoEstado = rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener código del estado: " + ex.getMessage());
-        }
-        return codigoEstado;
-    }
-
-    // Agregar un nuevo cliente
     public boolean addClient(Object[] cliente) {
-        conectar();
-        String idCliente = generarIdCliente();
-        String idDireccion = generarIdDireccion();
-        try {
-            // Obtener código del estado
-            String codigoEstado = obtenerCodigoEstado((String) cliente[7]);
+    conectar(); // Conectar a la base de datos
+    String idCliente = generarIdCliente(); // Generar el ID del cliente automáticamente
+    String idDireccion = generarIdDireccion(); // Generar el ID de la dirección automáticamente
 
-            // Insertar dirección
-            String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
-                                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(sqlDireccion);
-            ps.setString(1, idDireccion);
-            ps.setString(2, (String) cliente[3]); // Calle
-            ps.setString(3, (String) cliente[4]); // Exterior
-            ps.setString(4, (String) cliente[5]); // Interior
-            ps.setString(5, (String) cliente[6]); // Colonia
-            ps.setString(6, (String) cliente[7]); // CP
-            ps.setString(7, (String) cliente[8]); // Alcaldía/Municipio
-            ps.setString(8, codigoEstado);
+    try {
+        // Consulta SQL para insertar la dirección
+        String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
+                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sqlDireccion);
+        ps.setString(1, idDireccion);
+        ps.setString(2, (String) cliente[3]);  // Calle
+        ps.setString(3, (String) cliente[4]);  // Exterior
+        ps.setString(4, (String) cliente[5]);  // Interior
+        ps.setString(5, (String) cliente[6]);  // Colonia
+        ps.setString(6, (String) cliente[7]);  // CP
+        ps.setString(7, (String) cliente[8]);  // Alcaldía/Municipio
+        ps.setString(8, obtenerCodigoEstado((String) cliente[10])); // Código del estado
 
-            int filasDireccion = ps.executeUpdate();
-            if (filasDireccion > 0) {
-                // Insertar cliente
-                String sqlCliente = "INSERT INTO CLIENTE (ID_CLIENTE, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, CORREO, ID_DIRECCION) " +
-                                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
-                ps = conn.prepareStatement(sqlCliente);
-                ps.setString(1, idCliente);
-                ps.setString(2, (String) cliente[0]); // Nombre
-                ps.setString(3, (String) cliente[1]); // Apellido Paterno
-                ps.setString(4, (String) cliente[2]); // Apellido Materno
-                ps.setDate(5, (Date) cliente[9]); // Fecha de Registro
-                ps.setString(6, (String) cliente[10]); // Correo
-                ps.setString(7, idDireccion); // ID Dirección
+        // Ejecutar la consulta para insertar la dirección
+        int filasDireccion = ps.executeUpdate();
 
-                int filasCliente = ps.executeUpdate();
-                return filasCliente > 0;
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al agregar cliente: " + ex.getMessage());
-        } finally {
-            desconectar();
+        if (filasDireccion > 0) {
+            // Consulta SQL para insertar el cliente
+            String sqlCliente = "INSERT INTO CLIENTE (ID_CLIENTE, NOMBRE, AP_PATERNO, AP_MATERNO, CORREO, FECHA_REG, ID_DIRECCION) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(sqlCliente);
+            ps.setString(1, idCliente); // ID del cliente generado
+            ps.setString(2, (String) cliente[0]); // Nombre
+            ps.setString(3, (String) cliente[1]); // Apellido paterno
+            ps.setString(4, (String) cliente[2]); // Apellido materno
+            ps.setString(5, (String) cliente[11]); // Correo
+            ps.setDate(6, Date.valueOf((String) cliente[9])); // Fecha de registro
+            ps.setString(7, idDireccion); // ID de la dirección
+
+            // Ejecutar la consulta para insertar el cliente
+            int filasCliente = ps.executeUpdate();
+            return filasCliente > 0; // Si se insertó, devolver verdadero
         }
-        return false;
+    } catch (SQLException e) {
+        System.out.println("Error al agregar cliente: " + e.getMessage());
+        e.printStackTrace();
+    } finally {
+        desconectar(); // Cerrar la conexión a la base de datos
     }
 
+    return false; // Si ocurre algún error, devolver falso
+}
+
+// Método para generar el ID del cliente
+// Método para generar el ID del cliente
+private String generarIdCliente() {
+    String idCliente = "";
+    try {
+        String sql = "SELECT MAX(ID_CLIENTE) FROM CLIENTE";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            String maxId = rs.getString(1);
+            int year = LocalDate.now().getYear() % 100; // Obtener los dos últimos dígitos del año
+            if (maxId != null && maxId.startsWith("C")) {
+                int secuencia = Integer.parseInt(maxId.substring(3)) + 1; // Incrementar la secuencia
+                idCliente = "C" + String.format("%02d", year) + String.format("%02d", secuencia);
+            } else {
+                idCliente = "C" + String.format("%02d", year) + "01"; // Primer ID del año
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al generar ID del cliente: " + ex.getMessage());
+    }
+    return idCliente;
+}
+
+
+// Método para generar el ID de la dirección
+private String generarIdDireccion() {
+    String idDireccion = "";
+    try {
+        String sql = "SELECT MAX(ID_DIRECCION) FROM DIRECCION WHERE ID_DIRECCION LIKE 'D%'";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            String maxId = rs.getString(1);
+            if (maxId != null && maxId.startsWith("D")) {
+                int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
+                idDireccion = "D" + String.format("%04d", secuencia);
+            } else {
+                idDireccion = "D0001"; // Primer ID
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al generar ID de la dirección: " + ex.getMessage());
+    }
+    return idDireccion;
+}
+
+// Método para obtener el código del estado
+private String obtenerCodigoEstado(String nombreEstado) {
+    String codigoEstado = "";
+    try {
+        String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreEstado);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            codigoEstado = rs.getString(1);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código del estado: " + ex.getMessage());
+    }
+    return codigoEstado;
+}
     // Buscar clientes con filtro
     public List<Object[]> buscarClientes(String filtro) {
         conectar();
@@ -154,86 +160,65 @@ public class DaoClientes extends Conexion {
         }
         return clientes;
     }
+    
     public List<String> obtenerEstados() {
-        conectar();
+        conectar(); // Conectar a la base de datos
         List<String> estados = new ArrayList<>();
         try {
-            String sql = "SELECT ESTADO FROM ESTADO";
+            String sql = "SELECT ESTADO FROM ESTADO"; // Consulta para obtener los nombres de los estados
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                estados.add(rs.getString("ESTADO")); // Agrega el nombre del estado a la lista
+                estados.add(rs.getString("ESTADO")); // Agregar cada estado a la lista
             }
         } catch (SQLException ex) {
             System.out.println("Error al obtener estados: " + ex.getMessage());
         } finally {
-            desconectar();
+            desconectar(); // Cerrar la conexión
         }
-        return estados;
-        }
-    
+        return estados; // Retornar la lista de estados
+    }
+
+
   public boolean updateClient(Object[] cliente) {
     conectar();
     try {
-        // Actualizar dirección
-        String sqlDireccion = "UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
-                              "WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM CLIENTE WHERE ID_CLIENTE = ?)";
-        ps = conn.prepareStatement(sqlDireccion);
-        ps.setString(1, (String) cliente[3]); // Calle
-        ps.setString(2, (String) cliente[4]); // Exterior
-        ps.setString(3, (String) cliente[5]); // Interior
-        ps.setString(4, (String) cliente[6]); // Colonia
-        ps.setString(5, (String) cliente[7]); // CP
-        ps.setString(6, (String) cliente[8]); // Alcaldía/Municipio
-        ps.setString(7, obtenerCodigoEstado((String) cliente[10])); // Estado
-        ps.setString(8, (String) cliente[12]); // ID del cliente
-
-        ps.executeUpdate();
-
-        // Actualizar cliente
-        String sqlCliente = "UPDATE CLIENTE SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, CORREO = ? " +
-                            "WHERE ID_CLIENTE = ?";
+        // Actualizar los datos del cliente
+        String sqlCliente = "UPDATE CLIENTE SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, CORREO = ? WHERE ID_CLIENTE = ?";
         ps = conn.prepareStatement(sqlCliente);
         ps.setString(1, (String) cliente[0]); // Nombre
         ps.setString(2, (String) cliente[1]); // Apellido Paterno
         ps.setString(3, (String) cliente[2]); // Apellido Materno
-        ps.setDate(4, java.sql.Date.valueOf((String) cliente[9])); // Fecha de Registro
-        ps.setString(5, (String) cliente[11]); // Correo
-        ps.setString(6, (String) cliente[12]); // ID del cliente
-
-        int filasCliente = ps.executeUpdate();
-        return filasCliente > 0;
+        ps.setDate(4, Date.valueOf((String) cliente[3])); // Fecha de Registro
+        ps.setString(5, (String) cliente[4]); // Correo
+        ps.setString(6, (String) cliente[5]); // ID del Cliente
+        return ps.executeUpdate() > 0;
     } catch (SQLException ex) {
         System.out.println("Error al actualizar cliente: " + ex.getMessage());
+        return false;
     } finally {
         desconectar();
     }
-    return false;
 }
 
-  public boolean deleteClient(String idCliente, String idDireccion) {
-    conectar();
+  public boolean deleteClient(String idCliente) {
+    conectar(); // Conectar a la base de datos
     try {
         // Eliminar cliente
         String sqlCliente = "DELETE FROM CLIENTE WHERE ID_CLIENTE = ?";
         ps = conn.prepareStatement(sqlCliente);
         ps.setString(1, idCliente);
-        ps.executeUpdate();
+        int filasAfectadas = ps.executeUpdate();
 
-        // Eliminar dirección
-        String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
-        ps = conn.prepareStatement(sqlDireccion);
-        ps.setString(1, idDireccion);
-        ps.executeUpdate();
-
-        return true;
+        return filasAfectadas > 0; // Devuelve true si se eliminó
     } catch (SQLException ex) {
         System.out.println("Error al eliminar cliente: " + ex.getMessage());
+        return false;
     } finally {
-        desconectar();
+        desconectar(); // Cierra la conexión
     }
-    return false;
 }
+
 
   public String obtenerIdDireccionPorCliente(String idCliente) {
     conectar();
