@@ -5,214 +5,212 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
 public class PrProveedor extends javax.swing.JPanel {
+    
 
-    private DaoProveedor daoProveedor = new DaoProveedor();
-    
-    
-    public static PrProveedor cl;
+     private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del DAO para manejo de empleados
+ 
+
+    public static PrProveedor pl;
+
 
     public PrProveedor() {
         initComponents();
         cargarEstados();
         cargarProveedores();
     }
-
-    // Cargar los estados en el combo box
+    
     private void cargarEstados() {
+        // Llenar la lista de estados en el combo box
         try {
-            List<String> estados = daoProveedor.obtenerEstados();
-            Est_Box.removeAllItems();
+            List<String> estados = daoProveedor.obtenerEstados(); // Implementar este método en DaoEmpleado
+            EDO_BOX.removeAllItems();
             for (String estado : estados) {
-                Est_Box.addItem(estado);
+                EDO_BOX.addItem(estado);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar estados: " + e.getMessage());
         }
     }
 
-    // Cargar los proveedores en la tabla
-    private void cargarProveedores() {
-        try {
-            List<Object[]> proveedores = daoProveedor.listProveedores();
-            DefaultTableModel model = new DefaultTableModel(
-                new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Dirección"}, 0
-            );
-            for (Object[] proveedor : proveedores) {
-                model.addRow(proveedor);
-            }
-            resultsTable2.setModel(model);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage());
+      private void cargarProveedores() {
+    try {
+        // Obtiene los empleados desde el DAO
+        List<Object[]> proveedores = daoProveedor.listProveedores();
+
+        // Configura el modelo de la tabla con las columnas necesarias
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Empresa", "Contacto", "Lada", "Telefono","Extensión", "Correo", "Dirección"}, 0
+        );
+
+        // Llena el modelo con los datos
+        for (Object[] proveedor : proveedores) {
+            model.addRow(new Object[]{
+                proveedor[0], // ID
+                proveedor[1], // Nombre Empresa
+                proveedor[2], // Nombre Contacto
+                proveedor[3], // LADA
+                proveedor[4], // Telefono
+                proveedor[5], // Extension
+                proveedor[6], // Correo
+                proveedor[7]  // Dirección
+            });
         }
+
+        // Asigna el modelo a la tabla
+        resultsTable.setModel(model);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
+}
 
-    // Agregar un nuevo proveedor
-    private void agregarProveedor() {
+    private void agregarEmpleado() {
+        // Método para agregar un empleado
         try {
-            Object[] proveedor = obtenerDatosProveedor();
-            if (proveedor == null) return;
-
-            boolean exito = daoProveedor.addProveedor(proveedor);
+            Object[] empleado = obtenerDatosProveedor();
+            boolean exito = daoProveedor.addProveedor(empleado);
             if (exito) {
-                JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
+                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
                 cargarProveedores();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al agregar proveedor.");
+                JOptionPane.showMessageDialog(this, "Error al agregar empleado.");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al agregar proveedor: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + e.getMessage());
         }
     }
 
-    // Editar un proveedor existente
-    private void editarProveedor() {
+    private void editarEmpleado() {
+        // Método para editar un empleado
         try {
-            int filaSeleccionada = resultsTable2.getSelectedRow();
+            int filaSeleccionada = resultsTable.getSelectedRow();
             if (filaSeleccionada == -1) {
-                JOptionPane.showMessageDialog(this, "Selecciona un proveedor para editar.");
+                JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.");
                 return;
             }
 
-            Object[] proveedor = obtenerDatosProveedor();
-            if (proveedor == null) return;
-
-            boolean exito = daoProveedor.updateProveedor(proveedor);
+            Object[] empleado = obtenerDatosProveedor();
+            boolean exito = daoProveedor.updateEmployee(empleado);
             if (exito) {
-                JOptionPane.showMessageDialog(this, "Proveedor editado correctamente.");
+                JOptionPane.showMessageDialog(this, "Empleado editado correctamente.");
                 cargarProveedores();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al editar proveedor.");
+                JOptionPane.showMessageDialog(this, "Error al editar empleado.");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al editar proveedor: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al editar empleado: " + e.getMessage());
         }
     }
 
-    // Eliminar proveedor seleccionado
-    private void eliminarProveedor() {
-        try {
-            int filaSeleccionada = resultsTable2.getSelectedRow();
-            if (filaSeleccionada == -1) {
-                JOptionPane.showMessageDialog(this, "Selecciona un proveedor para eliminar.");
-                return;
-            }
-
-            String idProveedor = resultsTable2.getValueAt(filaSeleccionada, 0).toString();
-            String idDireccion = daoProveedor.obtenerIdDireccionPorProveedor(idProveedor);
-
-            if (daoProveedor.deleteProveedor(idProveedor, idDireccion)) {
-                JOptionPane.showMessageDialog(this, "Proveedor eliminado correctamente.");
-                cargarProveedores();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al eliminar proveedor.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar proveedor: " + e.getMessage());
+    private void eliminarEmpleado() {
+    try {
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
+            return;
         }
-    }
 
-    // Buscar proveedores por filtro
-    private void buscarProveedor() {
-        try {
-            String filtro = FiltrarTxtF.getText().trim();
-            if (filtro.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+        // Obtén el ID del empleado seleccionado
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
 
-            List<Object[]> proveedores = daoProveedor.buscarProveedor(filtro);
-            DefaultTableModel model = new DefaultTableModel(
-                new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Dirección"}, 0
-            );
-            for (Object[] proveedor : proveedores) {
-                model.addRow(proveedor);
-            }
-            resultsTable2.setModel(model);
+        // Obtén el ID de la dirección asociada al empleado
+        String idDireccion = daoProveedor.obtenerIdDireccionPorEmpleado(idEmpleado);
 
-            if (proveedores.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se encontraron resultados.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al buscar proveedor: " + e.getMessage());
+        if (idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.");
+            return;
         }
-    }
 
-    // Obtener datos del formulario
+        // Llama al método deleteEmployee con ambos IDs
+        boolean exito = daoProveedor.deleteEmployee(idEmpleado, idDireccion);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
+            cargarProveedores(); // Recarga la tabla
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar el empleado: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+  
     private Object[] obtenerDatosProveedor() {
-        try {
-            String nombreEmpresa = NombreTxtF.getText().trim();
-            String nombreContacto = NContTxtF.getText().trim();
-            String lada = LadaTxtF.getText().trim();
-            String telefono = TelTxtF.getText().trim();
-            String extension = ExtTxtF.getText().trim();
-            String correo = CorreoTxtF.getText().trim();
-            String calle = CalleTxtF.getText().trim();
-            String exterior = ExteriorTxtF.getText().trim();
-            String interior = InteriorTxtF.getText().trim();
-            String colonia = ColoniaTxtF.getText().trim();
-            String cp = CPTxtF.getText().trim();
-            String alcalMun = AlcalMunTxtF.getText().trim();
-            String estado = (String) Est_Box.getSelectedItem();
+    try {
+        // Obtiene los datos del formulario
+        String empresa = jTextFieldNombreEmpresa.getText().trim();
+        String contacto = jTextFieldContacto.getText().trim();
+        int lada = Integer.parseInt(jTextFieldLada.getText().trim());
+        int telefono = Integer.parseInt(jTextFieldTelefono.getText().trim());
+        int extension = Integer.parseInt(jTextFieldExtension.getText().trim());
+        String correo = jTextFieldCorreo.getText().trim();
+        String calle = CalleTxtF.getText().trim();
+        String exterior = ExtTxtF.getText().trim();
+        String interior = IntTxtF.getText().trim();
+        String colonia = ColTxtF.getText().trim();
+        String cp = CPTxtF.getText().trim();
+        String alcalMun = AlcalMunTxtF.getText().trim();
+        String estado = (String) EDO_BOX.getSelectedItem();
 
-            if (nombreEmpresa.isEmpty() || nombreContacto.isEmpty() || telefono.isEmpty() || correo.isEmpty() || calle.isEmpty() || colonia.isEmpty() || cp.isEmpty() || alcalMun.isEmpty() || estado.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, llena todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return null;
-            }
-
-            return new Object[]{nombreEmpresa, nombreContacto, lada, telefono, extension, correo, calle, exterior, interior, colonia, cp, alcalMun, estado};
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener datos del formulario: " + e.getMessage());
-            return null;
-        }
+        // Retorna un arreglo con los datos
+        return new Object[]{
+            empresa, contacto, lada, telefono, extension, correo,
+            calle, exterior, interior, colonia, cp, alcalMun, estado
+        };
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Error en el formato de LADA, teléfono o extensión. Asegúrate de ingresar números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        return null;
     }
-    
-    @SuppressWarnings("unchecked")
+}
+
+      @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         bg = new javax.swing.JPanel();
         fondo = new javax.swing.JPanel();
-        PROVEEDOR = new javax.swing.JLabel();
-        productos = new javax.swing.JPanel();
-        Nombre = new javax.swing.JLabel();
-        NombreTxtF = new javax.swing.JTextField();
-        NomContacto = new javax.swing.JLabel();
-        NContTxtF = new javax.swing.JTextField();
-        Lada = new javax.swing.JLabel();
-        LadaTxtF = new javax.swing.JTextField();
-        Telefono = new javax.swing.JLabel();
-        TelTxtF = new javax.swing.JTextField();
-        Extension = new javax.swing.JLabel();
-        ExtTxtF = new javax.swing.JTextField();
-        Correo = new javax.swing.JLabel();
-        CorreoTxtF = new javax.swing.JTextField();
+        TITULO = new javax.swing.JLabel();
         DIRECCIÓN = new javax.swing.JLabel();
         CALLE = new javax.swing.JLabel();
         CalleTxtF = new javax.swing.JTextField();
+        EXTERIOR = new javax.swing.JLabel();
+        ExtTxtF = new javax.swing.JTextField();
+        INTERIOR = new javax.swing.JLabel();
+        IntTxtF = new javax.swing.JTextField();
         CP = new javax.swing.JLabel();
         CPTxtF = new javax.swing.JTextField();
-        EXTERIOR = new javax.swing.JLabel();
-        ExteriorTxtF = new javax.swing.JTextField();
         COLONIA = new javax.swing.JLabel();
-        ColoniaTxtF = new javax.swing.JTextField();
-        INTERIOR = new javax.swing.JLabel();
-        InteriorTxtF = new javax.swing.JTextField();
-        ESTADO = new javax.swing.JLabel();
-        Est_Box = new javax.swing.JComboBox<>();
-        AlcaldiaMun = new javax.swing.JLabel();
+        ColTxtF = new javax.swing.JTextField();
+        AlcalMun = new javax.swing.JLabel();
         AlcalMunTxtF = new javax.swing.JTextField();
-        BotEliminar = new javax.swing.JButton();
-        BotEditar = new javax.swing.JLabel();
-        BotAgregar = new javax.swing.JButton();
-        BotGuardar = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        resultsTable2 = new javax.swing.JTable();
-        FiltrarTxtF = new javax.swing.JTextField();
-        FILTRAR = new javax.swing.JLabel();
-        BotBuscar = new javax.swing.JButton();
+        ESTADO = new javax.swing.JLabel();
+        EDO_BOX = new javax.swing.JComboBox<>();
+        NombreEmpresa = new javax.swing.JLabel();
+        jTextFieldNombreEmpresa = new javax.swing.JTextField();
+        NombreContacto = new javax.swing.JLabel();
+        jTextFieldContacto = new javax.swing.JTextField();
+        Lada = new javax.swing.JLabel();
+        jTextFieldLada = new javax.swing.JTextField();
+        Telefono = new javax.swing.JLabel();
+        jTextFieldTelefono = new javax.swing.JTextField();
+        Correo = new javax.swing.JLabel();
+        jTextFieldCorreo = new javax.swing.JTextField();
+        Extension = new javax.swing.JLabel();
+        jTextFieldExtension = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        resultsTable = new javax.swing.JTable();
+        searchbar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setPreferredSize(new java.awt.Dimension(1040, 560));
@@ -220,407 +218,425 @@ public class PrProveedor extends javax.swing.JPanel {
 
         fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        PROVEEDOR.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
-        PROVEEDOR.setText("PROVEEDOR");
-        fondo.add(PROVEEDOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 306, 60));
+        TITULO.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
+        TITULO.setText("PROVEEDOR");
+        fondo.add(TITULO, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 305, -1));
 
-        productos.setBackground(new java.awt.Color(255, 255, 255));
-        productos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        productos.setForeground(new java.awt.Color(204, 204, 204));
-        productos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        DIRECCIÓN.setFont(new java.awt.Font("Jost", 1, 12)); // NOI18N
+        DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        DIRECCIÓN.setText("DIRECCIÓN");
+        fondo.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, 80, -1));
 
-        Nombre.setText("NOMBRE EMPRESA");
-        productos.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 20));
+        CALLE.setText("CALLE");
+        fondo.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 40, -1));
+        fondo.add(CalleTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 290, 370, -1));
 
-        NombreTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NombreTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(NombreTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 320, -1));
-
-        NomContacto.setText("NOMBRE CONTACTO");
-        productos.add(NomContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
-
-        NContTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NContTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(NContTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 320, -1));
-
-        Lada.setText("LADA");
-        productos.add(Lada, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, 20));
-
-        LadaTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LadaTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(LadaTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 99, -1));
-
-        Telefono.setText("TELEFONO");
-        productos.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 90, 20));
-
-        TelTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TelTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(TelTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 140, -1));
-
-        Extension.setText("EXTENSIÓN");
-        productos.add(Extension, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, 20));
+        EXTERIOR.setText("EXTERIOR");
+        fondo.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 60, -1));
 
         ExtTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ExtTxtFActionPerformed(evt);
             }
         });
-        productos.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 64, -1));
-
-        Correo.setText("CORREO");
-        productos.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 60, 20));
-
-        CorreoTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CorreoTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(CorreoTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 220, -1));
-
-        DIRECCIÓN.setFont(new java.awt.Font("Jost", 0, 12)); // NOI18N
-        DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        DIRECCIÓN.setText("DIRECCIÓN");
-        productos.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 70, 20));
-
-        CALLE.setText("CALLE");
-        productos.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, 20));
-
-        CalleTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CalleTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(CalleTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 190, -1));
-
-        CP.setText("C.P.");
-        productos.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 40, 20));
-
-        CPTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CPTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(CPTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 90, -1));
-
-        EXTERIOR.setText("EXTERIOR");
-        productos.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, 20));
-
-        ExteriorTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExteriorTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(ExteriorTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 100, -1));
-
-        COLONIA.setText("COLONIA");
-        productos.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, -1, 20));
-
-        ColoniaTxtF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColoniaTxtFActionPerformed(evt);
-            }
-        });
-        productos.add(ColoniaTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 100, -1));
+        fondo.add(ExtTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, 80, -1));
 
         INTERIOR.setText("INTERIOR");
-        productos.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, 20));
+        fondo.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 60, -1));
+        fondo.add(IntTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, 70, -1));
 
-        InteriorTxtF.addActionListener(new java.awt.event.ActionListener() {
+        CP.setText("C.P.");
+        fondo.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 30, -1));
+        fondo.add(CPTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 330, 90, 30));
+
+        COLONIA.setText("COLONIA");
+        fondo.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 60, -1));
+
+        ColTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InteriorTxtFActionPerformed(evt);
+                ColTxtFActionPerformed(evt);
             }
         });
-        productos.add(InteriorTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 100, -1));
+        fondo.add(ColTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 130, -1));
+
+        AlcalMun.setText("ALCAL/MUN");
+        fondo.add(AlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 70, -1));
+        fondo.add(AlcalMunTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 120, -1));
 
         ESTADO.setText("ESTADO");
-        productos.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, -1, 20));
+        fondo.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 50, -1));
 
-        Est_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Est_Box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Est_Box.addActionListener(new java.awt.event.ActionListener() {
+        EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        EDO_BOX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fondo.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 150, -1));
+
+        NombreEmpresa.setText("NOMBRE EMPRESA");
+        fondo.add(NombreEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 20));
+
+        jTextFieldNombreEmpresa.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jTextFieldNombreEmpresa.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldNombreEmpresa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Est_BoxActionPerformed(evt);
+                jTextFieldNombreEmpresaActionPerformed(evt);
             }
         });
-        productos.add(Est_Box, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 160, -1));
+        fondo.add(jTextFieldNombreEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 310, -1));
 
-        AlcaldiaMun.setText("ALCAL/MUN");
-        productos.add(AlcaldiaMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, -1, -1));
+        NombreContacto.setText("NOMBRE CONTACTO");
+        fondo.add(NombreContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
 
-        AlcalMunTxtF.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldContacto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextFieldContacto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AlcalMunTxtFActionPerformed(evt);
+                jTextFieldContactoActionPerformed(evt);
             }
         });
-        productos.add(AlcalMunTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, 110, -1));
+        fondo.add(jTextFieldContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, -1));
 
-        BotEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        BotEliminar.setContentAreaFilled(false);
-        BotEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotEliminar.addActionListener(new java.awt.event.ActionListener() {
+        Lada.setText("LADA");
+        fondo.add(Lada, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, 20));
+
+        jTextFieldLada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotEliminarActionPerformed(evt);
+                jTextFieldLadaActionPerformed(evt);
             }
         });
-        productos.add(BotEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 346, -1, -1));
+        fondo.add(jTextFieldLada, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, 90, -1));
 
-        BotEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
-        BotEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotEditar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BotEditarMouseClicked(evt);
-            }
-        });
-        productos.add(BotEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 346, 40, 40));
+        Telefono.setText("TELEFONO");
+        fondo.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, -1, -1));
 
-        BotAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
-        BotAgregar.setContentAreaFilled(false);
-        BotAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldTelefono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotAgregarActionPerformed(evt);
+                jTextFieldTelefonoActionPerformed(evt);
             }
         });
-        productos.add(BotAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 346, -1, -1));
+        fondo.add(jTextFieldTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 140, -1));
 
-        BotGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        BotGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        productos.add(BotGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 336, 50, 50));
+        Correo.setText("CORREO");
+        fondo.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, 20));
 
-        fondo.add(productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 410));
+        jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldCorreoActionPerformed(evt);
+            }
+        });
+        fondo.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, 350, -1));
 
-        resultsTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        resultsTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Extension.setText("EXTENSIÓN");
+        fondo.add(Extension, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, 20));
+
+        jTextFieldExtension.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldExtensionActionPerformed(evt);
+            }
+        });
+        fondo.add(jTextFieldExtension, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 80, -1));
+
+        resultsTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "NOMBRE", "CONTACTO", "LADA", "TELEFONO", "DIRECCIÓN"
+                "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "CORREO", "DIRECCIÓN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        resultsTable2.setCellSelectionEnabled(true);
-        resultsTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+        resultsTable.setCellSelectionEnabled(true);
+        resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                resultsTable2MouseClicked(evt);
+                resultsTableMouseClicked(evt);
             }
         });
-        jScrollPane3.setViewportView(resultsTable2);
-        resultsTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane1.setViewportView(resultsTable);
+        resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-        fondo.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 130, 410, 380));
+        fondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(486, 204, 390, 270));
 
-        FiltrarTxtF.addActionListener(new java.awt.event.ActionListener() {
+        searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FiltrarTxtFActionPerformed(evt);
+                searchbarActionPerformed(evt);
             }
         });
-        fondo.add(FiltrarTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(569, 100, 280, -1));
+        fondo.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 171, 230, -1));
 
-        FILTRAR.setText("FILTRAR:");
-        fondo.add(FILTRAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 100, -1, 20));
+        jLabel7.setText("FILTRAR:");
+        fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(515, 181, -1, -1));
 
-        BotBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        BotBuscar.setBorder(null);
-        BotBuscar.setBorderPainted(false);
-        BotBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BotBuscar.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jButton1.setToolTipText("");
+        jButton1.setBorder(null);
+        jButton1.setBorderPainted(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotBuscarActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        fondo.add(BotBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(859, 90, -1, -1));
+        fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 160, 60, -1));
 
-        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 910, 530));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        jButton3.setContentAreaFilled(false);
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 940, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-        );
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, -1, -1));
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, -1, -1));
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        jButton6.setContentAreaFilled(false);
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
+
+        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
+
+        add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 570));
 
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Est_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Est_BoxActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+     editarEmpleado();   
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+agregarEmpleado();        
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     String filtro = searchbar.getText().trim();
+
+if (filtro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Realiza la búsqueda
+    List<Object[]> resultados = daoProveedor.buscarProveedor(filtro);
+
+    // Configura el modelo de la tabla
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
+    );
+
+    // Llena el modelo con los resultados
+    for (Object[] fila : resultados) {
+        model.addRow(new Object[]{
+            fila[0], // ID del proveedor
+            fila[1], // Nombre de la empresa
+            fila[2], // Contacto
+            fila[3], // LADA
+            fila[4], // Teléfono
+            fila[5], // Extensión
+            fila[6], // Correo
+            fila[7]  // Dirección
+        });
+    }
+
+    resultsTable.setModel(model);
+
+    // Muestra un mensaje si no hay resultados
+    if (resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron proveedores con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
+
+    }//GEN-LAST:event_searchbarActionPerformed
+
+    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+   int filaSeleccionada = resultsTable.getSelectedRow();
+if (filaSeleccionada != -1) {
+    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
+
+    // Llama al DAO para obtener los detalles completos del proveedor
+    Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
+
+    if (proveedor != null) {
+        // Asigna valores a los campos del formulario
+        jTextFieldNombreEmpresa.setText((String) proveedor[1]); // Nombre Empresa
+        jTextFieldContacto.setText((String) proveedor[2]); // Nombre Contacto
+        jTextFieldLada.setText(String.valueOf(proveedor[3])); // LADA
+        jTextFieldTelefono.setText(String.valueOf(proveedor[4])); // Teléfono
+        jTextFieldExtension.setText(String.valueOf(proveedor[5])); // Extensión
+        jTextFieldCorreo.setText((String) proveedor[6]); // Correo
+
+        // Asigna dirección
+        CalleTxtF.setText((String) proveedor[7]); // Calle
+        ExtTxtF.setText((String) proveedor[8]); // Exterior
+        IntTxtF.setText((String) proveedor[9]); // Interior
+        ColTxtF.setText((String) proveedor[10]); // Colonia
+        CPTxtF.setText((String) proveedor[11]); // CP
+        AlcalMunTxtF.setText((String) proveedor[12]); // Alcaldía/Municipio
+        EDO_BOX.setSelectedItem((String) proveedor[13]); // Estado
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    }//GEN-LAST:event_resultsTableMouseClicked
+
+    private void jTextFieldExtensionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExtensionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_Est_BoxActionPerformed
+    }//GEN-LAST:event_jTextFieldExtensionActionPerformed
 
-    private void BotAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotAgregarActionPerformed
-        agregarProveedor();
-    }//GEN-LAST:event_BotAgregarActionPerformed
+    private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
 
-    private void TelTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TelTxtFActionPerformed
-       
-    }//GEN-LAST:event_TelTxtFActionPerformed
+        jTextFieldNombreEmpresa.setText(""); // Elimina el texto inicial
+        jTextFieldNombreEmpresa.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
-    private void resultsTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTable2MouseClicked
-         int filaSeleccionada = resultsTable2.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            String idProveedor = resultsTable2.getValueAt(filaSeleccionada, 0).toString();
-            Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
+    private void jTextFieldTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoActionPerformed
 
-            if (proveedor != null) {
-                NombreTxtF.setText((String) proveedor[1]);
-                NContTxtF.setText((String) proveedor[2]);
-                LadaTxtF.setText((String) proveedor[3]);
-                TelTxtF.setText((String) proveedor[4]);
-                ExtTxtF.setText((String) proveedor[5]);
-                CorreoTxtF.setText((String) proveedor[6]);
-                CalleTxtF.setText((String) proveedor[7]);
-                ExteriorTxtF.setText((String) proveedor[8]);
-                InteriorTxtF.setText((String) proveedor[9]);
-                ColoniaTxtF.setText((String) proveedor[10]);
-                CPTxtF.setText((String) proveedor[11]);
-                AlcalMunTxtF.setText((String) proveedor[12]);
-                Est_Box.setSelectedItem((String) proveedor[13]);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.");
-            }
-        }
-    }//GEN-LAST:event_resultsTable2MouseClicked
+        jTextFieldNombreEmpresa.setText(""); // Elimina el texto inicial
+        jTextFieldNombreEmpresa.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldTelefonoActionPerformed
 
-    private void FiltrarTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarTxtFActionPerformed
-       
-    }//GEN-LAST:event_FiltrarTxtFActionPerformed
+    private void jTextFieldContactoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldContactoActionPerformed
 
-    private void BotBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotBuscarActionPerformed
-        buscarProveedor();
-    }//GEN-LAST:event_BotBuscarActionPerformed
+        jTextFieldNombreEmpresa.setText(""); // Elimina el texto inicial
+        jTextFieldNombreEmpresa.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldContactoActionPerformed
 
-    private void NombreTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreTxtFActionPerformed
-  
-    }//GEN-LAST:event_NombreTxtFActionPerformed
+    private void jTextFieldLadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLadaActionPerformed
 
-    private void CorreoTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CorreoTxtFActionPerformed
- 
-    }//GEN-LAST:event_CorreoTxtFActionPerformed
+        jTextFieldNombreEmpresa.setText(""); // Elimina el texto inicial
+        jTextFieldNombreEmpresa.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldLadaActionPerformed
 
-    private void BotEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotEliminarActionPerformed
-        eliminarProveedor();
-    }//GEN-LAST:event_BotEliminarActionPerformed
+    private void jTextFieldNombreEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreEmpresaActionPerformed
 
-    private void BotEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotEditarMouseClicked
-        editarProveedor();
-    }//GEN-LAST:event_BotEditarMouseClicked
+        jTextFieldNombreEmpresa.setText(""); // Elimina el texto inicial
+        jTextFieldNombreEmpresa.setEditable(false); // Hace que no se pueda editar
+    }//GEN-LAST:event_jTextFieldNombreEmpresaActionPerformed
 
-    private void NContTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NContTxtFActionPerformed
-       
-    }//GEN-LAST:event_NContTxtFActionPerformed
-
-    private void LadaTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LadaTxtFActionPerformed
-       
-    }//GEN-LAST:event_LadaTxtFActionPerformed
+    private void ColTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColTxtFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ColTxtFActionPerformed
 
     private void ExtTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExtTxtFActionPerformed
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_ExtTxtFActionPerformed
 
-    private void CalleTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalleTxtFActionPerformed
-        
-    }//GEN-LAST:event_CalleTxtFActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+       eliminarEmpleado();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void CPTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CPTxtFActionPerformed
-        
-    }//GEN-LAST:event_CPTxtFActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+  Object[] datosProveedor = obtenerDatosProveedor();
+if (datosProveedor == null) {
+    return; // Si hay un error en los datos, no continúa
+}
 
-    private void ExteriorTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExteriorTxtFActionPerformed
-        
-    }//GEN-LAST:event_ExteriorTxtFActionPerformed
+boolean exito = daoProveedor.addProveedor(datosProveedor);
+if (exito) {
+    JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
+    cargarProveedores(); // Recarga la tabla de proveedores
+} else {
+    JOptionPane.showMessageDialog(this, "Error al agregar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+}
 
-    private void ColoniaTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoniaTxtFActionPerformed
-      
-    }//GEN-LAST:event_ColoniaTxtFActionPerformed
-
-    private void InteriorTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InteriorTxtFActionPerformed
-       
-    }//GEN-LAST:event_InteriorTxtFActionPerformed
-
-    private void AlcalMunTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlcalMunTxtFActionPerformed
-        
-    }//GEN-LAST:event_AlcalMunTxtFActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AlcalMun;
     private javax.swing.JTextField AlcalMunTxtF;
-    private javax.swing.JLabel AlcaldiaMun;
-    private javax.swing.JButton BotAgregar;
-    private javax.swing.JButton BotBuscar;
-    private javax.swing.JLabel BotEditar;
-    private javax.swing.JButton BotEliminar;
-    private javax.swing.JLabel BotGuardar;
     private javax.swing.JLabel CALLE;
     private javax.swing.JLabel COLONIA;
     private javax.swing.JLabel CP;
     private javax.swing.JTextField CPTxtF;
     private javax.swing.JTextField CalleTxtF;
-    private javax.swing.JTextField ColoniaTxtF;
+    private javax.swing.JTextField ColTxtF;
     private javax.swing.JLabel Correo;
-    private javax.swing.JTextField CorreoTxtF;
     private javax.swing.JLabel DIRECCIÓN;
+    private javax.swing.JComboBox<String> EDO_BOX;
     private javax.swing.JLabel ESTADO;
     private javax.swing.JLabel EXTERIOR;
-    private javax.swing.JComboBox<String> Est_Box;
     private javax.swing.JTextField ExtTxtF;
     private javax.swing.JLabel Extension;
-    private javax.swing.JTextField ExteriorTxtF;
-    private javax.swing.JLabel FILTRAR;
-    private javax.swing.JTextField FiltrarTxtF;
     private javax.swing.JLabel INTERIOR;
-    private javax.swing.JTextField InteriorTxtF;
+    private javax.swing.JTextField IntTxtF;
     private javax.swing.JLabel Lada;
-    private javax.swing.JTextField LadaTxtF;
-    private javax.swing.JTextField NContTxtF;
-    private javax.swing.JLabel NomContacto;
-    private javax.swing.JLabel Nombre;
-    private javax.swing.JTextField NombreTxtF;
-    private javax.swing.JLabel PROVEEDOR;
-    private javax.swing.JTextField TelTxtF;
+    private javax.swing.JLabel NombreContacto;
+    private javax.swing.JLabel NombreEmpresa;
+    private javax.swing.JLabel TITULO;
     private javax.swing.JLabel Telefono;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JPanel productos;
-    private javax.swing.JTable resultsTable2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldContacto;
+    private javax.swing.JTextField jTextFieldCorreo;
+    private javax.swing.JTextField jTextFieldExtension;
+    private javax.swing.JTextField jTextFieldLada;
+    private javax.swing.JTextField jTextFieldNombreEmpresa;
+    private javax.swing.JTextField jTextFieldTelefono;
+    private javax.swing.JTable resultsTable;
+    private javax.swing.JTextField searchbar;
     // End of variables declaration//GEN-END:variables
 
     public void setLocation(double d) {
