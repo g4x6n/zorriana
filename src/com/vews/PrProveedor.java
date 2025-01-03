@@ -38,7 +38,6 @@ public class PrProveedor extends javax.swing.JPanel {
         productos = new javax.swing.JPanel();
         jLabelFechaVenta = new javax.swing.JLabel();
         jTextFieldFechaVenta = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -63,9 +62,12 @@ public class PrProveedor extends javax.swing.JPanel {
         jTextFieldFechaVenta12 = new javax.swing.JTextField();
         jTextFieldFechaVenta14 = new javax.swing.JTextField();
         jTextFieldFechaVenta15 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         AGREGAR_BOTON = new javax.swing.JButton();
+        DELEGACIÓN = new javax.swing.JLabel();
+        jTextFieldAlcalMun = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTextFieldFechaVenta5 = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         resultsTable2 = new javax.swing.JTable();
         searchbar2 = new javax.swing.JTextField();
@@ -84,12 +86,11 @@ public class PrProveedor extends javax.swing.JPanel {
         productos.setBackground(new java.awt.Color(255, 255, 255));
         productos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         productos.setForeground(new java.awt.Color(204, 204, 204));
+        productos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelFechaVenta.setText("NOMBRE CONTACTO");
-
-        jTextFieldFechaVenta.setText("jTextField1");
-
-        jLabel2.setText("PROVEEDOR");
+        productos.add(jLabelFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
+        productos.add(jTextFieldFechaVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 320, -1));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -98,202 +99,79 @@ public class PrProveedor extends javax.swing.JPanel {
                 jComboBox1ActionPerformed(evt);
             }
         });
+        productos.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 310, 160, -1));
 
         jLabel3.setText("TELEFONO");
+        productos.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 90, 20));
 
         jLabel4.setText("LADA");
+        productos.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, 20));
 
-        jTextFieldFechaVenta2.setText("jTextField1");
+        jTextFieldFechaVenta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFechaVenta2ActionPerformed(evt);
+            }
+        });
+        productos.add(jTextFieldFechaVenta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 320, -1));
 
-        jLabelFechaVenta2.setText("NOMBRE");
+        jLabelFechaVenta2.setText("NOMBRE EMPRESA");
+        productos.add(jLabelFechaVenta2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 20));
 
-        jTextFieldFechaVenta4.setText("jTextField1");
         jTextFieldFechaVenta4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaVenta4ActionPerformed(evt);
             }
         });
+        productos.add(jTextFieldFechaVenta4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 140, -1));
 
-        jLabelFechaVenta3.setText("EXTENCIÓN");
+        jLabelFechaVenta3.setText("EXTENSIÓN");
+        productos.add(jLabelFechaVenta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, 20));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        productos.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 336, 50, 50));
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
         ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jTextFieldFechaVenta8.setText("jTextField1");
-
-        jTextFieldFechaVenta9.setText("jTextField1");
+        productos.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 346, -1, -1));
+        productos.add(jTextFieldFechaVenta8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 99, -1));
+        productos.add(jTextFieldFechaVenta9, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 260, 100, -1));
 
         DIRECCIÓN.setFont(new java.awt.Font("Jost", 0, 12)); // NOI18N
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
+        productos.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 70, 20));
 
         CALLE.setText("CALLE");
+        productos.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, 20));
 
         EXTERIOR.setText("EXTERIOR");
+        productos.add(EXTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, -1, 20));
 
         INTERIOR.setText("INTERIOR");
+        productos.add(INTERIOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, -1, 20));
 
         CP.setText("C.P.");
+        productos.add(CP, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 40, 20));
 
         COLONIA.setText("COLONIA");
+        productos.add(COLONIA, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 416, -1, -1));
 
         COLONIA1.setText("COLONIA");
+        productos.add(COLONIA1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, -1, 20));
 
         ESTADO.setText("ESTADO");
-
-        jTextFieldFechaVenta10.setText("jTextField1");
-
-        jTextFieldFechaVenta11.setText("jTextField1");
-
-        jTextFieldFechaVenta12.setText("jTextField1");
-
-        jTextFieldFechaVenta14.setText("jTextField1");
-
-        jTextFieldFechaVenta15.setText("jTextField1");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout productosLayout = new javax.swing.GroupLayout(productos);
-        productos.setLayout(productosLayout);
-        productosLayout.setHorizontalGroup(
-            productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabelFechaVenta2)
-                .addGap(11, 11, 11)
-                .addComponent(jTextFieldFechaVenta2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel2)
-                .addGap(14, 14, 14)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabelFechaVenta)
-                .addGap(5, 5, 5)
-                .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabel4)
-                .addGap(12, 12, 12)
-                .addComponent(jTextFieldFechaVenta8, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(100, 100, 100)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jTextFieldFechaVenta4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabelFechaVenta3)
-                .addGap(17, 17, 17)
-                .addComponent(jTextFieldFechaVenta11, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(DIRECCIÓN, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(CALLE)
-                .addGap(16, 16, 16)
-                .addComponent(jTextFieldFechaVenta12, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(productosLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jTextFieldFechaVenta10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(CP, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(EXTERIOR)
-                .addGap(9, 9, 9)
-                .addComponent(jTextFieldFechaVenta14, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(COLONIA1)
-                .addGap(8, 8, 8)
-                .addComponent(jTextFieldFechaVenta9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(INTERIOR)
-                .addGap(10, 10, 10)
-                .addComponent(jTextFieldFechaVenta15, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(ESTADO)
-                .addGap(17, 17, 17)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(339, 339, 339)
-                .addComponent(ELIMINAR_BOTON)
-                .addGap(5, 5, 5)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(COLONIA))
-        );
-        productosLayout.setVerticalGroup(
-            productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(productosLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelFechaVenta2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(productosLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldFechaVenta4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(8, 8, 8)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelFechaVenta3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(DIRECCIÓN, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CALLE, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CP, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EXTERIOR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(COLONIA1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(INTERIOR, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldFechaVenta15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ESTADO, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(productosLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(ELIMINAR_BOTON))
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(COLONIA))
-        );
+        productos.add(ESTADO, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 310, -1, 20));
+        productos.add(jTextFieldFechaVenta10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 90, -1));
+        productos.add(jTextFieldFechaVenta11, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 150, 64, -1));
+        productos.add(jTextFieldFechaVenta12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 190, -1));
+        productos.add(jTextFieldFechaVenta14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 100, -1));
+        productos.add(jTextFieldFechaVenta15, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 100, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        productos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 346, 40, 40));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
@@ -303,6 +181,21 @@ public class PrProveedor extends javax.swing.JPanel {
                 AGREGAR_BOTONActionPerformed(evt);
             }
         });
+        productos.add(AGREGAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 346, -1, -1));
+
+        DELEGACIÓN.setText("ALCAL/MUN");
+        productos.add(DELEGACIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
+        productos.add(jTextFieldAlcalMun, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, 110, -1));
+
+        jLabel5.setText("CORREO");
+        productos.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 60, 20));
+
+        jTextFieldFechaVenta5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFechaVenta5ActionPerformed(evt);
+            }
+        });
+        productos.add(jTextFieldFechaVenta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 220, -1));
 
         resultsTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable2.setModel(new javax.swing.table.DefaultTableModel(
@@ -368,40 +261,31 @@ public class PrProveedor extends javax.swing.JPanel {
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(320, 320, 320)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(184, 184, 184)
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AGREGAR_BOTON)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(FILTRO1)
-                        .addGap(14, 14, 14)
-                        .addComponent(searchbar2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(320, 320, 320)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(BUSCAR1))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(FILTRO1)
+                                .addGap(14, 14, 14)
+                                .addComponent(searchbar2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(BUSCAR1))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(6, 6, 6))
         );
         fondoLayout.setVerticalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(AGREGAR_BOTON)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(9, 9, 9)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -471,9 +355,14 @@ public class PrProveedor extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_BUSCAR1ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jTextFieldFechaVenta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVenta2ActionPerformed
+       jTextFieldFechaVenta2.setText("");
+       jTextFieldFechaVenta2.setEditable(false);// Elimina el texto inicial
+    }//GEN-LAST:event_jTextFieldFechaVenta2ActionPerformed
+
+    private void jTextFieldFechaVenta5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVenta5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jTextFieldFechaVenta5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -483,6 +372,7 @@ public class PrProveedor extends javax.swing.JPanel {
     private javax.swing.JLabel COLONIA;
     private javax.swing.JLabel COLONIA1;
     private javax.swing.JLabel CP;
+    private javax.swing.JLabel DELEGACIÓN;
     private javax.swing.JLabel DIRECCIÓN;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel ESTADO;
@@ -492,17 +382,17 @@ public class PrProveedor extends javax.swing.JPanel {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelFechaVenta;
     private javax.swing.JLabel jLabelFechaVenta2;
     private javax.swing.JLabel jLabelFechaVenta3;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextFieldAlcalMun;
     private javax.swing.JTextField jTextFieldFechaVenta;
     private javax.swing.JTextField jTextFieldFechaVenta10;
     private javax.swing.JTextField jTextFieldFechaVenta11;
@@ -511,6 +401,7 @@ public class PrProveedor extends javax.swing.JPanel {
     private javax.swing.JTextField jTextFieldFechaVenta15;
     private javax.swing.JTextField jTextFieldFechaVenta2;
     private javax.swing.JTextField jTextFieldFechaVenta4;
+    private javax.swing.JTextField jTextFieldFechaVenta5;
     private javax.swing.JTextField jTextFieldFechaVenta8;
     private javax.swing.JTextField jTextFieldFechaVenta9;
     private javax.swing.JPanel productos;

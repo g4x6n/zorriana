@@ -144,8 +144,6 @@ public class PrProducto extends javax.swing.JPanel {
 
         jLabelFechaVenta.setText("DESCRIPCIÓN");
 
-        jTextFieldFechaVenta.setText("jTextField1");
-
         jLabel2.setText("PROVEEDOR");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -166,11 +164,13 @@ public class PrProducto extends javax.swing.JPanel {
 
         jLabel4.setText("MARCA");
 
-        jTextFieldFechaVenta1.setText("jTextField1");
-
         jLabelFechaVenta1.setText("ESTANTERIA");
 
-        jTextFieldFechaVenta2.setText("jTextField1");
+        jTextFieldFechaVenta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFechaVenta2ActionPerformed(evt);
+            }
+        });
 
         jLabelFechaVenta2.setText("NOMBRE");
 
@@ -184,10 +184,6 @@ public class PrProducto extends javax.swing.JPanel {
             }
         });
 
-        jTextFieldFechaVenta3.setText("jTextField1");
-
-        jTextFieldFechaVenta4.setText("jTextField1");
-
         jLabelFechaVenta3.setText("SKU");
 
         jLabelFechaVenta4.setText("STOCK");
@@ -197,12 +193,6 @@ public class PrProducto extends javax.swing.JPanel {
         jLabelFechaVenta6.setText("PISO");
 
         jLabelFechaVenta7.setText("ZONA");
-
-        jTextFieldFechaVenta5.setText("jTextField1");
-
-        jTextFieldFechaVenta6.setText("jTextField1");
-
-        jTextFieldFechaVenta7.setText("jTextField1");
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -400,7 +390,7 @@ public class PrProducto extends javax.swing.JPanel {
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, 896, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
@@ -448,6 +438,10 @@ public class PrProducto extends javax.swing.JPanel {
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox4ActionPerformed
+
+    private void jTextFieldFechaVenta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVenta2ActionPerformed
+      jTextFieldFechaVenta2.setText(""); // Elimina el texto inicial
+    }//GEN-LAST:event_jTextFieldFechaVenta2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
