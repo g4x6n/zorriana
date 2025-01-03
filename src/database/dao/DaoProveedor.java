@@ -7,52 +7,6 @@ import java.util.List;
 
 public class DaoProveedor extends Conexion {
 
-    // Generar el ID del empleado
-    private String generarIdEmpleado() {
-        String idEmpleado = "";
-        try {
-            String sql = "SELECT MAX(ID_EMPLEADO) FROM EMPLEADO";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String maxId = rs.getString(1);
-                if (maxId != null) {
-                    int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
-                    idEmpleado = "E" + String.format("%04d", secuencia);
-                } else {
-                    idEmpleado = "E0001"; // Primer ID
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al generar ID del empleado: " + ex.getMessage());
-        }
-        return idEmpleado;
-    }
-
-    // Generar el ID de la dirección
-    private String generarIdDireccion() {
-        String idDireccion = "";
-        try {
-            String sql = "SELECT MAX(ID_DIRECCION) FROM DIRECCION WHERE ID_DIRECCION LIKE 'D%'";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String maxId = rs.getString(1);
-                if (maxId != null) {
-                    int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
-                    idDireccion = "D" + secuencia;
-                } else {
-                    idDireccion = "D80";
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al generar ID de la dirección: " + ex.getMessage());
-        }
-        return idDireccion;
-    }
-
     // Obtener código del estado
     private String obtenerCodigoEstado(String nombreEstado) {
         String codigoEstado = "";
@@ -71,58 +25,67 @@ public class DaoProveedor extends Conexion {
         return codigoEstado;
     }
 
-
-    // Agregar un nuevo empleado
-public boolean addProveedor(Object[] empleado) {
+    public boolean addProveedor(Object[] proveedor) {
     conectar(); // Conectar a la base de datos
-    String idEmpleado = generarIdEmpleado();
-    String idDireccion = generarIdDireccion();
+    String idDireccion = ""; 
+    String idProveedor = "";
 
     try {
-        // Obtener códigos necesarios
-        String codigoEstado = obtenerCodigoEstado((String) empleado[14]); // Estado
-        
+        // Generar ID para la dirección
+        String sqlGenerarIdDireccion = "SELECT 'D'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ID_DIRECCION,2,3)))+1,1),3,'0') FROM DIRECCION";
+        ps = conn.prepareStatement(sqlGenerarIdDireccion);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idDireccion = rs.getString(1);
+        }
+
+        // Generar ID para el proveedor
+        String sqlGenerarIdProveedor = "SELECT 'P'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ID_PROVEEDOR,2,3)))+1,1),3,'0') FROM PROVEEDOR";
+        ps = conn.prepareStatement(sqlGenerarIdProveedor);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idProveedor = rs.getString(1);
+        }
+
+        // Obtener el código de estado
+        String codigoEstado = obtenerCodigoEstado((String) proveedor[12]); // Estado
+
+        // Validar la longitud de EXTERIOR y otros campos
+        String exterior = proveedor[6] != null ? proveedor[6].toString().substring(0, Math.min(proveedor[6].toString().length(), 5)) : null;
+
         // Consulta SQL para insertar dirección
-        String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
-                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, ID_ESTADO, ALCAL_MUN, COLONIA, CP, CALLE, EXTERIOR, INTERIOR) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         ps = conn.prepareStatement(sqlDireccion);
         ps.setString(1, idDireccion);
-        ps.setString(2, (String) empleado[8]);  // Calle
-        ps.setString(3, (String) empleado[9]);  // Exterior
-        ps.setString(4, (String) empleado[10]); // Interior
-        ps.setString(5, (String) empleado[11]); // Colonia
-        ps.setString(6, (String) empleado[12]); // CP
-        ps.setString(7, (String) empleado[13]); // Alcaldía/Municipio
-        ps.setString(8, codigoEstado);         // Código de estado
+        ps.setString(2, codigoEstado); // Código de estado
+        ps.setString(3, (String) proveedor[11]); // Alcaldía/Municipio
+        ps.setString(4, (String) proveedor[10]); // Colonia
+        ps.setString(5, (String) proveedor[9]); // CP
+        ps.setString(6, (String) proveedor[8]); // Calle
+        ps.setString(7, exterior); // Exterior truncado
+        ps.setString(8, (String) proveedor[7]); // Interior (puede ser null)
 
-        // Ejecutar la consulta de inserción de dirección
         int filasDireccion = ps.executeUpdate();
 
-        // Si la dirección se inserta correctamente, proceder con empleado
+        // Si la dirección se inserta correctamente, proceder con el proveedor
         if (filasDireccion > 0) {
-            // Consulta SQL para insertar empleado
-            String sqlEmpleado = "INSERT INTO EMPLEADO (ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, USUARIO_EMPLEADO, " +
-                                 "CONTRASENIA_EMPLEADO, CORREO, ID_PUESTO, SUELDO, ID_DIRECCION) " +
-                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(sqlEmpleado);
-            ps.setString(1, idEmpleado);
-            ps.setString(2, (String) empleado[0]); // Nombre
-            ps.setString(3, (String) empleado[1]); // Apellido Paterno
-            ps.setString(4, (String) empleado[2]); // Apellido Materno
-            ps.setDate(5, Date.valueOf(empleado[3].toString())); // Fecha de Registro
-            ps.setString(6, (String) empleado[4]); // Usuario
-            ps.setString(7, (String) empleado[5]); // Contraseña
-            ps.setString(8, (String) empleado[6]); // Correo
-            ps.setFloat(10, (float) empleado[8]); // Sueldo
-            ps.setString(11, idDireccion);       // ID Dirección
+            // Consulta SQL para insertar proveedor
+            String sqlProveedor = "INSERT INTO PROVEEDOR (ID_PROVEEDOR, NOMBRE_EMPRESA, NOMBRE_CONTACTO, LADA, TELEFONO, CORREO, ID_DIRECCION) " +
+                                  "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(sqlProveedor);
+            ps.setString(1, idProveedor);
+            ps.setString(2, (String) proveedor[0]); // Nombre empresa
+            ps.setString(3, (String) proveedor[1]); // Nombre contacto
+            ps.setInt(4, Integer.parseInt(proveedor[2].toString())); // LADA
+            ps.setInt(5, Integer.parseInt(proveedor[3].toString())); // Teléfono
+            ps.setString(6, (String) proveedor[4]); // Correo
+            ps.setString(7, idDireccion); // ID Dirección
 
-            // Ejecutar la consulta de inserción de empleado
-            int filasEmpleado = ps.executeUpdate();
-            System.out.println("Empleado agregado correctamente. Sueldo enviado: " + empleado[8]);
-            return filasEmpleado > 0;
+            int filasProveedor = ps.executeUpdate();
+            return filasProveedor > 0;
         }
     } catch (SQLException ex) {
-        System.out.println("Error al agregar empleado: " + ex.getMessage());
+        System.out.println("Error al agregar proveedor: " + ex.getMessage());
         ex.printStackTrace();
     } finally {
         desconectar(); // Cerrar la conexión
@@ -130,9 +93,7 @@ public boolean addProveedor(Object[] empleado) {
     return false;
 }
 
-
-
-   public Object[] obtenerProveedorPorId(String idProveedor) {
+    public Object[] obtenerProveedorPorId(String idProveedor) {
     conectar();
     Object[] proveedor = new Object[15]; // Tamaño ajustado según las columnas seleccionadas en la consulta
     try {
@@ -172,8 +133,6 @@ public boolean addProveedor(Object[] empleado) {
     }
     return proveedor;
 }
-
-
 
     // Editar un empleado existente
     public boolean updateEmployee(Object[] empleado) {
@@ -229,9 +188,7 @@ public boolean addProveedor(Object[] empleado) {
     return false;
 }
 
-
-    
-public List<String> obtenerEstados() {
+    public List<String> obtenerEstados() {
     conectar();
     List<String> estados = new ArrayList<>();
     try {
@@ -249,8 +206,7 @@ public List<String> obtenerEstados() {
     return estados;
 }
 
-
-public List<Object[]> buscarProveedor(String filtro) {
+    public List<Object[]> buscarProveedor(String filtro) {
     conectar();
     List<Object[]> proveedores = new ArrayList<>();
     try {
@@ -288,14 +244,13 @@ public List<Object[]> buscarProveedor(String filtro) {
     return proveedores;
 }
 
-
-public String obtenerIdDireccionPorEmpleado(String idEmpleado) {
+    public String obtenerIdDireccionPorEmpleado(String idProveedor) {
     conectar();
     String idDireccion = "";
     try {
-        String sql = "SELECT ID_DIRECCION FROM EMPLEADO WHERE ID_EMPLEADO = ?";
+        String sql = "SELECT ID_DIRECCION FROM EMPLEADO WHERE ID_PROVEEDOR = ?";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, idEmpleado);
+        ps.setString(1, idProveedor);
         rs = ps.executeQuery();
         if (rs.next()) {
             idDireccion = rs.getString("ID_DIRECCION");
@@ -307,7 +262,6 @@ public String obtenerIdDireccionPorEmpleado(String idEmpleado) {
     }
     return idDireccion;
 }
-
 
     // Eliminar empleado
     public boolean deleteEmployee(String idEmpleado, String idDireccion) {
@@ -333,7 +287,6 @@ public String obtenerIdDireccionPorEmpleado(String idEmpleado) {
     }
     return false;
 }
-
 
     // Listar empleados con dirección concatenada
     public List<Object[]> listProveedores() {

@@ -253,68 +253,68 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta2" min="-2" max="-2" attributes="0"/>
+                          <Component id="Nombre" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="11" pref="11" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta2" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="NomTxtF" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="PROVEEDOR" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="14" pref="14" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="Prov_Box" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta" min="-2" max="-2" attributes="0"/>
+                          <Component id="DESCRIPCION" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta" min="-2" pref="370" max="-2" attributes="0"/>
+                          <Component id="DescTxtF" min="-2" pref="370" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <Component id="MARCA" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="8" pref="8" max="-2" attributes="0"/>
-                          <Component id="jComboBox3" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="Marca_Box" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="EdoProducto" min="-2" pref="140" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Component id="jComboBox2" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="EdoProd_Box" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabel5" min="-2" pref="70" max="-2" attributes="0"/>
+                          <Component id="Categoria" min="-2" pref="70" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Component id="jComboBox4" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="CatTxtF" min="-2" pref="140" max="-2" attributes="0"/>
                           <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta3" min="-2" max="-2" attributes="0"/>
+                          <Component id="SKU" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta4" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="SKUTxtF" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta4" min="-2" max="-2" attributes="0"/>
+                          <Component id="Stock" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="14" pref="14" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta5" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="StockTxtF" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace min="110" pref="110" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta5" min="-2" max="-2" attributes="0"/>
+                          <Component id="Precio" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta3" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="PrecioTxtF" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta6" min="-2" max="-2" attributes="0"/>
+                          <Component id="Piso" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta6" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="PisoTxtF" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta7" min="-2" max="-2" attributes="0"/>
+                          <Component id="Zona" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta7" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="ZonaTxtF" min="-2" pref="100" max="-2" attributes="0"/>
                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                          <Component id="jLabelFechaVenta1" min="-2" max="-2" attributes="0"/>
+                          <Component id="Estantería" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
-                          <Component id="jTextFieldFechaVenta1" min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="EstantTxtF" min="-2" pref="80" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="369" pref="369" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel6" min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="GuardarBot" min="-2" pref="50" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
                                   <Component id="ELIMINAR_BOTON" min="-2" max="-2" attributes="0"/>
@@ -328,49 +328,49 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelFechaVenta2" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel2" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                              <Component id="Nombre" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="NomTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="PROVEEDOR" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="Prov_Box" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelFechaVenta" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta" min="-2" max="-2" attributes="0"/>
+                              <Component id="DESCRIPCION" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="DescTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel4" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jComboBox3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel3" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                              <Component id="MARCA" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="Marca_Box" min="-2" max="-2" attributes="0"/>
+                              <Component id="EdoProducto" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="EdoProd_Box" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel5" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jComboBox4" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelFechaVenta3" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta4" min="-2" max="-2" attributes="0"/>
+                              <Component id="Categoria" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="CatTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="SKU" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="SKUTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelFechaVenta4" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta5" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelFechaVenta5" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta3" min="-2" max="-2" attributes="0"/>
+                              <Component id="Stock" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="StockTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="Precio" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="PrecioTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelFechaVenta6" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta6" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelFechaVenta7" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta7" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabelFechaVenta1" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="jTextFieldFechaVenta1" min="-2" max="-2" attributes="0"/>
+                              <Component id="Piso" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="PisoTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="Zona" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="ZonaTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="Estantería" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="EstantTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="58" pref="58" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel6" min="-2" pref="50" max="-2" attributes="0"/>
+                              <Component id="GuardarBot" min="-2" pref="50" max="-2" attributes="0"/>
                               <Component id="ELIMINAR_BOTON" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -378,108 +378,22 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="DESCRIPCI&#xd3;N"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel2">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="PROVEEDOR"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox1">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Hand Cursor"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
-                  </Events>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel3">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="ESTADO DEL PRODUCTO"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox2">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Hand Cursor"/>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox3">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
-                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Hand Cursor"/>
-                    </Property>
-                  </Properties>
-                  <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                  </AuxValues>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabel4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="MARCA"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta1">
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="ESTANTERIA"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta2">
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldFechaVenta2ActionPerformed"/>
-                  </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta2">
+                <Component class="javax.swing.JLabel" name="Nombre">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="NOMBRE"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel5">
+                <Component class="javax.swing.JTextField" name="NomTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="NomTxtFActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="PROVEEDOR">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CATEGORIA"/>
+                    <Property name="text" type="java.lang.String" value="PROVEEDOR"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox4">
+                <Component class="javax.swing.JComboBox" name="Prov_Box">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -494,48 +408,161 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox4ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Prov_BoxActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta3">
+                <Component class="javax.swing.JLabel" name="DESCRIPCION">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="DESCRIPCI&#xd3;N"/>
+                  </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta4">
+                <Component class="javax.swing.JTextField" name="DescTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DescTxtFActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta3">
+                <Component class="javax.swing.JLabel" name="MARCA">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="MARCA"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="Marca_Box">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Marca_BoxActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="EdoProducto">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="ESTADO DEL PRODUCTO"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="EdoProd_Box">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EdoProd_BoxActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="Categoria">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="CATEGORIA"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="CatTxtF">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CatTxtFActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="SKU">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="SKU"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta4">
+                <Component class="javax.swing.JTextField" name="SKUTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SKUTxtFActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="Stock">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="STOCK"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta5">
+                <Component class="javax.swing.JTextField" name="StockTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="StockTxtFActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="Precio">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="PRECIO"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta6">
+                <Component class="javax.swing.JTextField" name="PrecioTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PrecioTxtFActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="Piso">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="PISO"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabelFechaVenta7">
+                <Component class="javax.swing.JTextField" name="PisoTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PisoTxtFActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="Zona">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="ZONA"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta5">
+                <Component class="javax.swing.JTextField" name="ZonaTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ZonaTxtFActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta6">
+                <Component class="javax.swing.JLabel" name="Estanter&#xed;a">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="ESTANTERIA"/>
+                  </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextFieldFechaVenta7">
+                <Component class="javax.swing.JTextField" name="EstantTxtF">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EstantTxtFActionPerformed"/>
+                  </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel6">
+                <Component class="javax.swing.JLabel" name="GuardarBot">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/guardar.png"/>
@@ -588,6 +615,9 @@
                   <Color id="Hand Cursor"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel11MouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

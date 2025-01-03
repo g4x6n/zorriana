@@ -6,17 +6,79 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-/**
- * Clase DAO para manejar las operaciones relacionadas con los productos en la base de datos.
- */
 public class DaoProducto extends Conexion {
 
-    /**
-     * Genera un ID único para un nuevo producto.
-     * 
-     * @return El ID generado.
-     */
+    
+    private String obtenerCodigoProveedor(String nombreProveedor) {
+        String codigoProveedor = "";
+        try {
+            String sql = "SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE UPPER(NOMBRE_EMPRESA) = UPPER(?)";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nombreProveedor);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                codigoProveedor = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener código del proveedor: " + ex.getMessage());
+        }
+        return codigoProveedor;
+    }
+    
+     private String obtenerCodigoMarca(String nombreMarca) {
+        String codigoMarca = "";
+        try {
+            String sql = "SELECT ID_MARCA FROM MARCA WHERE UPPER(NOMBRE_MARCA) = UPPER(?)";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nombreMarca);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                codigoMarca = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener código del proveedor: " + ex.getMessage());
+        }
+        return codigoMarca;
+    }
+    
+    public List<String> obtenerProveedor() {
+    conectar();
+    List<String> proveedores = new ArrayList<>();
+    try {
+        String sql = "SELECT NOMBRE_EMPRESA FROM PROVEEDOR";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            proveedores.add(rs.getString("NOMBRE_EMPRESA")); // Agrega el nombre del proveedor a la lista
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener proveedores: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return proveedores;
+}
+    
+    public List<String> obtenerMarca() {
+    conectar();
+    List<String> marcas = new ArrayList<>();
+    try {
+        String sql = "SELECT NOMBRE_MARCA FROM MARCA";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            marcas.add(rs.getString("NOMBRE_MARCA")); // Agrega el nombre de la marca a la lista
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener marcas: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return marcas;
+}
+    
     private String generarIdProducto() {
         String idProducto = "";
         try {
@@ -42,12 +104,6 @@ public class DaoProducto extends Conexion {
         return idProducto;
     }
 
-    /**
-     * Agrega un nuevo producto a la base de datos.
-     * 
-     * @param producto Arreglo con los datos del producto.
-     * @return `true` si el producto fue agregado correctamente, `false` de lo contrario.
-     */
     public boolean agregarProducto(Object[] producto) {
         conectar();
         String idProducto = generarIdProducto(); // Generar un nuevo ID para el producto
@@ -79,12 +135,6 @@ public class DaoProducto extends Conexion {
         return false;
     }
 
-    /**
-     * Busca productos en la base de datos por nombre o marca.
-     * 
-     * @param filtro Texto para buscar coincidencias.
-     * @return Lista de productos que coinciden con el filtro.
-     */
     public List<Object[]> buscarProductos(String filtro) {
         conectar();
         List<Object[]> productos = new ArrayList<>();
@@ -115,11 +165,6 @@ public class DaoProducto extends Conexion {
         return productos;
     }
 
-    /**
-     * Lista todos los productos en la base de datos.
-     * 
-     * @return Lista con los productos.
-     */
     public List<Object[]> listarProductos() {
         conectar();
         List<Object[]> productos = new ArrayList<>();
@@ -148,12 +193,6 @@ public class DaoProducto extends Conexion {
         return productos;
     }
 
-    /**
-     * Elimina un producto de la base de datos.
-     * 
-     * @param idProducto ID del producto a eliminar.
-     * @return `true` si el producto fue eliminado correctamente, `false` de lo contrario.
-     */
     public boolean eliminarProducto(String idProducto) {
         conectar();
         try {

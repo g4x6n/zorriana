@@ -32,7 +32,7 @@ public class PrProveedor extends javax.swing.JPanel {
         }
     }
 
-      private void cargarProveedores() {
+    private void cargarProveedores() {
     try {
         // Obtiene los empleados desde el DAO
         List<Object[]> proveedores = daoProveedor.listProveedores();
@@ -451,7 +451,7 @@ public class PrProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-agregarEmpleado();        
+    agregarEmpleado();        
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
