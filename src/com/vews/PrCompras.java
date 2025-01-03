@@ -58,14 +58,19 @@ public class PrCompras extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setPreferredSize(new java.awt.Dimension(1040, 560));
+        bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         searchbar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbar1ActionPerformed(evt);
             }
         });
+        fondo.add(searchbar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 246, 280, -1));
 
         FILTRO.setText("FILTRAR:");
+        fondo.add(FILTRO, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 246, -1, 20));
 
         resultsTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         resultsTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -108,6 +113,8 @@ public class PrCompras extends javax.swing.JPanel {
         jScrollPane2.setViewportView(resultsTable1);
         resultsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
+        fondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 276, 880, 240));
+
         BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         BUSCAR.setBorder(null);
         BUSCAR.setBorderPainted(false);
@@ -117,9 +124,11 @@ public class PrCompras extends javax.swing.JPanel {
                 BUSCARActionPerformed(evt);
             }
         });
+        fondo.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 236, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel9.setText("COMPRAS");
+        fondo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 250, 60));
 
         AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
         AGREGAR_BOTON.setContentAreaFilled(false);
@@ -129,10 +138,12 @@ public class PrCompras extends javax.swing.JPanel {
                 AGREGAR_BOTONActionPerformed(evt);
             }
         });
+        fondo.add(AGREGAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 226, -1, -1));
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
         ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fondo.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 226, -1, -1));
 
         compras.setBackground(new java.awt.Color(255, 255, 255));
         compras.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -191,7 +202,7 @@ public class PrCompras extends javax.swing.JPanel {
                         .addComponent(jLabelFechaVenta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,11 +226,11 @@ public class PrCompras extends javax.swing.JPanel {
                         .addComponent(jTextFieldFechaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(comprasLayout.createSequentialGroup()
                         .addGap(4, 4, 4)
-                        .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
+                        .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)))
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(comprasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,69 +242,9 @@ public class PrCompras extends javax.swing.JPanel {
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
 
-        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
-        fondo.setLayout(fondoLayout);
-        fondoLayout.setHorizontalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(330, 330, 330)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(AGREGAR_BOTON)
-                .addGap(9, 9, 9)
-                .addComponent(ELIMINAR_BOTON)
-                .addGap(335, 335, 335)
-                .addComponent(FILTRO)
-                .addGap(4, 4, 4)
-                .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(BUSCAR))
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(compras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        fondoLayout.setVerticalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(compras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AGREGAR_BOTON)
-                    .addComponent(ELIMINAR_BOTON)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(FILTRO, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(BUSCAR)))
-                .addGap(7, 7, 7)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        fondo.add(compras, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 110, 880, -1));
 
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 910, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -79,9 +79,13 @@ public class PrProveedor extends javax.swing.JPanel {
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setPreferredSize(new java.awt.Dimension(1040, 560));
+        bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel9.setText("PROVEEDOR");
+        fondo.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 306, 60));
 
         productos.setBackground(new java.awt.Color(255, 255, 255));
         productos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -197,6 +201,8 @@ public class PrProveedor extends javax.swing.JPanel {
         });
         productos.add(jTextFieldFechaVenta5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 220, -1));
 
+        fondo.add(productos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 410));
+
         resultsTable2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -238,13 +244,17 @@ public class PrProveedor extends javax.swing.JPanel {
         jScrollPane3.setViewportView(resultsTable2);
         resultsTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
+        fondo.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(489, 130, 410, 380));
+
         searchbar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbar2ActionPerformed(evt);
             }
         });
+        fondo.add(searchbar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(569, 100, 280, -1));
 
         FILTRO1.setText("FILTRAR:");
+        fondo.add(FILTRO1, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 100, -1, 20));
 
         BUSCAR1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         BUSCAR1.setBorder(null);
@@ -255,67 +265,9 @@ public class PrProveedor extends javax.swing.JPanel {
                 BUSCAR1ActionPerformed(evt);
             }
         });
+        fondo.add(BUSCAR1, new org.netbeans.lib.awtextra.AbsoluteConstraints(859, 90, -1, -1));
 
-        javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
-        fondo.setLayout(fondoLayout);
-        fondoLayout.setHorizontalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(320, 320, 320)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(fondoLayout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(FILTRO1)
-                                .addGap(14, 14, 14)
-                                .addComponent(searchbar2, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(BUSCAR1))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(6, 6, 6))
-        );
-        fondoLayout.setVerticalGroup(
-            fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(fondoLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BUSCAR1)
-                            .addGroup(fondoLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(FILTRO1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(searchbar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(7, 7, 7)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
-
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 910, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
