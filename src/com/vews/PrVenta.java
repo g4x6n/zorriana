@@ -61,8 +61,7 @@ public class PrVenta extends javax.swing.JPanel {
         jTable3 = new javax.swing.JTable();
         jButtonEliminar = new javax.swing.JButton();
         jButtonEditarVenta = new javax.swing.JButton();
-        jButtonGuardar1 = new javax.swing.JButton();
-        jButtonGuardar2 = new javax.swing.JButton();
+        guardado = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,29 +254,19 @@ public class PrVenta extends javax.swing.JPanel {
         });
         fondo.add(jButtonEditarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, -1, -1));
 
-        jButtonGuardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        jButtonGuardar1.setContentAreaFilled(false);
-        jButtonGuardar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonGuardar1.addActionListener(new java.awt.event.ActionListener() {
+        guardado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        guardado.setContentAreaFilled(false);
+        guardado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        guardado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardar1ActionPerformed(evt);
+                guardadoActionPerformed(evt);
             }
         });
-        fondo.add(jButtonGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
-
-        jButtonGuardar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
-        jButtonGuardar2.setContentAreaFilled(false);
-        jButtonGuardar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonGuardar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardar2ActionPerformed(evt);
-            }
-        });
-        fondo.add(jButtonGuardar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, -1, -1));
+        fondo.add(guardado, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, -1, -1));
+        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 100, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -346,21 +335,16 @@ public class PrVenta extends javax.swing.JPanel {
         }/**/
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 
-    private void jButtonGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardar1ActionPerformed
+    private void guardadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonGuardar1ActionPerformed
-
-    private void jButtonGuardar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardar2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonGuardar2ActionPerformed
+    }//GEN-LAST:event_guardadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel fondo;
+    private javax.swing.JButton guardado;
     private javax.swing.JButton jButtonEditarVenta;
     private javax.swing.JButton jButtonEliminar;
-    private javax.swing.JButton jButtonGuardar1;
-    private javax.swing.JButton jButtonGuardar2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
