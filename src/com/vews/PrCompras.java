@@ -38,7 +38,6 @@ public class PrCompras extends javax.swing.JPanel {
         FILTRO = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultsTable1 = new javax.swing.JTable();
-        BUSCAR = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         AGREGAR_BOTON = new javax.swing.JButton();
         ELIMINAR_BOTON = new javax.swing.JButton();
@@ -52,6 +51,7 @@ public class PrCompras extends javax.swing.JPanel {
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         EDITAR_BOTON = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -114,17 +114,6 @@ public class PrCompras extends javax.swing.JPanel {
         resultsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         fondo.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 276, 880, 240));
-
-        BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        BUSCAR.setBorder(null);
-        BUSCAR.setBorderPainted(false);
-        BUSCAR.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BUSCAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BUSCARActionPerformed(evt);
-            }
-        });
-        fondo.add(BUSCAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 236, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel9.setText("COMPRAS");
@@ -244,6 +233,10 @@ public class PrCompras extends javax.swing.JPanel {
 
         fondo.add(compras, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 110, 880, -1));
 
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 230, -1, 40));
+
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 910, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -268,10 +261,6 @@ public class PrCompras extends javax.swing.JPanel {
 
     }//GEN-LAST:event_resultsTable1MouseClicked
 
-    private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
-    
-    }//GEN-LAST:event_BUSCARActionPerformed
-
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
@@ -291,7 +280,6 @@ public class PrCompras extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
-    private javax.swing.JButton BUSCAR;
     private javax.swing.JButton EDITAR_BOTON;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel FILTRO;
@@ -301,6 +289,7 @@ public class PrCompras extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

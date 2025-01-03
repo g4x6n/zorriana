@@ -38,7 +38,6 @@ public class PrProducto extends javax.swing.JPanel {
         FILTRO = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultsTable1 = new javax.swing.JTable();
-        BUSCAR = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         productos = new javax.swing.JPanel();
         jLabelFechaVenta = new javax.swing.JLabel();
@@ -69,6 +68,7 @@ public class PrProducto extends javax.swing.JPanel {
         ELIMINAR_BOTON = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         AGREGAR_BOTON = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -124,16 +124,6 @@ public class PrProducto extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(resultsTable1);
         resultsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-
-        BUSCAR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        BUSCAR.setBorder(null);
-        BUSCAR.setBorderPainted(false);
-        BUSCAR.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BUSCAR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BUSCARActionPerformed(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Jost", 0, 48)); // NOI18N
         jLabel9.setText("PRODUCTO");
@@ -323,17 +313,15 @@ public class PrProducto extends javax.swing.JPanel {
             }
         });
 
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout fondoLayout = new javax.swing.GroupLayout(fondo);
         fondo.setLayout(fondoLayout);
         fondoLayout.setHorizontalGroup(
             fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fondoLayout.createSequentialGroup()
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(320, 320, 320)
-                        .addComponent(jLabel9)
-                        .addGap(251, 251, 251)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,12 +332,20 @@ public class PrProducto extends javax.swing.JPanel {
                                 .addComponent(FILTRO)
                                 .addGap(4, 4, 4)
                                 .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(BUSCAR))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel11))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(AGREGAR_BOTON)))
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addGap(320, 320, 320)
+                                .addComponent(jLabel9))
+                            .addGroup(fondoLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(AGREGAR_BOTON)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fondoLayout.setVerticalGroup(
@@ -358,25 +354,24 @@ public class PrProducto extends javax.swing.JPanel {
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoLayout.createSequentialGroup()
                                 .addGap(20, 20, 20)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(10, 10, 10)
-                        .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(fondoLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
                                 .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(fondoLayout.createSequentialGroup()
                                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BUSCAR)
                                     .addGroup(fondoLayout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
+                                        .addGap(20, 20, 20)
                                         .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(FILTRO, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(17, 17, 17)
+                                            .addComponent(searchbar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(fondoLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel11)))
+                                .addGap(18, 18, 18)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
@@ -423,10 +418,6 @@ public class PrProducto extends javax.swing.JPanel {
 
     }//GEN-LAST:event_resultsTable1MouseClicked
 
-    private void BUSCARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCARActionPerformed
-
-    }//GEN-LAST:event_BUSCARActionPerformed
-
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
@@ -446,7 +437,6 @@ public class PrProducto extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
-    private javax.swing.JButton BUSCAR;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel FILTRO;
     private javax.swing.JPanel bg;
@@ -456,6 +446,7 @@ public class PrProducto extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

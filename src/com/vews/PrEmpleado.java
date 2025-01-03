@@ -261,7 +261,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         DIRECCIÓN.setFont(new java.awt.Font("Jost", 1, 12)); // NOI18N
         DIRECCIÓN.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         DIRECCIÓN.setText("DIRECCIÓN");
-        fondo.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 336, 80, -1));
+        fondo.add(DIRECCIÓN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 80, -1));
 
         CALLE.setText("CALLE");
         fondo.add(CALLE, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 366, 40, -1));
@@ -307,7 +307,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         fondo.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 482, 150, -1));
 
         Nombre.setText("NOMBRE");
-        fondo.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        fondo.add(Nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 20));
 
         jTextFieldNombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jTextFieldNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -316,20 +316,20 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldNombreActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 350, -1));
+        fondo.add(jTextFieldNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 120, 360, -1));
 
         ApPat.setText("APELLIDO PATERNO");
-        fondo.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 158, -1, 20));
+        fondo.add(ApPat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
 
         jTextFieldApPaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(385, 161, 80, -1));
+        fondo.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 290, -1));
 
         ApMat.setText("APELLIDO MATERNO");
-        fondo.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(247, 161, -1, 20));
+        fondo.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, 20));
 
         jTextFieldApMaterno.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextFieldApMaterno.addActionListener(new java.awt.event.ActionListener() {
@@ -337,64 +337,69 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(157, 161, 90, -1));
+        fondo.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, -1));
 
         FechaReg.setText("FECHA DE REGISTRO");
-        fondo.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 204, -1, -1));
+        fondo.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
 
         jTextFieldFechaReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 204, 120, -1));
+        fondo.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 140, -1));
 
         Puesto.setText("PUESTO");
-        fondo.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 204, -1, -1));
+        fondo.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, 20));
 
         PuestoCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         PuestoCB.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        fondo.add(PuestoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 204, 110, -1));
+        PuestoCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PuestoCBActionPerformed(evt);
+            }
+        });
+        fondo.add(PuestoCB, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, 80, -1));
 
         Correo.setText("CORREO");
-        fondo.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 303, -1, -1));
+        fondo.add(Correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, -1, 20));
 
         jTextFieldCorreo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldCorreoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(87, 303, 350, -1));
+        fondo.add(jTextFieldCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 310, 350, -1));
 
         Salario.setText("SALARIO");
-        fondo.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 237, -1, -1));
+        fondo.add(Salario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, 20));
 
         SalTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SalTxtFActionPerformed(evt);
             }
         });
-        fondo.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(76, 237, 180, -1));
+        fondo.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 80, -1));
 
         Usuario.setText("USUARIO");
-        fondo.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(266, 237, -1, -1));
+        fondo.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, 20));
 
         UserTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserTxtFActionPerformed(evt);
             }
         });
-        fondo.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 237, 110, -1));
+        fondo.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 280, 130, -1));
 
         Contraseña.setText("CONTRASEÑA");
-        fondo.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, -1, -1));
+        fondo.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
 
         PswTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PswTxtFActionPerformed(evt);
             }
         });
-        fondo.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 270, 120, -1));
+        fondo.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 120, -1));
 
         resultsTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -459,7 +464,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(818, 161, 80, -1));
+        fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 160, 60, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
         jButton3.setContentAreaFilled(false);
@@ -501,7 +506,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         });
         fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
 
-        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 530));
+        bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
         add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 570));
 
@@ -661,6 +666,10 @@ agregarEmpleado();
         JOptionPane.showMessageDialog(this, "Error al agregar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void PuestoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PuestoCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PuestoCBActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

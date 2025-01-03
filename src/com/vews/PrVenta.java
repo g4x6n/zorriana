@@ -63,6 +63,7 @@ public class PrVenta extends javax.swing.JPanel {
         jButtonEditarVenta = new javax.swing.JButton();
         jButtonGuardar1 = new javax.swing.JButton();
         jButtonGuardar2 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -210,10 +211,10 @@ public class PrVenta extends javax.swing.JPanel {
                 jTextField3ActionPerformed(evt);
             }
         });
-        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 230, -1));
+        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 230, -1));
 
         jLabel10.setText("FILTRAR:");
-        fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 20));
+        fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, -1, 20));
 
         jTable3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -262,7 +263,7 @@ public class PrVenta extends javax.swing.JPanel {
                 jButtonGuardar1ActionPerformed(evt);
             }
         });
-        fondo.add(jButtonGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 100, -1, -1));
+        fondo.add(jButtonGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
 
         jButtonGuardar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
         jButtonGuardar2.setContentAreaFilled(false);
@@ -273,6 +274,10 @@ public class PrVenta extends javax.swing.JPanel {
             }
         });
         fondo.add(jButtonGuardar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, -1, -1));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -362,6 +367,7 @@ public class PrVenta extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

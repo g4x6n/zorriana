@@ -72,7 +72,7 @@ public class PrProveedor extends javax.swing.JPanel {
         resultsTable2 = new javax.swing.JTable();
         searchbar2 = new javax.swing.JTextField();
         FILTRO1 = new javax.swing.JLabel();
-        BUSCAR1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -256,16 +256,9 @@ public class PrProveedor extends javax.swing.JPanel {
         FILTRO1.setText("FILTRAR:");
         fondo.add(FILTRO1, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 100, -1, 20));
 
-        BUSCAR1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        BUSCAR1.setBorder(null);
-        BUSCAR1.setBorderPainted(false);
-        BUSCAR1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BUSCAR1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BUSCAR1ActionPerformed(evt);
-            }
-        });
-        fondo.add(BUSCAR1, new org.netbeans.lib.awtextra.AbsoluteConstraints(859, 90, -1, -1));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 90, -1, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 19, 910, 530));
 
@@ -303,10 +296,6 @@ public class PrProveedor extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchbar2ActionPerformed
 
-    private void BUSCAR1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSCAR1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BUSCAR1ActionPerformed
-
     private void jTextFieldFechaVenta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaVenta2ActionPerformed
        jTextFieldFechaVenta2.setText("");
        jTextFieldFechaVenta2.setEditable(false);// Elimina el texto inicial
@@ -319,7 +308,6 @@ public class PrProveedor extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
-    private javax.swing.JButton BUSCAR1;
     private javax.swing.JLabel CALLE;
     private javax.swing.JLabel COLONIA;
     private javax.swing.JLabel COLONIA1;
@@ -335,6 +323,7 @@ public class PrProveedor extends javax.swing.JPanel {
     private javax.swing.JPanel fondo;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
