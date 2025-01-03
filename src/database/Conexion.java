@@ -24,31 +24,35 @@ public class Conexion {
     public CallableStatement cstmt;
     
     // Conecta a la base de datos del sistema y la crea
-    public void conectar (){
-        // Lee los controladores
-        loadDriver();
-        conn = null;
-        // Lista de sentencias
-        statements = new ArrayList();
-        try{
-            // Propiedades de la conexión
-            Properties props = new Properties();
-            props.put("user", ConfigDataBase.JDBC_USER);
-            props.put("password", ConfigDataBase.JDBC_PSW);
-            
-            // Obtiene la conexión
-            conn = DriverManager.getConnection(ConfigDataBase.JDBC_PROTOCOL, props);
-            conn.setAutoCommit(true);
-            // Crea la sentencia
-            s = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            statements.add(s);
-        }
-        catch (SQLException sqle){
-            System.out.println(ConfigDataBase.DB_T_ERROR +  sqle.getSQLState() + 
-                    ConfigDataBase.DB_NOCONECT);
-            s = null;
+    public void conectar() {
+    if (conn != null) {
+        try {
+            if (!conn.isClosed()) {
+                return; // Si la conexión está activa, no hacer nada
+            }
+        } catch (SQLException e) {
+            System.out.println("Error verificando la conexión: " + e.getMessage());
         }
     }
+
+    // Crear nueva conexión si está cerrada o nula
+    try {
+        Properties props = new Properties();
+        props.put("user", ConfigDataBase.JDBC_USER);
+        props.put("password", ConfigDataBase.JDBC_PSW);
+        conn = DriverManager.getConnection(ConfigDataBase.JDBC_PROTOCOL, props);
+        conn.setAutoCommit(true);
+        statements = new ArrayList<>();
+        s = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        statements.add(s);
+    } catch (SQLException sqle) {
+        System.out.println(ConfigDataBase.DB_T_ERROR + sqle.getSQLState() + ConfigDataBase.DB_NOCONECT);
+        s = null;
+    }
+}
+
+
+
     
     // Lee los controladores de Oracle
     private void loadDriver(){
@@ -66,19 +70,35 @@ public class Conexion {
         }
     }
     
-    // Desconecta la base de datos
-    public void desconectar (){
-        if (statements != null) 
-            statements.clear();
-        try{
-            if (s != null)
-                s.close();
-            if (conn != null) 
-                conn.close();
+public void desconectar() {
+    try {
+        // Cerrar todas las sentencias si existen
+        if (statements != null) {
+            for (Statement stmt : statements) {
+                if (stmt != null && !stmt.isClosed()) {
+                    stmt.close();
+                }
+            }
+            statements.clear(); // Limpiar la lista después de cerrar
         }
-        catch (SQLException sqle) {
-            System.out.println(ConfigDataBase.DB_T_ERROR + sqle.getSQLState() +
-                    ConfigDataBase.DB_CLOSECON_ERR + " " + sqle.getMessage());
+
+        // Cerrar la sentencia principal si está abierta
+        if (s != null && !s.isClosed()) {
+            s.close();
         }
-    }    
+
+        // Cerrar la conexión si está abierta
+        if (conn != null && !conn.isClosed()) {
+            conn.close();
+            System.out.println("Conexión cerrada correctamente.");
+        }
+    } catch (SQLException sqle) {
+        System.out.println(ConfigDataBase.DB_T_ERROR + sqle.getSQLState() +
+                ConfigDataBase.DB_CLOSECON_ERR + " " + sqle.getMessage());
+        sqle.printStackTrace();
+    }
 }
+}
+
+
+
