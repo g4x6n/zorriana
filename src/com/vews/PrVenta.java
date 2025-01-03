@@ -59,11 +59,10 @@ public class PrVenta extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        jButtonEliminar = new javax.swing.JButton();
+        jButtonEditarVenta = new javax.swing.JButton();
+        jButtonGuardar1 = new javax.swing.JButton();
+        jButtonGuardar2 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,7 +210,7 @@ public class PrVenta extends javax.swing.JPanel {
                 jTextField3ActionPerformed(evt);
             }
         });
-        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 110, 230, -1));
+        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 230, -1));
 
         jLabel10.setText("FILTRAR:");
         fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 110, -1, 20));
@@ -235,20 +234,45 @@ public class PrVenta extends javax.swing.JPanel {
 
         fondo.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 420, 180));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 100, -1, -1));
+        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        jButtonEliminar.setContentAreaFilled(false);
+        jButtonEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarActionPerformed(evt);
+            }
+        });
+        fondo.add(jButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 100, -1, -1));
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        fondo.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 100, -1, -1));
+        jButtonEditarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar venta.png"))); // NOI18N
+        jButtonEditarVenta.setContentAreaFilled(false);
+        jButtonEditarVenta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonEditarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditarVentaActionPerformed(evt);
+            }
+        });
+        fondo.add(jButtonEditarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, -1, -1));
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar venta.png"))); // NOI18N
-        fondo.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, -1));
+        jButtonGuardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
+        jButtonGuardar1.setContentAreaFilled(false);
+        jButtonGuardar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonGuardar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardar1ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButtonGuardar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 100, -1, -1));
 
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
-        fondo.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, -1, -1));
-
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        fondo.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 290, -1, -1));
+        jButtonGuardar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
+        jButtonGuardar2.setContentAreaFilled(false);
+        jButtonGuardar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonGuardar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardar2ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButtonGuardar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 290, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -298,20 +322,46 @@ public class PrVenta extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+//        eliminarEmpleado();
+    }//GEN-LAST:event_jButtonEliminarActionPerformed
+
+    private void jButtonEditarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVentaActionPerformed
+       // Object[] datosEmpleado = obtenerDatosEmpleado();
+       /* if (datosEmpleado == null) {
+            return; // Si hay un error en los datos, no continúa
+        }/*
+
+        boolean exito = daoEmpleado.addEmployee(datosEmpleado);
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
+            cargarEmpleados(); // Recarga la tabla de empleados
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al agregar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }/**/
+    }//GEN-LAST:event_jButtonEditarVentaActionPerformed
+
+    private void jButtonGuardar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGuardar1ActionPerformed
+
+    private void jButtonGuardar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonGuardar2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel fondo;
+    private javax.swing.JButton jButtonEditarVenta;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar1;
+    private javax.swing.JButton jButtonGuardar2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
