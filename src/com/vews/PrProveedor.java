@@ -34,35 +34,36 @@ public class PrProveedor extends javax.swing.JPanel {
 
     private void cargarProveedores() {
     try {
-        // Obtiene los empleados desde el DAO
+        // Obtiene los proveedores desde el DAO
         List<Object[]> proveedores = daoProveedor.listProveedores();
 
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"ID", "Empresa", "Contacto", "Lada", "Telefono","Extensión", "Correo", "Dirección"}, 0
+            new String[]{"ID", "Empresa", "Contacto", "Lada", "Telefono", "Extensión", "Correo", "Dirección"}, 0
         );
 
         // Llena el modelo con los datos
         for (Object[] proveedor : proveedores) {
             model.addRow(new Object[]{
-                proveedor[0], // ID
-                proveedor[1], // Nombre Empresa
-                proveedor[2], // Nombre Contacto
-                proveedor[3], // LADA
-                proveedor[4], // Telefono
-                proveedor[5], // Extension
-                proveedor[6], // Correo
-                proveedor[7]  // Dirección
+                proveedor[0] != null ? proveedor[0] : "N/A",        // ID
+                proveedor[1] != null ? proveedor[1] : "N/A",        // Empresa
+                proveedor[2] != null ? proveedor[2] : "N/A",        // Contacto
+                proveedor[3] != null ? proveedor[3] : "N/A",        // LADA
+                proveedor[4] != null ? proveedor[4] : "N/A", // TELEFONO (Convertido a String)
+                proveedor[5] != null ? proveedor[5] : "N/A",        // Extensión
+                proveedor[6] != null ? proveedor[6] : "N/A",        // Correo
+                proveedor[7] != null ? proveedor[7] : "N/A"         // Dirección
             });
         }
 
         // Asigna el modelo a la tabla
         resultsTable.setModel(model);
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
 
     private void agregarEmpleado() {
         // Método para agregar un empleado

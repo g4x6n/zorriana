@@ -19,6 +19,8 @@ public class PrProducto extends javax.swing.JPanel {
         initComponents();
         cargarProveedores();
         cargarMarcas();
+        cargarEdoProd();
+        cargarCategoria();
     }
     
     private void cargarProveedores() {
@@ -46,6 +48,32 @@ public class PrProducto extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar marcas: " + e.getMessage());
         }
     }
+    
+    private void cargarEdoProd() {
+        // Llenar la lista de marcas en el combo box
+        try {
+            List<String> edoprods = daoProducto.obtenerEdoProd();
+            EdoProd_Box.removeAllItems();
+            for (String edoprod : edoprods) {
+                EdoProd_Box.addItem(edoprod);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar estado de productos: " + e.getMessage());
+        }
+    }
+    
+    private void cargarCategoria() {
+        // Llenar la lista de marcas en el combo box
+        try {
+            List<String> categorias = daoProducto.obtenerCategoria();
+            Cat_Box.removeAllItems();
+            for (String categoria : categorias) {
+                Cat_Box.addItem(categoria);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar categorías: " + e.getMessage());
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -69,7 +97,7 @@ public class PrProducto extends javax.swing.JPanel {
         EdoProducto = new javax.swing.JLabel();
         EdoProd_Box = new javax.swing.JComboBox<>();
         Categoria = new javax.swing.JLabel();
-        CatTxtF = new javax.swing.JComboBox<>();
+        Cat_Box = new javax.swing.JComboBox<>();
         SKU = new javax.swing.JLabel();
         SKUTxtF = new javax.swing.JTextField();
         Stock = new javax.swing.JLabel();
@@ -198,11 +226,11 @@ public class PrProducto extends javax.swing.JPanel {
 
         Categoria.setText("CATEGORIA");
 
-        CatTxtF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        CatTxtF.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        CatTxtF.addActionListener(new java.awt.event.ActionListener() {
+        Cat_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Cat_Box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Cat_Box.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CatTxtFActionPerformed(evt);
+                Cat_BoxActionPerformed(evt);
             }
         });
 
@@ -292,7 +320,7 @@ public class PrProducto extends javax.swing.JPanel {
                 .addGap(9, 9, 9)
                 .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(CatTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Cat_Box, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(SKU)
                 .addGap(19, 19, 19)
@@ -349,7 +377,7 @@ public class PrProducto extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CatTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Cat_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SKU, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SKUTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
@@ -501,9 +529,9 @@ public class PrProducto extends javax.swing.JPanel {
    
     }//GEN-LAST:event_Prov_BoxActionPerformed
 
-    private void CatTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatTxtFActionPerformed
+    private void Cat_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cat_BoxActionPerformed
  
-    }//GEN-LAST:event_CatTxtFActionPerformed
+    }//GEN-LAST:event_Cat_BoxActionPerformed
 
     private void NomTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NomTxtFActionPerformed
     
@@ -552,7 +580,7 @@ public class PrProducto extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
-    private javax.swing.JComboBox<String> CatTxtF;
+    private javax.swing.JComboBox<String> Cat_Box;
     private javax.swing.JLabel Categoria;
     private javax.swing.JLabel DESCRIPCION;
     private javax.swing.JTextField DescTxtF;

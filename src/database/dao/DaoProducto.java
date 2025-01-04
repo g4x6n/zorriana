@@ -79,6 +79,42 @@ public class DaoProducto extends Conexion {
     return marcas;
 }
     
+    public List<String> obtenerEdoProd() {
+    conectar();
+    List<String> edoprods = new ArrayList<>();
+    try {
+        String sql = "SELECT CLASIFICACION FROM ESTADO_PRODUCTO";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            edoprods.add(rs.getString("CLASIFICACION")); // Agrega el nombre del estado del producto a la lista
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener estado del producto: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return edoprods;
+}
+    
+    public List<String> obtenerCategoria() {
+    conectar();
+    List<String> categorias = new ArrayList<>();
+    try {
+        String sql = "SELECT TIPO FROM CATEGORIA";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        while (rs.next()) {
+            categorias.add(rs.getString("TIPO")); // Agrega el nombre de la categoría a la lista
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener categoría: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return categorias;
+}
+    
     private String generarIdProducto() {
         String idProducto = "";
         try {

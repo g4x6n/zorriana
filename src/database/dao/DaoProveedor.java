@@ -293,7 +293,7 @@ public class DaoProveedor extends Conexion {
     conectar();
     List<Object[]> proveedores = new ArrayList<>();
     try {
-        String sql = "SELECT ID_PROVEEDOR, NOMBRE_EMPRESA, NOMBRE_CONTACTO, LADA, TELEFONO, EXTENSION, " +
+        String sql = "SELECT ID_PROVEEDOR, NOMBRE_EMPRESA, NOMBRE_CONTACTO, LPAD(LADA, 3, '0') AS LADA, TO_CHAR(TELEFONO) AS TELEFONO, NVL(EXTENSION, '') AS EXTENSION, " +
                      "CORREO, " +
                      "CALLE || ' ' || NVL(EXTERIOR, '') || ' ' || NVL(INTERIOR, '') || ', ' || COLONIA || ', ' || ALCAL_MUN || ', ' || ESTADO AS DIRECCION " +
                      "FROM PROVEEDOR " +
@@ -304,22 +304,24 @@ public class DaoProveedor extends Conexion {
 
         while (rs.next()) {
             Object[] proveedor = new Object[8];
-            proveedor[0] = rs.getString("ID_PROVEEDOR");  // String
-            proveedor[1] = rs.getString("NOMBRE_EMPRESA");  // String
-            proveedor[2] = rs.getString("NOMBRE_CONTACTO");  // String
-            proveedor[3] = rs.getInt("LADA");  // Número
-            proveedor[4] = rs.getInt("TELEFONO");  // Número
-            proveedor[5] = rs.getInt("EXTENSION");  // Número
-            proveedor[6] = rs.getString("CORREO");  // String
-            proveedor[7] = rs.getString("DIRECCION");  // String
+            proveedor[0] = rs.getString("ID_PROVEEDOR");  // ID (String)
+            proveedor[1] = rs.getString("NOMBRE_EMPRESA").trim();  // Nombre de Empresa (String)
+            proveedor[2] = rs.getString("NOMBRE_CONTACTO").trim();  // Nombre de Contacto (String)
+            proveedor[3] = rs.getString("LADA").trim();  // LADA (String)
+            proveedor[4] = rs.getString("TELEFONO").trim();  // TELEFONO (long para manejar números grandes)
+            proveedor[5] = rs.getObject("EXTENSION") == null ? "N/A" : rs.getInt("EXTENSION");  // Extensión (int)
+            proveedor[6] = rs.getString("CORREO").trim();  // Correo (String)
+            proveedor[7] = rs.getString("DIRECCION").trim();  // Dirección (String)
             proveedores.add(proveedor);
         }
     } catch (SQLException ex) {
         System.out.println("Error al listar proveedores: " + ex.getMessage());
+        ex.printStackTrace();
     } finally {
         desconectar();
     }
     return proveedores;
 }
+
 
 }

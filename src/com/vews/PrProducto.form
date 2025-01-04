@@ -281,7 +281,7 @@
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                           <Component id="Categoria" min="-2" pref="70" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Component id="CatTxtF" min="-2" pref="140" max="-2" attributes="0"/>
+                          <Component id="Cat_Box" min="-2" pref="140" max="-2" attributes="0"/>
                           <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
                           <Component id="SKU" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
@@ -348,7 +348,7 @@
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="Categoria" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="CatTxtF" min="-2" max="-2" attributes="0"/>
+                              <Component id="Cat_Box" min="-2" max="-2" attributes="0"/>
                               <Component id="SKU" min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="SKUTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -481,7 +481,7 @@
                     <Property name="text" type="java.lang.String" value="CATEGORIA"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="CatTxtF">
+                <Component class="javax.swing.JComboBox" name="Cat_Box">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -496,7 +496,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CatTxtFActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Cat_BoxActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
