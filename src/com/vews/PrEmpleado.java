@@ -826,16 +826,18 @@ private void bloquearCampos() {
     }//GEN-LAST:event_jButton6ActionPerformed
 private Object[] datosConfirmados = null;
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       try {
-        // Validar y obtener datos del formulario
+     try {
+        // Obtener datos del formulario
         String nombre = jTextFieldNombre.getText().trim();
         String apPaterno = jTextFieldApPaterno.getText().trim();
         String apMaterno = jTextFieldApMaterno.getText().trim();
         String fechaReg = jTextFieldFechaReg.getText().trim();
-        String usuario = UserTxtF.getText().trim();
-        String contrasena = PswTxtF.getText().trim();
+        String usuarioEmpleado = UserTxtF.getText().trim();
+        String contrasenaEmpleado = PswTxtF.getText().trim();
         String correo = jTextFieldCorreo.getText().trim();
         String puesto = (String) PuestoCB.getSelectedItem();
+        float sueldo = Float.parseFloat(SalTxtF.getText().trim());
+
         String calle = CalleTxtF.getText().trim();
         String exterior = ExtTxtF.getText().trim();
         String interior = IntTxtF.getText().trim();
@@ -844,45 +846,35 @@ private Object[] datosConfirmados = null;
         String alcalMun = AlcalMunTxtF.getText().trim();
         String estado = (String) EDO_BOX.getSelectedItem();
 
-        // Validar y convertir el salario
-        float salario = Float.parseFloat(SalTxtF.getText().trim());
-
-        // Obtener el código del estado
+        // Validar y obtener IDs
         String idEstado = daoEmpleado.obtenerCodigoEstado(estado);
         if (idEstado == null || idEstado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Estado no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Verificar o insertar la dirección
-        String idDireccion = daoEmpleado.obtenerIdDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+        String idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
         if (idDireccion == null) {
-            idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
-            if (idDireccion == null) {
-                JOptionPane.showMessageDialog(this, "Error al insertar la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            JOptionPane.showMessageDialog(this, "Error al insertar la dirección. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        // Obtener el ID del puesto
         String idPuesto = daoEmpleado.insertarPuestoSiNoExiste(puesto);
         if (idPuesto == null) {
-            JOptionPane.showMessageDialog(this, "Error al obtener o insertar el puesto.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al insertar el puesto. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Insertar o actualizar el empleado
-        boolean exito = daoEmpleado.insertarEmpleado(nombre, apPaterno, apMaterno, fechaReg, correo, idDireccion, idPuesto, salario, usuario, contrasena);
-        if (exito) {
+        // Insertar empleado
+        boolean empleadoInsertado = daoEmpleado.insertarEmpleado(nombre, apPaterno, apMaterno, fechaReg, correo, idDireccion, idPuesto, sueldo, usuarioEmpleado, contrasenaEmpleado);
+        if (empleadoInsertado) {
             JOptionPane.showMessageDialog(this, "Empleado guardado correctamente.");
-            cargarEmpleados(); // Actualiza la tabla
+            cargarEmpleados(); // Actualizar la tabla de empleados
         } else {
             JOptionPane.showMessageDialog(this, "Error al guardar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Error en el formato del sueldo. Asegúrate de ingresar un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Formato de sueldo incorrecto. Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error al guardar empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace();

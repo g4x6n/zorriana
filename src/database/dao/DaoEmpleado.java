@@ -12,27 +12,25 @@ import java.util.Locale;
 
 public class DaoEmpleado extends Conexion {
     // Obtener código del estado
-public String obtenerCodigoEstado(String nombreEstado) {
-    conectar(); // Conectar a la base de datos
-    String codigoEstado = "";
-    System.out.println("Valor recibido para buscar estado: " + nombreEstado);
+public String obtenerCodigoEstado(String estado) {
+    conectar();
+    String idEstado = null;
     try {
-        // Consulta para obtener el ID del estado basado en el nombre del estado
-        String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
+        String sql = "SELECT ID_ESTADO FROM ESTADO WHERE ESTADO = ?";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, nombreEstado.trim()); // Elimina espacios adicionales y establece el valor
+        ps.setString(1, estado);
         rs = ps.executeQuery();
-
         if (rs.next()) {
-            codigoEstado = rs.getString(1); // Obtén el ID del estado
+            idEstado = rs.getString("ID_ESTADO");
         }
-    } catch (SQLException ex) {
-        System.out.println("Error al obtener código del estado: " + ex.getMessage());
+    } catch (SQLException e) {
+        System.out.println("Error al obtener código de estado: " + e.getMessage());
     } finally {
-        desconectar(); // Cerrar la conexión después de ejecutar
+        desconectar();
     }
-    return codigoEstado; // Devuelve el código del estado o vacío si no se encontró
+    return idEstado;
 }
+
     // Generar el ID del empleado
     private String generarIdEmpleado() {
         String idEmpleado = "";
@@ -55,46 +53,89 @@ public String obtenerCodigoEstado(String nombreEstado) {
         }
         return idEmpleado;
     }
-    public boolean insertarEmpleado(String nombre, String apPaterno, String apMaterno, String fechaReg, String correo, String idDireccion, String idPuesto, float sueldo, String usuario, String contrasena) {
-    conectar(); // Conectar a la base de datos
+  /* public boolean insertarEmpleado(String nombre, String apPaterno, String apMaterno, String fechaReg, String correo, String idDireccion, String idPuesto, float salario, String usuario, String contrasena) {
+    conectar();
+    boolean exito = false;
     try {
-        // Formatear la fecha de registro al formato esperado por Oracle
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+        // Obtener el ID desde la secuencia
+        String sqlSeq = "SELECT SEQ_ID_EMPLEADO.NEXTVAL FROM DUAL";
+        ps = conn.prepareStatement(sqlSeq);
+        rs = ps.executeQuery();
+        String idEmpleado = null;
+        if (rs.next()) {
+            idEmpleado = rs.getString(1);
+        }
 
-        LocalDateTime fechaRegistro = LocalDate.parse(fechaReg, inputFormatter).atStartOfDay();
-        String fechaFormateada = fechaRegistro.format(outputFormatter).toUpperCase();
-
-        // Consulta SQL para insertar un empleado
-        String sql = "INSERT INTO EMPLEADO (ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, CORREO, ID_DIRECCION, ID_PUESTO, SUELDO, USUARIO_EMPLEADO, CONTRASENIA_EMPLEADO) "
-                   + "VALUES (SEQ_EMPLEADO_ID.NEXTVAL, ?, ?, ?, TO_DATE(?, 'DD-MON-YYYY HH24:MI:SS'), ?, ?, ?, ?, ?, ?)";
-
+        // Insertar el empleado con el ID generado
+        String sql = "INSERT INTO EMPLEADO (ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, CORREO, ID_DIRECCION, ID_PUESTO, SALARIO, USUARIO, CONTRASENIA_EMPLEADO) " +
+                     "VALUES (?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, ?)";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, nombre);        // Nombre
-        ps.setString(2, apPaterno);    // Apellido Paterno
-        ps.setString(3, apMaterno);    // Apellido Materno
-        ps.setString(4, fechaFormateada); // Fecha de Registro (formateada)
-        ps.setString(5, correo);       // Correo
-        ps.setString(6, idDireccion);  // ID de Dirección
-        ps.setString(7, idPuesto);     // ID de Puesto
-        ps.setFloat(8, sueldo);        // Sueldo
-        ps.setString(9, usuario);      // Usuario
-        ps.setString(10, contrasena);  // Contraseña
-
-        // Ejecutar la consulta
-        return ps.executeUpdate() > 0; // Devuelve true si la inserción fue exitosa
-    } catch (SQLException ex) {
-        System.out.println("Error al insertar empleado: " + ex.getMessage());
-        ex.printStackTrace();
-        return false;
-    } catch (DateTimeParseException ex) {
-        System.out.println("Formato de fecha inválido: " + ex.getMessage());
-        ex.printStackTrace();
-        return false;
+        ps.setString(1, idEmpleado);
+        ps.setString(2, nombre);
+        ps.setString(3, apPaterno);
+        ps.setString(4, apMaterno);
+        ps.setString(5, fechaReg);
+        ps.setString(6, correo);
+        ps.setString(7, idDireccion);
+        ps.setString(8, idPuesto);
+        ps.setFloat(9, salario);
+        ps.setString(10, usuario);
+        ps.setString(11, contrasena);
+        exito = ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al insertar empleado: " + e.getMessage());
     } finally {
-        desconectar(); // Cerrar la conexión
+        desconectar();
     }
+    return exito;
+}*/
+public boolean insertarEmpleado(String nombre, String apPaterno, String apMaterno, String fechaReg, String correo, String idDireccion, String idPuesto, float sueldo, String usuarioEmpleado, String contrasenaEmpleado) {
+    conectar();
+    boolean exito = false;
+    try {
+        String sql = "INSERT INTO EMPLEADO (NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, CORREO, ID_DIRECCION, ID_PUESTO, SUELDO, USUARIO_EMPLEADO, CONTRASENIA_EMPLEADO) " +
+                     "VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombre);
+        ps.setString(2, apPaterno);
+        ps.setString(3, apMaterno);
+        ps.setString(4, fechaReg);
+        ps.setString(5, correo);
+        ps.setString(6, idDireccion);
+        ps.setString(7, idPuesto);
+        ps.setFloat(8, sueldo);
+        ps.setString(9, usuarioEmpleado);
+        ps.setString(10, contrasenaEmpleado);
+        exito = ps.executeUpdate() > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al insertar empleado: " + e.getMessage());
+    } finally {
+        desconectar();
+    }
+    return exito;
 }
+
+
+    public boolean validarIdEstado(String idEstado) {
+    conectar();
+    boolean existe = false;
+    try {
+        String sql = "SELECT COUNT(*) FROM ESTADO WHERE ID_ESTADO = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idEstado);
+        rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            existe = true;
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al validar ID_ESTADO: " + e.getMessage());
+    } finally {
+        desconectar();
+    }
+    return existe;
+    
+}
+
 public String obtenerIdPuesto(String nombrePuesto) {
     conectar(); // Conectar a la base de datos
     String idPuesto = null;
