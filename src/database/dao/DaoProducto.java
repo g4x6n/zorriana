@@ -126,7 +126,8 @@ public class DaoProducto extends Conexion {
                      "JOIN CATEGORIA USING (ID_CATEGORIA) " +
                      "JOIN ESTADO_PRODUCTO USING (ID_EDO_PRODUCTO) " +
                      "JOIN PROVEEDOR USING (ID_PROVEEDOR) " +
-                     "JOIN MARCA USING (ID_MARCA)";
+                     "JOIN MARCA USING (ID_MARCA)" +
+                     "ORDER BY NOMBRE";
         ps = conn.prepareStatement(sql);
         rs = ps.executeQuery();
 

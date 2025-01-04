@@ -161,6 +161,7 @@
             <Component class="javax.swing.JTextField" name="searchbar1">
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchbar1ActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchbar1KeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="FILTRO">
@@ -224,6 +225,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="resultsTable1MouseClicked"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="resultsTable1KeyPressed"/>
                   </Events>
                 </Component>
               </SubComponents>

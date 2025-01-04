@@ -8,7 +8,7 @@ import javax.swing.JTable;
 public class PrProveedor extends javax.swing.JPanel {
     
 
-     private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del DAO para manejo de empleados
+private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del DAO para manejo de empleados
  
 
     public static PrProveedor pl;
@@ -76,7 +76,81 @@ public class PrProveedor extends javax.swing.JPanel {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
 
+    private void manejarTablaProveedor() {
+        int filaSeleccionada = resultsTable.getSelectedRow();
+if (filaSeleccionada != -1) {
+    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
 
+    // Llama al DAO para obtener los detalles completos del proveedor
+    Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
+
+    if (proveedor != null) {
+        // Asigna valores a los campos del formulario
+        jTextFieldNombreEmpresa.setText((String) proveedor[1]); // Nombre Empresa
+        jTextFieldContacto.setText((String) proveedor[2]); // Nombre Contacto
+        jTextFieldLada.setText(String.valueOf(proveedor[3])); // LADA
+        jTextFieldTelefono.setText(String.valueOf(proveedor[4])); // Teléfono
+        jTextFieldExtension.setText(String.valueOf(proveedor[5])); // Extensión
+        jTextFieldCorreo.setText((String) proveedor[6]); // Correo
+
+        // Asigna dirección
+        CalleTxtF.setText((String) proveedor[7]); // Calle
+        ExtTxtF.setText((String) proveedor[8]); // Exterior
+        IntTxtF.setText((String) proveedor[9]); // Interior
+        ColTxtF.setText((String) proveedor[10]); // Colonia
+        CPTxtF.setText((String) proveedor[11]); // CP
+        AlcalMunTxtF.setText((String) proveedor[12]); // Alcaldía/Municipio
+        EDO_BOX.setSelectedItem((String) proveedor[13]); // Estado
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    }
+    
+    private void BuscarProveedor() {
+             String filtro = searchbar.getText().trim();
+
+if (filtro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Realiza la búsqueda
+    List<Object[]> resultados = daoProveedor.buscarProveedor(filtro);
+
+    // Configura el modelo de la tabla
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
+    );
+
+    // Llena el modelo con los resultados
+    for (Object[] fila : resultados) {
+        model.addRow(new Object[]{
+            fila[0], // ID del proveedor
+            fila[1], // Nombre de la empresa
+            fila[2], // Contacto
+            fila[3], // LADA
+            fila[4], // Teléfono
+            fila[5], // Extensión
+            fila[6], // Correo
+            fila[7]  // Dirección
+        });
+    }
+
+    resultsTable.setModel(model);
+    configurarColumnasTabla(resultsTable);
+
+    // Muestra un mensaje si no hay resultados
+    if (resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron proveedores con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+
+    }
 
     private void agregarEmpleado() {
         // Método para agregar un empleado
@@ -385,6 +459,11 @@ public class PrProveedor extends javax.swing.JPanel {
                 resultsTableMouseClicked(evt);
             }
         });
+        resultsTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resultsTableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(resultsTable);
         resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -393,6 +472,11 @@ public class PrProveedor extends javax.swing.JPanel {
         searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbarActionPerformed(evt);
+            }
+        });
+        searchbar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchbarKeyPressed(evt);
             }
         });
         fondo.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 171, 230, -1));
@@ -470,48 +554,7 @@ public class PrProveedor extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     String filtro = searchbar.getText().trim();
-
-if (filtro.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    return;
-}
-
-try {
-    // Realiza la búsqueda
-    List<Object[]> resultados = daoProveedor.buscarProveedor(filtro);
-
-    // Configura el modelo de la tabla
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
-    );
-
-    // Llena el modelo con los resultados
-    for (Object[] fila : resultados) {
-        model.addRow(new Object[]{
-            fila[0], // ID del proveedor
-            fila[1], // Nombre de la empresa
-            fila[2], // Contacto
-            fila[3], // LADA
-            fila[4], // Teléfono
-            fila[5], // Extensión
-            fila[6], // Correo
-            fila[7]  // Dirección
-        });
-    }
-
-    resultsTable.setModel(model);
-    configurarColumnasTabla(resultsTable);
-
-    // Muestra un mensaje si no hay resultados
-    if (resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron proveedores con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
-    }
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
-}
-
+        BuscarProveedor();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
@@ -519,34 +562,7 @@ try {
     }//GEN-LAST:event_searchbarActionPerformed
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-   int filaSeleccionada = resultsTable.getSelectedRow();
-if (filaSeleccionada != -1) {
-    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
-
-    // Llama al DAO para obtener los detalles completos del proveedor
-    Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
-
-    if (proveedor != null) {
-        // Asigna valores a los campos del formulario
-        jTextFieldNombreEmpresa.setText((String) proveedor[1]); // Nombre Empresa
-        jTextFieldContacto.setText((String) proveedor[2]); // Nombre Contacto
-        jTextFieldLada.setText(String.valueOf(proveedor[3])); // LADA
-        jTextFieldTelefono.setText(String.valueOf(proveedor[4])); // Teléfono
-        jTextFieldExtension.setText(String.valueOf(proveedor[5])); // Extensión
-        jTextFieldCorreo.setText((String) proveedor[6]); // Correo
-
-        // Asigna dirección
-        CalleTxtF.setText((String) proveedor[7]); // Calle
-        ExtTxtF.setText((String) proveedor[8]); // Exterior
-        IntTxtF.setText((String) proveedor[9]); // Interior
-        ColTxtF.setText((String) proveedor[10]); // Colonia
-        CPTxtF.setText((String) proveedor[11]); // CP
-        AlcalMunTxtF.setText((String) proveedor[12]); // Alcaldía/Municipio
-        EDO_BOX.setSelectedItem((String) proveedor[13]); // Estado
-    } else {
-        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
+   manejarTablaProveedor();
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void jTextFieldExtensionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExtensionActionPerformed
@@ -610,6 +626,20 @@ if (exito) {
 }
 
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        manejarTablaProveedor();
+        evt.consume();
+    }
+    }//GEN-LAST:event_resultsTableKeyPressed
+
+    private void searchbarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        BuscarProveedor();
+        evt.consume();
+    }
+    }//GEN-LAST:event_searchbarKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

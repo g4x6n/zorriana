@@ -199,6 +199,78 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
 }
 
+    private void manejarTablaEmpleado() {
+        int filaSeleccionada = resultsTable.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
+
+        // Llama al DAO para obtener los detalles completos del empleado
+        Object[] empleado = daoEmpleado.obtenerEmpleadoPorId(idEmpleado);
+
+        if (empleado != null) {
+            // Asigna valores a los campos del formulario
+            jTextFieldNombre.setText((String) empleado[1]); // Nombre
+            jTextFieldApPaterno.setText((String) empleado[2]); // Apellido Paterno
+            jTextFieldApMaterno.setText((String) empleado[3]); // Apellido Materno
+            jTextFieldFechaReg.setText(empleado[4] != null ? empleado[4].toString() : ""); // Fecha de Registro
+            UserTxtF.setText((String) empleado[5]); // Usuario
+            PswTxtF.setText((String) empleado[6]); // Contraseña
+            jTextFieldCorreo.setText((String) empleado[7]); // Correo
+            PuestoCB.setSelectedItem((String) empleado[8]); // Puesto
+            SalTxtF.setText(String.valueOf(empleado[9])); // Sueldo
+
+            // Asigna dirección
+            CalleTxtF.setText((String) empleado[10]); // Calle
+            ExtTxtF.setText((String) empleado[11]); // Exterior
+            IntTxtF.setText((String) empleado[12]); // Interior
+            ColTxtF.setText((String) empleado[13]); // Colonia
+            CPTxtF.setText((String) empleado[14]); // CP
+            AlcalMunTxtF.setText((String) empleado[15]); // Alcaldía/Municipio
+            EDO_BOX.setSelectedItem((String) empleado[16]); // Estado
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo cargar la información del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }
+    
+    private void BuscarEmpleado() {
+        String filtro = searchbar.getText().trim();
+
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // Realiza la búsqueda
+        List<Object[]> resultados = daoEmpleado.buscarEmpleado(filtro);
+
+        // Configura el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+        );
+
+        // Llena el modelo con los resultados
+        for (Object[] fila : resultados) {
+            model.addRow(new Object[]{
+                fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
+            });
+        }
+
+        resultsTable.setModel(model);
+        
+        configurarColumnasTabla(resultsTable);
+
+        // Muestra un mensaje si no hay resultados
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron empleados con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+
+    }
       @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -445,6 +517,11 @@ public class PrEmpleado extends javax.swing.JPanel {
                 resultsTableMouseClicked(evt);
             }
         });
+        resultsTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resultsTableKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(resultsTable);
         resultsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -453,6 +530,11 @@ public class PrEmpleado extends javax.swing.JPanel {
         searchbar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchbarActionPerformed(evt);
+            }
+        });
+        searchbar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchbarKeyPressed(evt);
             }
         });
         fondo.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 171, 230, -1));
@@ -586,42 +668,7 @@ private void setFechaActual() {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     String filtro = searchbar.getText().trim();
-
-    if (filtro.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    try {
-        // Realiza la búsqueda
-        List<Object[]> resultados = daoEmpleado.buscarEmpleado(filtro);
-
-        // Configura el modelo de la tabla
-        DefaultTableModel model = new DefaultTableModel(
-            new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-        );
-
-        // Llena el modelo con los resultados
-        for (Object[] fila : resultados) {
-            model.addRow(new Object[]{
-                fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
-            });
-        }
-
-        resultsTable.setModel(model);
-        
-        configurarColumnasTabla(resultsTable);
-
-        // Muestra un mensaje si no hay resultados
-        if (resultados.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontraron empleados con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-
+        BuscarEmpleado();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
@@ -685,37 +732,7 @@ private void bloquearCampos() {
 }
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
-    int filaSeleccionada = resultsTable.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
-
-        // Llama al DAO para obtener los detalles completos del empleado
-        Object[] empleado = daoEmpleado.obtenerEmpleadoPorId(idEmpleado);
-
-        if (empleado != null) {
-            // Asigna valores a los campos del formulario
-            jTextFieldNombre.setText((String) empleado[1]); // Nombre
-            jTextFieldApPaterno.setText((String) empleado[2]); // Apellido Paterno
-            jTextFieldApMaterno.setText((String) empleado[3]); // Apellido Materno
-            jTextFieldFechaReg.setText(empleado[4] != null ? empleado[4].toString() : ""); // Fecha de Registro
-            UserTxtF.setText((String) empleado[5]); // Usuario
-            PswTxtF.setText((String) empleado[6]); // Contraseña
-            jTextFieldCorreo.setText((String) empleado[7]); // Correo
-            PuestoCB.setSelectedItem((String) empleado[8]); // Puesto
-            SalTxtF.setText(String.valueOf(empleado[9])); // Sueldo
-
-            // Asigna dirección
-            CalleTxtF.setText((String) empleado[10]); // Calle
-            ExtTxtF.setText((String) empleado[11]); // Exterior
-            IntTxtF.setText((String) empleado[12]); // Interior
-            ColTxtF.setText((String) empleado[13]); // Colonia
-            CPTxtF.setText((String) empleado[14]); // CP
-            AlcalMunTxtF.setText((String) empleado[15]); // Alcaldía/Municipio
-            EDO_BOX.setSelectedItem((String) empleado[16]); // Estado
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo cargar la información del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+        manejarTablaEmpleado();
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void PswTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PswTxtFActionPerformed
@@ -895,6 +912,20 @@ private Object[] datosConfirmados = null;
         e.printStackTrace();
     }
     }//GEN-LAST:event_CONFIRMARActionPerformed
+
+    private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        manejarTablaEmpleado();
+        evt.consume();
+    }
+    }//GEN-LAST:event_resultsTableKeyPressed
+
+    private void searchbarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbarKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        BuscarEmpleado();
+        evt.consume();
+    }
+    }//GEN-LAST:event_searchbarKeyPressed
 private boolean camposCompletos() {
     // Verifica si los campos están vacíos o no
     if (jTextFieldNombre.getText().trim().isEmpty()) return false;

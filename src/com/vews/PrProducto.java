@@ -119,7 +119,7 @@ public class PrProducto extends javax.swing.JPanel {
     }
 }
     
-private void configurarColumnasTabla(JTable table) {
+    private void configurarColumnasTabla(JTable table) {
     // Establecer tamaños mínimos y preferidos para las columnas
     int[] anchos = {0, 150, 200, 100, 100, 120, 150, 60, 80, 50, 50, 80, 100};
     for (int i = 0; i < anchos.length; i++) {
@@ -132,7 +132,7 @@ private void configurarColumnasTabla(JTable table) {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
 
-private void eliminarProducto() {
+    private void eliminarProducto() {
     try {
         // Verifica si hay un producto seleccionado
         int filaSeleccionada = resultsTable1.getSelectedRow();
@@ -165,7 +165,117 @@ private void eliminarProducto() {
         e.printStackTrace();
     }
 }
+    
+    private void manejarTablaProducto() {
+        int filaSeleccionada = resultsTable1.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        try {
+            String categoria = resultsTable1.getValueAt(filaSeleccionada, 4).toString().trim(); // Categoría (TIPO)
+            String proveedor = resultsTable1.getValueAt(filaSeleccionada, 6).toString().trim(); // Proveedor (NOMBRE_EMPRESA)
+            String estado = resultsTable1.getValueAt(filaSeleccionada, 5).toString().trim(); // Estado del producto (CLASIFICACION)
+            String marca = resultsTable1.getValueAt(filaSeleccionada, 12).toString().trim(); // Marca (NOMBRE_MARCA)
+
+            // Asignar valores a los campos
+            NomTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 1).toString().trim()); // Nombre
+            DescTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 2).toString().trim()); // Descripción
+            SKUTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 3).toString().trim()); // SKU
+            StockTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 7).toString()); // Stock
+            PrecioTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 8).toString()); // Precio
+            PisoTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 9).toString()); // Piso
+            ZonaTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 10).toString().trim()); // Zona
+            EstantTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 11).toString()); // Estantería
+
+            // Seleccionar categoría
+            for (int i = 0; i < Cat_Box.getItemCount(); i++) {
+                if (Cat_Box.getItemAt(i).equalsIgnoreCase(categoria)) {
+                    Cat_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar proveedor
+            for (int i = 0; i < Prov_Box.getItemCount(); i++) {
+                if (Prov_Box.getItemAt(i).equalsIgnoreCase(proveedor)) {
+                    Prov_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar estado del producto
+            for (int i = 0; i < EdoProd_Box.getItemCount(); i++) {
+                if (EdoProd_Box.getItemAt(i).equalsIgnoreCase(estado)) {
+                    EdoProd_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar marca
+            for (int i = 0; i < Marca_Box.getItemCount(); i++) {
+                if (Marca_Box.getItemAt(i).equalsIgnoreCase(marca)) {
+                    Marca_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+    }
      
+    private void buscarProducto()  {
+         String filtro = searchbar1.getText().trim();
+
+if (filtro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Realiza la búsqueda
+    List<Object[]> resultados = daoProducto.buscarProducto(filtro);
+
+    // Configura el modelo de la tabla
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{
+            "ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
+            "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"
+        }, 0
+    );
+
+    // Llena el modelo con los resultados
+    for (Object[] fila : resultados) {
+        model.addRow(new Object[]{
+            fila[0], // ID del producto
+            fila[1], // Nombre
+            fila[2], // Descripción
+            fila[3], // SKU
+            fila[4], // Categoría
+            fila[5], // Estado del producto
+            fila[6], // Proveedor
+            fila[7], // Stock
+            fila[8], // Precio
+            fila[9], // Piso
+            fila[10], // Zona
+            fila[11], // Estantería
+            fila[12]  // Marca
+        });
+    }
+
+    resultsTable1.setModel(model);
+    configurarColumnasTabla(resultsTable1);
+    
+
+    // Muestra un mensaje si no hay resultados
+    if (resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -219,6 +329,11 @@ private void eliminarProducto() {
                 searchbar1ActionPerformed(evt);
             }
         });
+        searchbar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchbar1KeyPressed(evt);
+            }
+        });
 
         FILTRO.setText("FILTRAR:");
 
@@ -260,6 +375,11 @@ private void eliminarProducto() {
         resultsTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resultsTable1MouseClicked(evt);
+            }
+        });
+        resultsTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                resultsTable1KeyPressed(evt);
             }
         });
         jScrollPane2.setViewportView(resultsTable1);
@@ -617,61 +737,7 @@ private void eliminarProducto() {
     }//GEN-LAST:event_searchbar1ActionPerformed
 
     private void resultsTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTable1MouseClicked
-     int filaSeleccionada = resultsTable1.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        try {
-            String categoria = resultsTable1.getValueAt(filaSeleccionada, 4).toString().trim(); // Categoría (TIPO)
-            String proveedor = resultsTable1.getValueAt(filaSeleccionada, 6).toString().trim(); // Proveedor (NOMBRE_EMPRESA)
-            String estado = resultsTable1.getValueAt(filaSeleccionada, 5).toString().trim(); // Estado del producto (CLASIFICACION)
-            String marca = resultsTable1.getValueAt(filaSeleccionada, 12).toString().trim(); // Marca (NOMBRE_MARCA)
-
-            // Asignar valores a los campos
-            NomTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 1).toString().trim()); // Nombre
-            DescTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 2).toString().trim()); // Descripción
-            SKUTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 3).toString().trim()); // SKU
-            StockTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 7).toString()); // Stock
-            PrecioTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 8).toString()); // Precio
-            PisoTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 9).toString()); // Piso
-            ZonaTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 10).toString().trim()); // Zona
-            EstantTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 11).toString()); // Estantería
-
-            // Seleccionar categoría
-            for (int i = 0; i < Cat_Box.getItemCount(); i++) {
-                if (Cat_Box.getItemAt(i).equalsIgnoreCase(categoria)) {
-                    Cat_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-            // Seleccionar proveedor
-            for (int i = 0; i < Prov_Box.getItemCount(); i++) {
-                if (Prov_Box.getItemAt(i).equalsIgnoreCase(proveedor)) {
-                    Prov_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-            // Seleccionar estado del producto
-            for (int i = 0; i < EdoProd_Box.getItemCount(); i++) {
-                if (EdoProd_Box.getItemAt(i).equalsIgnoreCase(estado)) {
-                    EdoProd_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-            // Seleccionar marca
-            for (int i = 0; i < Marca_Box.getItemCount(); i++) {
-                if (Marca_Box.getItemAt(i).equalsIgnoreCase(marca)) {
-                    Marca_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
+        manejarTablaProducto();
     }//GEN-LAST:event_resultsTable1MouseClicked
 
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
@@ -691,54 +757,7 @@ private void eliminarProducto() {
     }//GEN-LAST:event_NomTxtFActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        String filtro = searchbar1.getText().trim();
-
-if (filtro.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    return;
-}
-
-try {
-    // Realiza la búsqueda
-    List<Object[]> resultados = daoProducto.buscarProducto(filtro);
-
-    // Configura el modelo de la tabla
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{
-            "ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
-            "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"
-        }, 0
-    );
-
-    // Llena el modelo con los resultados
-    for (Object[] fila : resultados) {
-        model.addRow(new Object[]{
-            fila[0], // ID del producto
-            fila[1], // Nombre
-            fila[2], // Descripción
-            fila[3], // SKU
-            fila[4], // Categoría
-            fila[5], // Estado del producto
-            fila[6], // Proveedor
-            fila[7], // Stock
-            fila[8], // Precio
-            fila[9], // Piso
-            fila[10], // Zona
-            fila[11], // Estantería
-            fila[12]  // Marca
-        });
-    }
-
-    resultsTable1.setModel(model);
-
-    // Muestra un mensaje si no hay resultados
-    if (resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
-    }
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
-}
+       buscarProducto();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void DescTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescTxtFActionPerformed
@@ -780,6 +799,20 @@ try {
     private void ELIMINAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ELIMINAR_BOTONActionPerformed
        eliminarProducto(); // TODO add your handling code here:
     }//GEN-LAST:event_ELIMINAR_BOTONActionPerformed
+
+    private void resultsTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTable1KeyPressed
+     if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        manejarTablaProducto();
+        evt.consume();
+    }
+    }//GEN-LAST:event_resultsTable1KeyPressed
+
+    private void searchbar1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchbar1KeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        buscarProducto();
+        evt.consume();
+    }
+    }//GEN-LAST:event_searchbar1KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -594,13 +594,13 @@ public Object[] getEmployeeByUsr(String usr, char[] psw) {
         conectar();
         List<Object[]> empleados = new ArrayList<>();
         try {
-            String sql = "SELECT E.ID_EMPLEADO, E.NOMBRE, E.AP_PATERNO, E.AP_MATERNO, E.FECHA_REG, E.USUARIO_EMPLEADO, " +
-                         "E.CORREO, P.PUESTO, E.SUELDO, " +
-                         "D.CALLE || ' ' || NVL(D.EXTERIOR, '') || ' ' || NVL(D.INTERIOR, '') || ', ' || D.COLONIA || ', ' || D.ALCAL_MUN || ', ' || EST.ESTADO AS DIRECCION " +
-                         "FROM EMPLEADO E " +
-                         "JOIN DIRECCION D ON E.ID_DIRECCION = D.ID_DIRECCION " +
-                         "JOIN ESTADO EST ON D.ID_ESTADO = EST.ID_ESTADO " +
-                         "JOIN PUESTO P ON E.ID_PUESTO = P.ID_PUESTO";
+            String sql = "SELECT ID_EMPLEADO, NOMBRE, AP_PATERNO, AP_MATERNO, FECHA_REG, USUARIO_EMPLEADO, " +
+                         "CORREO, PUESTO, SUELDO, " +
+                         "CALLE || ' ' || NVL(EXTERIOR, '') || ' ' || NVL(INTERIOR, '') || ', ' || COLONIA || ', ' || ALCAL_MUN || ', ' || ESTADO AS DIRECCION " +
+                         "FROM EMPLEADO " +
+                         "JOIN DIRECCION USING (ID_DIRECCION) " +
+                         "JOIN ESTADO USING (ID_ESTADO) " +
+                         "JOIN PUESTO USING (ID_PUESTO)";
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
 
