@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 public class PrEmpleado extends javax.swing.JPanel {
     
@@ -75,11 +76,24 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         // Asigna el modelo a la tabla
         resultsTable.setModel(model);
+        
+        configurarColumnasTabla(resultsTable);
+    
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+    private void configurarColumnasTabla(JTable table) {
+    // Define anchos preferidos para las columnas
+    int[] anchos = {10, 150, 150, 150, 100, 200, 300}; // Ajusta estos valores según el contenido
+    for (int i = 0; i < anchos.length; i++) {
+        table.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        table.getColumnModel().getColumn(i).setMinWidth(anchos[i]);
+    }
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+}
+
 
     private void agregarEmpleado() {
         // Método para agregar un empleado
@@ -596,6 +610,8 @@ private void setFechaActual() {
         }
 
         resultsTable.setModel(model);
+        
+        configurarColumnasTabla(resultsTable);
 
         // Muestra un mensaje si no hay resultados
         if (resultados.isEmpty()) {

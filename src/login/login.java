@@ -303,7 +303,9 @@ public class login extends javax.swing.JFrame {
             PswField.setText("********");
             PswField.setForeground(Color.gray);
         }
-        
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) { 
+        PswField.requestFocus(); // Cambia el foco al campo de contraseña
+    }   
     }//GEN-LAST:event_UsrTxtFKeyPressed
 
     private void PswFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PswFieldKeyPressed
@@ -315,10 +317,13 @@ public class login extends javax.swing.JFrame {
             UsrTxtF.setText("Ingrese su usuario");
             UsrTxtF.setForeground(Color.gray);
         }
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        iniciarSesion(); // Llama al método para iniciar sesión
+    }
     }//GEN-LAST:event_PswFieldKeyPressed
 
-    private void BTNEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNEntrarMouseClicked
-      String usuario = UsrTxtF.getText();
+    private void iniciarSesion() {
+    String usuario = UsrTxtF.getText();
     char[] password = PswField.getPassword();
 
     // Validar campos vacíos
@@ -329,17 +334,23 @@ public class login extends javax.swing.JFrame {
     }
 
     // Autenticar usuario
-    Object[] employee = daoempleado.getEmployeeByUsr(usuario, password);
+    Object[] empleado = daoempleado.getEmployeeByUsr(usuario, password);
 
-    if (employee == null || employee[0] == null) {
+    if (empleado == null || empleado[0] == null) {
         JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.", 
                                       "Error de autenticación", JOptionPane.ERROR_MESSAGE);
     } else {
-        JOptionPane.showMessageDialog(this, "Inicio de sesión exitoso.", 
-                                      "Bienvenido", JOptionPane.INFORMATION_MESSAGE);
-        new dashboard().setVisible(true);
-        this.dispose(); // Cerrar la ventana actual
-    }  
+        String nombreCompleto = empleado[3] + " "+ empleado[4] + " " + empleado[5]; // Construye el nombre completo
+        //JOptionPane.showMessageDialog(this, "Bienvenido"  + nombreCompleto + ".", 
+                                     // "Inicio de sesión exitoso.", JOptionPane.INFORMATION_MESSAGE);
+        new dashboard(nombreCompleto).setVisible(true); // Pasa el nombre al dashboard
+        this.dispose(); // Cierra la ventana actual
+    }
+}
+
+
+    private void BTNEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNEntrarMouseClicked
+     iniciarSesion();
     }//GEN-LAST:event_BTNEntrarMouseClicked
 
     /**

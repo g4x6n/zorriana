@@ -111,10 +111,25 @@ public class PrProducto extends javax.swing.JPanel {
         // Asigna el modelo a la tabla
         resultsTable1.setModel(model);
         
+        configurarColumnasTabla(resultsTable1);
+        
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
+}
+    
+private void configurarColumnasTabla(JTable table) {
+    // Establecer tamaños mínimos y preferidos para las columnas
+    int[] anchos = {0, 150, 200, 100, 100, 120, 150, 60, 80, 50, 50, 80, 100};
+    for (int i = 0; i < anchos.length; i++) {
+        TableColumn columna = table.getColumnModel().getColumn(i);
+        columna.setPreferredWidth(anchos[i]);
+        columna.setMinWidth(anchos[i]);
+    }
+
+    // Habilitar desplazamiento horizontal
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
 
 private void eliminarProducto() {
@@ -206,6 +221,8 @@ private void eliminarProducto() {
         });
 
         FILTRO.setText("FILTRAR:");
+
+        jScrollPane2.setAutoscrolls(true);
 
         resultsTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         resultsTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -578,7 +595,7 @@ private void eliminarProducto() {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(fondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -30,7 +30,8 @@ public class PrCliente extends javax.swing.JPanel {
         initComponents(); // Inicializa los componentes del formulario
         cargarEstados();
         GUARDAR_BOTON.setEnabled(false);// Llama al método para cargar los estados en el ComboBox
-}
+        cargarClientes();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -579,6 +580,8 @@ try {
     }
 
     resultsTable.setModel(model);
+    
+    configurarColumnasTabla(resultsTable);
 
     // Verifica si no hay resultados
     if (resultados.isEmpty()) {
@@ -661,11 +664,25 @@ private void cargarClientes() {
 
         // Establecer el modelo en la tabla
         resultsTable.setModel(model);
+        
+        configurarColumnasTabla(resultsTable);
+        
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
+private void configurarColumnasTabla(JTable table) {
+    // Definir anchos preferidos y mínimos para las columnas
+    int[] anchos = {10, 100, 100, 100, 150, 300}; // Ajusta estos valores según el contenido esperado
+    for (int i = 0; i < anchos.length; i++) {
+        table.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        table.getColumnModel().getColumn(i).setMinWidth(anchos[i]);
+    }
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+}
+
 private Object[] obtenerDatosCliente() {
     try {
         // Obtener valores del formulario

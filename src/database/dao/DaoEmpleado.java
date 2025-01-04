@@ -325,7 +325,8 @@ public boolean addEmployee(Object[] empleado) {
                      "JOIN DIRECCION D ON E.ID_DIRECCION = D.ID_DIRECCION " +
                      "JOIN ESTADO EST ON D.ID_ESTADO = EST.ID_ESTADO " +
                      "JOIN PUESTO P ON E.ID_PUESTO = P.ID_PUESTO " +
-                     "WHERE E.ID_EMPLEADO = ?";
+                     "WHERE E.ID_EMPLEADO = ?" +
+                     "ORDER BY E.ID_EMPLEADO";
         ps = conn.prepareStatement(sql);
         ps.setString(1, idEmpleado);
         rs = ps.executeQuery();
@@ -558,8 +559,8 @@ public Object[] getEmployeeByUsr(String usr, char[] psw) {
             String sentenciaSQL = "SELECT ID_EMPLEADO, ID_PUESTO, PUESTO, NOMBRE, AP_PATERNO, AP_MATERNO " +
                                   "FROM EMPLEADO " +
                                   "JOIN PUESTO USING (ID_PUESTO) " +
-                                  "WHERE UPPER(USUARIO_EMPLEADO) = ? " +
-                                  "AND UPPER(CONTRASENIA_EMPLEADO) = ?";
+                                  "WHERE USUARIO_EMPLEADO = ? " +
+                                  "AND CONTRASENIA_EMPLEADO = ?";
 
             ps = conn.prepareStatement(sentenciaSQL);
             ps.setString(1, usr); // Establece el parámetro del usuario

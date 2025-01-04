@@ -3,6 +3,7 @@ import database.dao.DaoProveedor;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 public class PrProveedor extends javax.swing.JPanel {
     
@@ -58,11 +59,23 @@ public class PrProveedor extends javax.swing.JPanel {
 
         // Asigna el modelo a la tabla
         resultsTable.setModel(model);
+        configurarColumnasTabla(resultsTable);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+    
+    private void configurarColumnasTabla(JTable table) {
+    // Anchos preferidos para las columnas
+    int[] anchos = {10, 200, 150, 50, 100, 80, 200, 300}; // Ajusta estos valores según tus necesidades
+    for (int i = 0; i < anchos.length; i++) {
+        table.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        table.getColumnModel().getColumn(i).setMinWidth(anchos[i]);
+    }
+    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+}
+
 
 
     private void agregarEmpleado() {
@@ -488,6 +501,7 @@ try {
     }
 
     resultsTable.setModel(model);
+    configurarColumnasTabla(resultsTable);
 
     // Muestra un mensaje si no hay resultados
     if (resultados.isEmpty()) {
