@@ -1,9 +1,10 @@
 package com.vews;
 import database.dao.DaoProducto;
-import database.dao.DaoProveedor;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -21,6 +22,9 @@ public class PrProducto extends javax.swing.JPanel {
         cargarMarcas();
         cargarEdoProd();
         cargarCategoria();
+        cargarProductos();
+        eliminarProducto();
+        
     }
     
     private void cargarProveedores() {
@@ -29,7 +33,7 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> proveedores = daoProducto.obtenerProveedor();
             Prov_Box.removeAllItems();
             for (String proveedor : proveedores) {
-                Prov_Box.addItem(proveedor);
+                Prov_Box.addItem(proveedor.trim());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage());
@@ -42,7 +46,7 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> marcas = daoProducto.obtenerMarca();
             Marca_Box.removeAllItems();
             for (String marca : marcas) {
-                Marca_Box.addItem(marca);
+                Marca_Box.addItem(marca.trim());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar marcas: " + e.getMessage());
@@ -55,7 +59,7 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> edoprods = daoProducto.obtenerEdoProd();
             EdoProd_Box.removeAllItems();
             for (String edoprod : edoprods) {
-                EdoProd_Box.addItem(edoprod);
+                EdoProd_Box.addItem(edoprod.trim());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar estado de productos: " + e.getMessage());
@@ -68,12 +72,85 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> categorias = daoProducto.obtenerCategoria();
             Cat_Box.removeAllItems();
             for (String categoria : categorias) {
-                Cat_Box.addItem(categoria);
+                Cat_Box.addItem(categoria.trim());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar categorías: " + e.getMessage());
         }
     }
+    
+    private void cargarProductos() { 
+    try {
+        // Obtiene los productos desde el DAO
+        List<Object[]> productos = daoProducto.listProductos();
+
+        // Configura el modelo de la tabla con las columnas necesarias
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Descripción", "SKU", "Tipo", "Clasificación", "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"}, 0
+        );
+
+        // Llena el modelo con los datos
+        for (Object[] producto : productos) {
+            model.addRow(new Object[]{
+                producto[0]!= null ? producto[0] : "N/A",                          // ID
+                producto[1]!= null ? producto[1] : "N/A",                          // Nombre
+                producto[2]!= null ? producto[2] : "N/A",                          // Descripción
+                producto[3]!= null ? producto[3] : "N/A",                          // SKU
+                producto[4]!= null ? producto[4] : "N/A",                          // Tipo
+                producto[5]!= null ? producto[5] : "N/A",                          // Clasificación
+                producto[6]!= null ? producto[6] : "N/A",                          // Empresa
+                producto[7]!= null ? producto[7] : "N/A",                          // Stock
+                producto[8]!= null ? producto[8] : "N/A",                          // Precio
+                producto[9]!= null ? producto[9] : "N/A",                          // Piso
+                producto[10]!= null ? producto[10] : "N/A",                         // Zona
+                producto[11]!= null ? producto[11] : "N/A",                         // Estantería
+                producto[12]!= null ? producto[12] : "N/A"                          // NOMBRE_MARCA
+            });
+        }
+
+        // Asigna el modelo a la tabla
+        resultsTable1.setModel(model);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
+private void eliminarProducto() {
+    try {
+        // Verifica si hay un producto seleccionado
+        int filaSeleccionada = resultsTable1.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            //JOptionPane.showMessageDialog(this, "Selecciona un producto en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtén el ID del producto seleccionado
+        String idProducto = resultsTable1.getValueAt(filaSeleccionada, 0).toString();
+
+        // Confirmación antes de eliminar
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar el producto?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // El usuario canceló
+        }
+
+        // Llama al método para eliminar producto en el DAO
+        boolean exito = daoProducto.deleteProduct(idProducto);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
+            cargarProductos(); // Recargar tabla de productos
+            //limpiarCampos(); // Limpia los cuadros de texto
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -288,6 +365,11 @@ public class PrProducto extends javax.swing.JPanel {
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
         ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ELIMINAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ELIMINAR_BOTONActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout productosLayout = new javax.swing.GroupLayout(productos);
         productos.setLayout(productosLayout);
@@ -518,7 +600,61 @@ public class PrProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_searchbar1ActionPerformed
 
     private void resultsTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTable1MouseClicked
+     int filaSeleccionada = resultsTable1.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        try {
+            String categoria = resultsTable1.getValueAt(filaSeleccionada, 4).toString().trim(); // Categoría (TIPO)
+            String proveedor = resultsTable1.getValueAt(filaSeleccionada, 6).toString().trim(); // Proveedor (NOMBRE_EMPRESA)
+            String estado = resultsTable1.getValueAt(filaSeleccionada, 5).toString().trim(); // Estado del producto (CLASIFICACION)
+            String marca = resultsTable1.getValueAt(filaSeleccionada, 12).toString().trim(); // Marca (NOMBRE_MARCA)
 
+            // Asignar valores a los campos
+            NomTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 1).toString().trim()); // Nombre
+            DescTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 2).toString().trim()); // Descripción
+            SKUTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 3).toString().trim()); // SKU
+            StockTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 7).toString()); // Stock
+            PrecioTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 8).toString()); // Precio
+            PisoTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 9).toString()); // Piso
+            ZonaTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 10).toString().trim()); // Zona
+            EstantTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 11).toString()); // Estantería
+
+            // Seleccionar categoría
+            for (int i = 0; i < Cat_Box.getItemCount(); i++) {
+                if (Cat_Box.getItemAt(i).equalsIgnoreCase(categoria)) {
+                    Cat_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar proveedor
+            for (int i = 0; i < Prov_Box.getItemCount(); i++) {
+                if (Prov_Box.getItemAt(i).equalsIgnoreCase(proveedor)) {
+                    Prov_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar estado del producto
+            for (int i = 0; i < EdoProd_Box.getItemCount(); i++) {
+                if (EdoProd_Box.getItemAt(i).equalsIgnoreCase(estado)) {
+                    EdoProd_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+
+            // Seleccionar marca
+            for (int i = 0; i < Marca_Box.getItemCount(); i++) {
+                if (Marca_Box.getItemAt(i).equalsIgnoreCase(marca)) {
+                    Marca_Box.setSelectedIndex(i);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
     }//GEN-LAST:event_resultsTable1MouseClicked
 
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
@@ -538,7 +674,54 @@ public class PrProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_NomTxtFActionPerformed
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // TODO add your handling code here:
+        String filtro = searchbar1.getText().trim();
+
+if (filtro.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try {
+    // Realiza la búsqueda
+    List<Object[]> resultados = daoProducto.buscarProducto(filtro);
+
+    // Configura el modelo de la tabla
+    DefaultTableModel model = new DefaultTableModel(
+        new String[]{
+            "ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
+            "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"
+        }, 0
+    );
+
+    // Llena el modelo con los resultados
+    for (Object[] fila : resultados) {
+        model.addRow(new Object[]{
+            fila[0], // ID del producto
+            fila[1], // Nombre
+            fila[2], // Descripción
+            fila[3], // SKU
+            fila[4], // Categoría
+            fila[5], // Estado del producto
+            fila[6], // Proveedor
+            fila[7], // Stock
+            fila[8], // Precio
+            fila[9], // Piso
+            fila[10], // Zona
+            fila[11], // Estantería
+            fila[12]  // Marca
+        });
+    }
+
+    resultsTable1.setModel(model);
+
+    // Muestra un mensaje si no hay resultados
+    if (resultados.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+    }
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void DescTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescTxtFActionPerformed
@@ -576,6 +759,10 @@ public class PrProducto extends javax.swing.JPanel {
     private void EstantTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstantTxtFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EstantTxtFActionPerformed
+
+    private void ELIMINAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ELIMINAR_BOTONActionPerformed
+       eliminarProducto(); // TODO add your handling code here:
+    }//GEN-LAST:event_ELIMINAR_BOTONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

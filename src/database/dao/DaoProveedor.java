@@ -288,7 +288,7 @@ public class DaoProveedor extends Conexion {
     return false;
 }
 
-    // Listar empleados con dirección concatenada
+    // Listar proveedores
     public List<Object[]> listProveedores() {
     conectar();
     List<Object[]> proveedores = new ArrayList<>();
