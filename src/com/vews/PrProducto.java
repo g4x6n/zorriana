@@ -87,7 +87,13 @@ public class PrProducto extends javax.swing.JPanel {
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Descripción", "SKU", "Tipo", "Clasificación", "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Llena el modelo con los datos
         for (Object[] producto : productos) {
@@ -242,7 +248,13 @@ try {
             "ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
             "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"
         }, 0
-    );
+    ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
     // Llena el modelo con los resultados
     for (Object[] fila : resultados) {

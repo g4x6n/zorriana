@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package com.vews;
 import database.dao.DaoCompras;
 import java.util.List;
@@ -78,7 +75,13 @@ public class PrCompras extends javax.swing.JPanel {
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Fecha de Compra", "Estado", "Proveedor", "Empleado"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Llena el modelo con los datos
         for (Object[] compra : compras) {
@@ -121,11 +124,13 @@ public class PrCompras extends javax.swing.JPanel {
     if (filaSeleccionada != -1) {
         try {
             // Obtener los valores de la fila seleccionada
+            String idCompra = TablaCompra.getValueAt(filaSeleccionada, 0).toString().trim();
             String fechaCompra = TablaCompra.getValueAt(filaSeleccionada, 1).toString().trim();
             String estadoCompra = TablaCompra.getValueAt(filaSeleccionada, 2).toString().trim();
             String proveedor = TablaCompra.getValueAt(filaSeleccionada, 3).toString().trim();
             String empleado = TablaCompra.getValueAt(filaSeleccionada, 4).toString().replaceAll("\\s+", " ").trim();
 
+            cargarDetalleCompra(idCompra);
             // Asignar los valores a los campos
             FechaVTxtf.setText(fechaCompra);
 
@@ -163,7 +168,34 @@ public class PrCompras extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
+    private void cargarDetalleCompra(String idCompra) {
+    try {
+        // Llamar al DAO para obtener los detalles de la compra
+        List<Object[]> detalles = daoCompras.obtenerDetalleCompra(idCompra);
 
+        // Configurar el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"Producto", "Cantidad"}, 0
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
+
+        // Agregar los datos al modelo
+        for (Object[] detalle : detalles) {
+            model.addRow(detalle);
+        }
+
+        // Asignar el modelo a la tabla
+        TablaEdoCompra.setModel(model);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar el detalle de la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -261,6 +293,15 @@ public class PrCompras extends javax.swing.JPanel {
         });
         Compra.setViewportView(TablaCompra);
         TablaCompra.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (TablaCompra.getColumnModel().getColumnCount() > 0) {
+            TablaCompra.getColumnModel().getColumn(0).setHeaderValue("FECHA COMPRA");
+            TablaCompra.getColumnModel().getColumn(1).setHeaderValue("PROVEEDOR");
+            TablaCompra.getColumnModel().getColumn(2).setHeaderValue("EMPLEADO");
+            TablaCompra.getColumnModel().getColumn(3).setHeaderValue("ESTADO COMPRA");
+            TablaCompra.getColumnModel().getColumn(4).setResizable(false);
+            TablaCompra.getColumnModel().getColumn(5).setResizable(false);
+            TablaCompra.getColumnModel().getColumn(6).setHeaderValue("TOTAL");
+        }
 
         fondo.add(Compra, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 400, 120));
 
@@ -387,29 +428,29 @@ public class PrCompras extends javax.swing.JPanel {
         TablaEdoCompra.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         TablaEdoCompra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "FECHA COMPRA", "PROVEEDOR", "EMPLEADO", "ESTADO COMPRA", "PRODUCTO", "CANTIDAD", "TOTAL"
+                "PRODUCTO", "CANTIDAD"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -424,6 +465,10 @@ public class PrCompras extends javax.swing.JPanel {
         });
         DetalleCompra.setViewportView(TablaEdoCompra);
         TablaEdoCompra.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        if (TablaEdoCompra.getColumnModel().getColumnCount() > 0) {
+            TablaEdoCompra.getColumnModel().getColumn(0).setResizable(false);
+            TablaEdoCompra.getColumnModel().getColumn(1).setResizable(false);
+        }
 
         fondo.add(DetalleCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 860, 170));
 

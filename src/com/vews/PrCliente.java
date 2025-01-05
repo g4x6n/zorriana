@@ -416,7 +416,13 @@ try {
     // Configura el modelo de la tabla
     DefaultTableModel model = new DefaultTableModel(
         new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-    );
+    ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
     // Llena la tabla con los resultados
     for (Object[] fila : resultados) {
@@ -668,7 +674,13 @@ private void cargarClientes() {
         // Crear un modelo para la tabla
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Agregar cada cliente al modelo
         for (Object[] cliente : clientes) {

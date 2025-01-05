@@ -41,7 +41,13 @@ private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del D
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Empresa", "Contacto", "Lada", "Telefono", "Extensión", "Correo", "Dirección"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Llena el modelo con los datos
         for (Object[] proveedor : proveedores) {
@@ -122,7 +128,13 @@ try {
     // Configura el modelo de la tabla
     DefaultTableModel model = new DefaultTableModel(
         new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
-    );
+    ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
     // Llena el modelo con los resultados
     for (Object[] fila : resultados) {

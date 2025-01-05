@@ -59,7 +59,13 @@ public class PrEmpleado extends javax.swing.JPanel {
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Llena el modelo con los datos
         for (Object[] empleado : empleados) {
@@ -248,7 +254,13 @@ public class PrEmpleado extends javax.swing.JPanel {
         // Configura el modelo de la tabla
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-        );
+        ){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // Ninguna celda será editable
+                return false;
+            }
+        };
 
         // Llena el modelo con los resultados
         for (Object[] fila : resultados) {
@@ -404,7 +416,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApPaternoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 290, -1));
+        fondo.add(jTextFieldApPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, -1));
 
         ApMat.setText("APELLIDO MATERNO");
         fondo.add(ApMat, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, 20));
@@ -415,7 +427,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldApMaternoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, -1));
+        fondo.add(jTextFieldApMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 300, -1));
 
         FechaReg.setText("FECHA DE REGISTRO");
         fondo.add(FechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
@@ -425,7 +437,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jTextFieldFechaRegActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 220, 140, -1));
+        fondo.add(jTextFieldFechaReg, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 130, -1));
 
         Puesto.setText("PUESTO");
         fondo.add(Puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, -1, 20));
@@ -460,24 +472,24 @@ public class PrEmpleado extends javax.swing.JPanel {
         fondo.add(SalTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 80, -1));
 
         Usuario.setText("USUARIO");
-        fondo.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 280, -1, 20));
+        fondo.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, 20));
 
         UserTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UserTxtFActionPerformed(evt);
             }
         });
-        fondo.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 280, 130, -1));
+        fondo.add(UserTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 130, -1));
 
         Contraseña.setText("CONTRASEÑA");
-        fondo.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+        fondo.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, -1, -1));
 
         PswTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PswTxtFActionPerformed(evt);
             }
         });
-        fondo.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 120, -1));
+        fondo.add(PswTxtF, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 120, -1));
 
         resultsTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         resultsTable.setModel(new javax.swing.table.DefaultTableModel(

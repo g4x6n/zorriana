@@ -47,7 +47,6 @@ public class DaoCompras extends Conexion {
     }
     return empleados; // Retornar la lista de empleados
 }
-
     
     public List<String> obtenerEdoCompra() {
     conectar();
@@ -97,6 +96,32 @@ public class DaoCompras extends Conexion {
         desconectar();
     }
     return compras;
+}
+
+    public List<Object[]> obtenerDetalleCompra(String idCompra) {
+    conectar();
+    List<Object[]> detalleCompra = new ArrayList<>();
+    try {
+        String sql = "SELECT NOMBRE AS PRODUCTO, CANTIDAD " +
+                     "FROM DETALLE_COMPRA " +
+                     "JOIN PRODUCTO USING (ID_PRODUCTO) " +
+                     "WHERE ID_COMPRA = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idCompra);
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Object[] detalle = new Object[2];
+            detalle[0] = rs.getString("PRODUCTO").trim(); // Nombre del producto
+            detalle[1] = rs.getInt("CANTIDAD");          // Cantidad
+            detalleCompra.add(detalle);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener detalles de la compra: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return detalleCompra;
 }
 
      
