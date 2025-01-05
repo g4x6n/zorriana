@@ -9,39 +9,6 @@ import java.util.List;
 public class DaoProducto extends Conexion {
 
     
-    private String obtenerCodigoProveedor(String nombreProveedor) {
-        String codigoProveedor = "";
-        try {
-            String sql = "SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE UPPER(NOMBRE_EMPRESA) = UPPER(?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, nombreProveedor);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                codigoProveedor = rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener código del proveedor: " + ex.getMessage());
-        }
-        return codigoProveedor;
-    }
-    
-     private String obtenerCodigoMarca(String nombreMarca) {
-        String codigoMarca = "";
-        try {
-            String sql = "SELECT ID_MARCA FROM MARCA WHERE UPPER(NOMBRE_MARCA) = UPPER(?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, nombreMarca);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                codigoMarca = rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener código del proveedor: " + ex.getMessage());
-        }
-        return codigoMarca;
-    }
     
     public List<String> obtenerProveedor() {
     conectar();
@@ -285,98 +252,183 @@ public List<String[]> obtenerProveedorConIds() {
     return productos;
 }   
     
- public boolean deleteProduct(String idProducto) {
-    conectar(); // Conectar a la base de datos
+public boolean deleteProducto(String idProducto) {
+    conectar();
+    boolean exito = false; // Indica si la operación fue exitosa
     try {
-        // Eliminar producto
-        String sqlProducto = "DELETE FROM PRODUCTO WHERE ID_PRODUCTO = ?";
+        System.out.println("Intentando eliminar producto con ID: '" + idProducto + "'"); // DEPURACIÓN
+
+        // Verificar si el producto está asociado en DETALLE_VENTA
+        String sqlDetalleVenta = "SELECT COUNT(*) FROM DETALLE_VENTA WHERE TRIM(ID_PRODUCTO) = ?";
+        ps = conn.prepareStatement(sqlDetalleVenta);
+        ps.setString(1, idProducto);
+        rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            System.out.println("No se puede eliminar el producto porque está asociado a una venta.");
+            return false;
+        }
+
+        // Verificar si el producto está asociado en DETALLE_COMPRA
+        String sqlDetalleCompra = "SELECT COUNT(*) FROM DETALLE_COMPRA WHERE TRIM(ID_PRODUCTO) = ?";
+        ps = conn.prepareStatement(sqlDetalleCompra);
+        ps.setString(1, idProducto);
+        rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            System.out.println("No se puede eliminar el producto porque está asociado a una compra.");
+            return false;
+        }
+
+        // Eliminar el producto
+        String sqlProducto = "DELETE FROM PRODUCTO WHERE TRIM(ID_PRODUCTO) = ?";
         ps = conn.prepareStatement(sqlProducto);
         ps.setString(1, idProducto);
         int filasAfectadas = ps.executeUpdate();
 
-        return filasAfectadas > 0; // Devuelve true si se eliminó
+        exito = filasAfectadas > 0;
+
+        if (exito) {
+            System.out.println("Producto eliminado exitosamente.");
+        } else {
+            System.out.println("No se encontró el producto con el ID proporcionado.");
+        }
+
     } catch (SQLException ex) {
-        System.out.println("Error al eliminar producto: " + ex.getMessage());
+        System.out.println("Error al eliminar el producto: " + ex.getMessage());
         return false;
     } finally {
-        desconectar(); // Cierra la conexión
+        desconectar(); // Cierra la conexión a la base de datos
     }
+    return exito;
 }
-   
-    
-    
-    private String generarIdProducto() {
-        String idProducto = "";
-        try {
-            conectar();
-            String sql = "SELECT MAX(ID_PRODUCTO) FROM PRODUCTOS";
-            ps = conn.prepareStatement(sql);
-            rs = ps.executeQuery();
 
-            if (rs.next()) {
-                String maxId = rs.getString(1);
-                if (maxId != null) {
-                    int secuencia = Integer.parseInt(maxId.substring(1)) + 1;
-                    idProducto = "P" + String.format("%04d", secuencia);
-                } else {
-                    idProducto = "P0001"; // Primer ID si no hay productos
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al generar ID del producto: " + ex.getMessage());
-        } finally {
-            desconectar();
+public boolean insertarProducto(String idProducto, String nombre, String descripcion, String sku, String idCategoria,
+                                String idEstadoProducto, String idProveedor, int stock, double precio, int piso,
+                                String zona, int estanteria, String idMarca) {
+    conectar(); // Abre la conexión a la base de datos
+    boolean exito = false; // Indica si la operación fue exitosa
+
+    try {
+        // Consulta SQL para insertar un nuevo producto
+        String sql = "INSERT INTO PRODUCTO (ID_PRODUCTO, NOMBRE, DESCRIPCION, SKU, ID_CATEGORIA, ID_EDO_PRODUCTO, " +
+                     "ID_PROVEEDOR, STOCK, PRECIO, PISO, ZONA, ESTANTERIA, ID_MARCA) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        ps = conn.prepareStatement(sql); // Prepara la consulta SQL
+        ps.setString(1, idProducto); // ID del producto
+        ps.setString(2, nombre); // Nombre del producto
+        ps.setString(3, descripcion); // Descripción del producto
+        ps.setString(4, sku); // SKU del producto
+        ps.setString(5, idCategoria); // ID de la categoría
+        ps.setString(6, idEstadoProducto); // ID del estado del producto
+        ps.setString(7, idProveedor); // ID del proveedor
+        ps.setInt(8, stock); // Cantidad en stock
+        ps.setDouble(9, precio); // Precio del producto
+        ps.setInt(10, piso); // Piso donde se encuentra el producto
+        ps.setString(11, zona); // Zona donde se encuentra el producto
+        ps.setInt(12, estanteria); // Estantería donde se encuentra el producto
+        ps.setString(13, idMarca); // ID de la marca
+
+        // Ejecuta la consulta y verifica si se insertaron filas
+        exito = ps.executeUpdate() > 0;
+
+        if (exito) {
+            System.out.println("Producto insertado correctamente.");
+        } else {
+            System.out.println("No se pudo insertar el producto.");
         }
-        return idProducto;
+
+    } catch (SQLException ex) {
+        // Maneja cualquier error que ocurra durante la inserción
+        System.out.println("Error al insertar producto: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cierra la conexión a la base de datos
     }
 
-    public boolean agregarProducto(Object[] producto) {
-        conectar();
-        String idProducto = generarIdProducto(); // Generar un nuevo ID para el producto
-        try {
-            String sql = "INSERT INTO PRODUCTOS (ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA, PROVEEDOR, ESTADO, CATEGORIA, SKU, PRECIO, STOCK, PISO, ZONA, ESTANTERIA) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, idProducto);              // ID Producto
-            ps.setString(2, (String) producto[0]);    // Nombre
-            ps.setString(3, (String) producto[1]);    // Descripción
-            ps.setString(4, (String) producto[2]);    // Marca
-            ps.setString(5, (String) producto[3]);    // Proveedor
-            ps.setString(6, (String) producto[4]);    // Estado
-            ps.setString(7, (String) producto[5]);    // Categoría
-            ps.setString(8, (String) producto[6]);    // SKU
-            ps.setDouble(9, (double) producto[7]);    // Precio
-            ps.setInt(10, (int) producto[8]);         // Stock
-            ps.setString(11, (String) producto[9]);   // Piso
-            ps.setString(12, (String) producto[10]);  // Zona
-            ps.setString(13, (String) producto[11]);  // Estantería
-
-            int filasInsertadas = ps.executeUpdate();
-            return filasInsertadas > 0;
-        } catch (SQLException ex) {
-            System.out.println("Error al agregar producto: " + ex.getMessage());
-        } finally {
-            desconectar();
-        }
-        return false;
-    }
-
-       
-
-    public boolean eliminarProducto(String idProducto) {
-        conectar();
-        try {
-            String sql = "DELETE FROM PRODUCTOS WHERE ID_PRODUCTO = ?";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, idProducto);
-
-            int filasEliminadas = ps.executeUpdate();
-            return filasEliminadas > 0;
-        } catch (SQLException ex) {
-            System.out.println("Error al eliminar producto: " + ex.getMessage());
-        } finally {
-            desconectar();
-        }
-        return false;
-    }
+    return exito; // Devuelve el estado de la operación
 }
+
+
+
+
+public String obtenerCodigoCategoria(String tipo) {
+    conectar();
+    String idCategoria = null;
+    try {
+        String sql = "SELECT ID_CATEGORIA FROM CATEGORIA WHERE TIPO = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, tipo);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idCategoria = rs.getString("ID_CATEGORIA");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código de la categoría: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idCategoria;
+}
+
+public String obtenerCodigoEstado(String estadoProducto) {
+    conectar();
+    String idEstado = null;
+    try {
+        String sql = "SELECT ID_EDO_PRODUCTO FROM ESTADO_PRODUCTO WHERE CLASIFICACION = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, estadoProducto);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idEstado = rs.getString("ID_EDO_PRODUCTO");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código del estado del producto: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idEstado;
+}
+
+public String obtenerCodigoProveedor(String proveedor) {
+    conectar();
+    String idProveedor = null;
+    try {
+        String sql = "SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE NOMBRE_EMPRESA = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, proveedor);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idProveedor = rs.getString("ID_PROVEEDOR");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código del proveedor: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idProveedor;
+}
+
+public String obtenerCodigoMarca(String marca) {
+    conectar();
+    String idMarca = null;
+    try {
+        String sql = "SELECT ID_MARCA FROM MARCA WHERE NOMBRE_MARCA = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, marca);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idMarca = rs.getString("ID_MARCA");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código de la marca: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idMarca;
+}
+
+
+
+}
+
+
