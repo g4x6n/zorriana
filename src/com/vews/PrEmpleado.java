@@ -21,8 +21,104 @@ public class PrEmpleado extends javax.swing.JPanel {
     cargarEstados();
     cargarPuestos();
     cargarEmpleados();
-    bloquearCampos(); // Bloquea todos los campos al iniciar
-    jButton5.setEnabled(false); // Deshabilita el botón "Guardar" al iniciar
+    }
+    
+    private void botonAgregar() {
+        try {
+        // Obtener datos del formulario
+        String nombre = jTextFieldNombre.getText().trim();
+        String apPaterno = jTextFieldApPaterno.getText().trim();
+        String apMaterno = jTextFieldApMaterno.getText().trim();
+        String fechaReg = jTextFieldFechaReg.getText().trim();
+        String usuarioEmpleado = UserTxtF.getText().trim();
+        String contrasenaEmpleado = PswTxtF.getText().trim();
+        String correo = jTextFieldCorreo.getText().trim();
+        String puesto = (String) PuestoCB.getSelectedItem();
+        float sueldo = Float.parseFloat(SalTxtF.getText().trim());
+
+        String calle = CalleTxtF.getText().trim();
+        String exterior = ExtTxtF.getText().trim();
+        String interior = IntTxtF.getText().trim();
+        String colonia = ColTxtF.getText().trim();
+        String cp = CPTxtF.getText().trim();
+        String alcalMun = AlcalMunTxtF.getText().trim();
+        String estado = (String) EDO_BOX.getSelectedItem();
+
+        // Validar y obtener IDs
+        String idEstado = daoEmpleado.obtenerCodigoEstado(estado);
+        if (idEstado == null || idEstado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+        if (idDireccion == null) {
+            JOptionPane.showMessageDialog(this, "Error al insertar la dirección. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idPuesto = daoEmpleado.insertarPuestoSiNoExiste(puesto);
+        if (idPuesto == null) {
+            JOptionPane.showMessageDialog(this, "Error al insertar el puesto. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Insertar empleado
+        boolean empleadoInsertado = daoEmpleado.insertarEmpleado(nombre, apPaterno, apMaterno, fechaReg, correo, idDireccion, idPuesto, sueldo, usuarioEmpleado, contrasenaEmpleado);
+        if (empleadoInsertado) {
+            JOptionPane.showMessageDialog(this, "Empleado guardado correctamente.");
+            cargarEmpleados(); // Actualizar la tabla de empleados
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Formato de sueldo incorrecto. Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al guardar empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+    }
+    private void botonEliminar() {
+         try {
+        // Verifica si se seleccionó una fila en la tabla
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un empleado en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtiene el ID del empleado seleccionado
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+
+        // Obtiene el ID de la dirección asociada al empleado
+        String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
+
+        if (idDireccion == null || idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmación antes de eliminar
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar al empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // El usuario canceló la operación
+        }
+
+        // Llama al método del DAO para eliminar empleado y dirección
+        boolean exito = daoEmpleado.deleteEmployee(idEmpleado, idDireccion);
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
+            cargarEmpleados(); // Recarga la tabla para reflejar los cambios
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+    }
+    private void botonEditar(){
+        
     }
     
     private void cargarEstados() {
@@ -37,7 +133,6 @@ public class PrEmpleado extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar estados: " + e.getMessage());
         }
     }
-
     private void cargarPuestos() {
         // Llenar la lista de puestos en el combo box
         try {
@@ -50,7 +145,6 @@ public class PrEmpleado extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar puestos: " + e.getMessage());
         }
     }
-
     private void cargarEmpleados() {
     try {
         // Obtiene los empleados desde el DAO
@@ -101,22 +195,6 @@ public class PrEmpleado extends javax.swing.JPanel {
 }
 
 
-    private void agregarEmpleado() {
-        // Método para agregar un empleado
-        try {
-            Object[] empleado = obtenerDatosEmpleado();
-            boolean exito = daoEmpleado.addEmployee(empleado);
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-                cargarEmpleados();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al agregar empleado.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + e.getMessage());
-        }
-    }
-
     private void editarEmpleado() {
         // Método para editar un empleado
         try {
@@ -139,40 +217,6 @@ public class PrEmpleado extends javax.swing.JPanel {
         }
     }
 
-    private void eliminarEmpleado() {
-    try {
-        int filaSeleccionada = resultsTable.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
-            return;
-        }
-
-        // Obtén el ID del empleado seleccionado
-        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-
-        // Obtén el ID de la dirección asociada al empleado
-        String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
-
-        if (idDireccion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.");
-            return;
-        }
-
-        // Llama al método deleteEmployee con ambos IDs
-        boolean exito = daoEmpleado.deleteEmployee(idEmpleado, idDireccion);
-
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
-            cargarEmpleados(); // Recarga la tabla
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.");
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar el empleado: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
-  
     private Object[] obtenerDatosEmpleado() {
     try {
         String nombre = jTextFieldNombre.getText().trim();
@@ -283,6 +327,38 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
 
     }
+    
+    private void setFechaActual() {
+    // Obtener la fecha actual
+    LocalDate now = LocalDate.now();
+
+    // Formatear la fecha en el formato "YYYY-MM-DD"
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String fechaActual = now.format(formatter);
+
+    // Establecer la fecha en el campo correspondiente
+    jTextFieldFechaReg.setText(fechaActual);
+}
+    
+    private void limpiarCampos() {
+    jTextFieldNombre.setText("");
+    jTextFieldApPaterno.setText("");
+    jTextFieldApMaterno.setText("");
+    jTextFieldCorreo.setText("");
+    jTextFieldFechaReg.setText("");
+    UserTxtF.setText("");
+    PswTxtF.setText("");
+    PuestoCB.setSelectedIndex(0);
+    SalTxtF.setText("");
+    CalleTxtF.setText("");
+    ExtTxtF.setText("");
+    IntTxtF.setText("");
+    ColTxtF.setText("");
+    CPTxtF.setText("");
+    AlcalMunTxtF.setText("");
+    EDO_BOX.setSelectedIndex(0);
+}
+    
       @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -328,11 +404,10 @@ public class PrEmpleado extends javax.swing.JPanel {
         searchbar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        CONFIRMAR = new javax.swing.JButton();
+        BotLimpiar = new javax.swing.JButton();
+        BOTAÑADIR = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -566,16 +641,6 @@ public class PrEmpleado extends javax.swing.JPanel {
         });
         fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 160, 60, -1));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        fondo.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, -1, -1));
-
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
         jButton4.setContentAreaFilled(false);
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -584,17 +649,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, -1, -1));
-
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        jButton5.setContentAreaFilled(false);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        fondo.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, -1, -1));
+        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
@@ -604,15 +659,23 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
+        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 110, -1, -1));
 
-        CONFIRMAR.setText("CONFIRMAR");
-        CONFIRMAR.addActionListener(new java.awt.event.ActionListener() {
+        BotLimpiar.setText("LIMPIAR CAMPOS");
+        BotLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CONFIRMARActionPerformed(evt);
+                BotLimpiarActionPerformed(evt);
             }
         });
-        fondo.add(CONFIRMAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 480, -1, -1));
+        fondo.add(BotLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 480, -1, -1));
+
+        BOTAÑADIR.setText("AGREGAR");
+        BOTAÑADIR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BOTAÑADIRActionPerformed(evt);
+            }
+        });
+        fondo.add(BOTAÑADIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -622,62 +685,9 @@ public class PrEmpleado extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-     int filaSeleccionada = resultsTable.getSelectedRow();
-    if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtén el ID del empleado
-    Object[] empleado = daoEmpleado.obtenerEmpleadoPorId(idEmpleado); // Obtén los datos del empleado
-    if (empleado == null) {
-        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-    // Rellena los campos con los datos del empleado
-    jTextFieldNombre.setText((String) empleado[1]);
-    jTextFieldApPaterno.setText((String) empleado[2]);
-    jTextFieldApMaterno.setText((String) empleado[3]);
-    jTextFieldFechaReg.setText(empleado[4] != null ? empleado[4].toString() : "");
-    UserTxtF.setText((String) empleado[5]);
-    PswTxtF.setText((String) empleado[6]);
-    jTextFieldCorreo.setText((String) empleado[7]);
-    PuestoCB.setSelectedItem((String) empleado[8]);
-    SalTxtF.setText(String.valueOf(empleado[9]));
-    CalleTxtF.setText((String) empleado[10]);
-    ExtTxtF.setText((String) empleado[11]);
-    IntTxtF.setText((String) empleado[12]);
-    ColTxtF.setText((String) empleado[13]);
-    CPTxtF.setText((String) empleado[14]);
-    AlcalMunTxtF.setText((String) empleado[15]);
-    EDO_BOX.setSelectedItem((String) empleado[16]);
-
-    // Habilita los campos para edición, pero el botón "Guardar" está deshabilitado
-    habilitarCampos();
-    jButton5.setEnabled(false); // Deshabilita "Guardar" hasta que se confirme
-
+   
     }//GEN-LAST:event_jButton4ActionPerformed
-private void setFechaActual() {
-    // Obtener la fecha actual
-    LocalDate now = LocalDate.now();
 
-    // Formatear la fecha en el formato "YYYY-MM-DD"
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    String fechaActual = now.format(formatter);
-
-    // Establecer la fecha en el campo correspondiente
-    jTextFieldFechaReg.setText(fechaActual);
-}
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    limpiarCampos(); // Limpia todos los campos del formulario
-    habilitarCampos(); // Habilita los campos para edición
-    setFechaActual(); // Establece la fecha actual automáticamente en el campo de registro
-    jButton5.setEnabled(true); // Activa el botón Guardar para manejar el flujo de creación
-    JOptionPane.showMessageDialog(this, "Campos listos para ingresar un nuevo empleado. Completa los datos y guarda.");       
-
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         BuscarEmpleado();
@@ -686,236 +696,58 @@ private void setFechaActual() {
     private void searchbarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbarActionPerformed
 
     }//GEN-LAST:event_searchbarActionPerformed
-private void habilitarCampos() {
-    jTextFieldNombre.setEditable(true);
-    jTextFieldApPaterno.setEditable(true);
-    jTextFieldApMaterno.setEditable(true);
-    jTextFieldCorreo.setEditable(true);
-    jTextFieldFechaReg.setEditable(true);
-    UserTxtF.setEditable(true);
-    PswTxtF.setEditable(true);
-    PuestoCB.setEnabled(true);
-    SalTxtF.setEditable(true);
-    CalleTxtF.setEditable(true);
-    ExtTxtF.setEditable(true);
-    IntTxtF.setEditable(true);
-    ColTxtF.setEditable(true);
-    CPTxtF.setEditable(true);
-    AlcalMunTxtF.setEditable(true);
-    EDO_BOX.setEnabled(true);
-}
-
-private void bloquearCampos() {
-    jTextFieldNombre.setEditable(false);
-    jTextFieldApPaterno.setEditable(false);
-    jTextFieldApMaterno.setEditable(false);
-    jTextFieldCorreo.setEditable(false);
-    jTextFieldFechaReg.setEditable(false);
-    UserTxtF.setEditable(false);
-    PswTxtF.setEditable(false);
-    PuestoCB.setEnabled(false);
-    SalTxtF.setEditable(false);
-    CalleTxtF.setEditable(false);
-    ExtTxtF.setEditable(false);
-    IntTxtF.setEditable(false);
-    ColTxtF.setEditable(false);
-    CPTxtF.setEditable(false);
-    AlcalMunTxtF.setEditable(false);
-    EDO_BOX.setEnabled(false);
-}
-
-    private void limpiarCampos() {
-    jTextFieldNombre.setText("");
-    jTextFieldApPaterno.setText("");
-    jTextFieldApMaterno.setText("");
-    jTextFieldCorreo.setText("");
-    jTextFieldFechaReg.setText("");
-    UserTxtF.setText("");
-    PswTxtF.setText("");
-    PuestoCB.setSelectedIndex(0);
-    SalTxtF.setText("");
-    CalleTxtF.setText("");
-    ExtTxtF.setText("");
-    IntTxtF.setText("");
-    ColTxtF.setText("");
-    CPTxtF.setText("");
-    AlcalMunTxtF.setText("");
-    EDO_BOX.setSelectedIndex(0);
-}
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
         manejarTablaEmpleado();
     }//GEN-LAST:event_resultsTableMouseClicked
 
     private void PswTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PswTxtFActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_PswTxtFActionPerformed
 
     private void UserTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserTxtFActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_UserTxtFActionPerformed
 
     private void SalTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalTxtFActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_SalTxtFActionPerformed
 
     private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
     private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
 
     private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
 
     private void jTextFieldApPaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApPaternoActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldApPaternoActionPerformed
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
 
-        jTextFieldNombre.setText(""); // Elimina el texto inicial
-        jTextFieldNombre.setEditable(false); // Hace que no se pueda editar
     }//GEN-LAST:event_jTextFieldNombreActionPerformed
 
     private void ColTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColTxtFActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ColTxtFActionPerformed
 
     private void ExtTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExtTxtFActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ExtTxtFActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       try {
-        // Verifica si se seleccionó una fila en la tabla
-        int filaSeleccionada = resultsTable.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Obtiene el ID del empleado seleccionado
-        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-
-        // Obtiene el ID de la dirección asociada al empleado
-        String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
-
-        if (idDireccion == null || idDireccion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Confirmación antes de eliminar
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar al empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
-        if (confirmacion != JOptionPane.YES_OPTION) {
-            return; // El usuario canceló la operación
-        }
-
-        // Llama al método del DAO para eliminar empleado y dirección
-        boolean exito = daoEmpleado.deleteEmployee(idEmpleado, idDireccion);
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
-            cargarEmpleados(); // Recarga la tabla para reflejar los cambios
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
+        botonEliminar();
     }//GEN-LAST:event_jButton6ActionPerformed
-private Object[] datosConfirmados = null;
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-     try {
-        // Obtener datos del formulario
-        String nombre = jTextFieldNombre.getText().trim();
-        String apPaterno = jTextFieldApPaterno.getText().trim();
-        String apMaterno = jTextFieldApMaterno.getText().trim();
-        String fechaReg = jTextFieldFechaReg.getText().trim();
-        String usuarioEmpleado = UserTxtF.getText().trim();
-        String contrasenaEmpleado = PswTxtF.getText().trim();
-        String correo = jTextFieldCorreo.getText().trim();
-        String puesto = (String) PuestoCB.getSelectedItem();
-        float sueldo = Float.parseFloat(SalTxtF.getText().trim());
-
-        String calle = CalleTxtF.getText().trim();
-        String exterior = ExtTxtF.getText().trim();
-        String interior = IntTxtF.getText().trim();
-        String colonia = ColTxtF.getText().trim();
-        String cp = CPTxtF.getText().trim();
-        String alcalMun = AlcalMunTxtF.getText().trim();
-        String estado = (String) EDO_BOX.getSelectedItem();
-
-        // Validar y obtener IDs
-        String idEstado = daoEmpleado.obtenerCodigoEstado(estado);
-        if (idEstado == null || idEstado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
-        if (idDireccion == null) {
-            JOptionPane.showMessageDialog(this, "Error al insertar la dirección. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String idPuesto = daoEmpleado.insertarPuestoSiNoExiste(puesto);
-        if (idPuesto == null) {
-            JOptionPane.showMessageDialog(this, "Error al insertar el puesto. Revisa los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Insertar empleado
-        boolean empleadoInsertado = daoEmpleado.insertarEmpleado(nombre, apPaterno, apMaterno, fechaReg, correo, idDireccion, idPuesto, sueldo, usuarioEmpleado, contrasenaEmpleado);
-        if (empleadoInsertado) {
-            JOptionPane.showMessageDialog(this, "Empleado guardado correctamente.");
-            cargarEmpleados(); // Actualizar la tabla de empleados
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Formato de sueldo incorrecto. Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al guardar empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void PuestoCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PuestoCBActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_PuestoCBActionPerformed
-
-    private void CONFIRMARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONFIRMARActionPerformed
-    try {
-        // Verificar si todos los campos obligatorios están completos
-        if (camposCompletos()) {
-            datosConfirmados = obtenerDatosEmpleado(); // Recoge y valida los datos ingresados
-            if (datosConfirmados != null) {
-                jButton5.setEnabled(true); // Habilita el botón Guardar
-                JOptionPane.showMessageDialog(this, "Datos confirmados. Ahora puedes guardar el empleado.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al confirmar los datos. Revisa los campos e inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al confirmar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
-    }//GEN-LAST:event_CONFIRMARActionPerformed
 
     private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
     if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -930,129 +762,27 @@ private Object[] datosConfirmados = null;
         evt.consume();
     }
     }//GEN-LAST:event_searchbarKeyPressed
-private boolean camposCompletos() {
-    // Verifica si los campos están vacíos o no
-    if (jTextFieldNombre.getText().trim().isEmpty()) return false;
-    if (jTextFieldApPaterno.getText().trim().isEmpty()) return false;
-    if (jTextFieldApMaterno.getText().trim().isEmpty()) return false;
-    if (jTextFieldCorreo.getText().trim().isEmpty()) return false;
-    if (SalTxtF.getText().trim().isEmpty()) return false;
-    if (CalleTxtF.getText().trim().isEmpty()) return false;
-    if (ExtTxtF.getText().trim().isEmpty()) return false;
-    if (ColTxtF.getText().trim().isEmpty()) return false;
-    if (CPTxtF.getText().trim().isEmpty()) return false;
-    if (AlcalMunTxtF.getText().trim().isEmpty()) return false;
-    if (EDO_BOX.getSelectedItem() == null || EDO_BOX.getSelectedItem().toString().trim().isEmpty()) return false;
-    return true; // Todos los campos están llenos
-}
-    
-    
-    private Object[] prepararDatosParaGuardar() {
-    try {
-        // Validar y preparar el nombre
-        String nombre = jTextFieldNombre.getText().trim();
-        if (nombre.isEmpty()) throw new IllegalArgumentException("El nombre no puede estar vacío.");
 
-        // Validar y preparar apellidos
-        String apPaterno = jTextFieldApPaterno.getText().trim();
-        if (apPaterno.isEmpty()) throw new IllegalArgumentException("El apellido paterno no puede estar vacío.");
+    private void BotLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotLimpiarActionPerformed
+        limpiarCampos();
+        setFechaActual();
+    }//GEN-LAST:event_BotLimpiarActionPerformed
 
-        String apMaterno = jTextFieldApMaterno.getText().trim();
-        if (apMaterno.isEmpty()) throw new IllegalArgumentException("El apellido materno no puede estar vacío.");
+    private void BOTAÑADIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAÑADIRActionPerformed
+        botonAgregar();
+    }//GEN-LAST:event_BOTAÑADIRActionPerformed
 
-        // Validar y preparar la fecha de registro
-        String fechaReg = jTextFieldFechaReg.getText().trim();
-        if (fechaReg.isEmpty()) throw new IllegalArgumentException("La fecha de registro no puede estar vacía.");
-
-        // Validar y preparar usuario
-        String usuario = UserTxtF.getText().trim();
-        if (usuario.isEmpty()) throw new IllegalArgumentException("El usuario no puede estar vacío.");
-
-        // Validar y preparar contraseña
-        String contrasena = PswTxtF.getText().trim();
-        if (contrasena.isEmpty()) throw new IllegalArgumentException("La contraseña no puede estar vacía.");
-
-        // Validar y preparar correo
-        String correo = jTextFieldCorreo.getText().trim();
-        if (correo.isEmpty()) throw new IllegalArgumentException("El correo no puede estar vacío.");
-
-        // Validar y preparar el puesto
-        String puesto = (String) PuestoCB.getSelectedItem();
-        if (puesto == null || puesto.trim().isEmpty()) throw new IllegalArgumentException("El puesto no puede estar vacío.");
-
-        // Validar y preparar salario
-        Float salario;
-        try {
-            salario = Float.parseFloat(SalTxtF.getText().trim());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("El salario debe ser un número válido.");
-        }
-
-        // Validar y preparar dirección
-        String calle = CalleTxtF.getText().trim();
-        if (calle.isEmpty()) throw new IllegalArgumentException("La calle no puede estar vacía.");
-
-        String exterior = ExtTxtF.getText().trim();
-        if (exterior.isEmpty()) throw new IllegalArgumentException("El número exterior no puede estar vacío.");
-
-        String interior = IntTxtF.getText().trim();
-
-        String colonia = ColTxtF.getText().trim();
-        if (colonia.isEmpty()) throw new IllegalArgumentException("La colonia no puede estar vacía.");
-
-        String cp = CPTxtF.getText().trim();
-        if (cp.isEmpty()) throw new IllegalArgumentException("El código postal no puede estar vacío.");
-
-        String alcalMun = AlcalMunTxtF.getText().trim();
-        if (alcalMun.isEmpty()) throw new IllegalArgumentException("La alcaldía o municipio no puede estar vacío.");
-
-        String estado = (String) EDO_BOX.getSelectedItem();
-        if (estado == null || estado.trim().isEmpty()) throw new IllegalArgumentException("El estado no puede estar vacío.");
-
-        // Prepara y devuelve los datos en un arreglo
-        return new Object[]{
-            nombre, apPaterno, apMaterno, fechaReg, usuario, contrasena, correo,
-            puesto, salario, calle, exterior, interior, colonia, cp, alcalMun, estado, null, null
-        };
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this, "Error en los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return null;
-    }
-}
-
-
-    private boolean validarCamposLlenos() {
-    if (jTextFieldNombre.getText().trim().isEmpty()) return false;
-    if (jTextFieldApPaterno.getText().trim().isEmpty()) return false;
-    if (jTextFieldApMaterno.getText().trim().isEmpty()) return false;
-    if (jTextFieldFechaReg.getText().trim().isEmpty()) return false;
-    if (UserTxtF.getText().trim().isEmpty()) return false;
-    if (PswTxtF.getText().trim().isEmpty()) return false;
-    if (jTextFieldCorreo.getText().trim().isEmpty()) return false;
-    if (PuestoCB.getSelectedItem() == null || PuestoCB.getSelectedItem().toString().trim().isEmpty()) return false;
-    if (SalTxtF.getText().trim().isEmpty()) return false;
-    if (CalleTxtF.getText().trim().isEmpty()) return false;
-    if (ExtTxtF.getText().trim().isEmpty()) return false;
-    if (ColTxtF.getText().trim().isEmpty()) return false;
-    if (CPTxtF.getText().trim().isEmpty()) return false;
-    if (AlcalMunTxtF.getText().trim().isEmpty()) return false;
-    if (EDO_BOX.getSelectedItem() == null || EDO_BOX.getSelectedItem().toString().trim().isEmpty()) return false;
-    return true;
-}
-
-
-
-    
-    
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AlcalMun;
     private javax.swing.JTextField AlcalMunTxtF;
     private javax.swing.JLabel ApMat;
     private javax.swing.JLabel ApPat;
+    private javax.swing.JButton BOTAÑADIR;
+    private javax.swing.JButton BotLimpiar;
     private javax.swing.JLabel CALLE;
     private javax.swing.JLabel COLONIA;
-    private javax.swing.JButton CONFIRMAR;
     private javax.swing.JLabel CP;
     private javax.swing.JTextField CPTxtF;
     private javax.swing.JTextField CalleTxtF;
@@ -1079,9 +809,7 @@ private boolean camposCompletos() {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
