@@ -479,8 +479,8 @@ public class PrEmpleado extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        BotLimpiar = new javax.swing.JButton();
-        BOTAÑADIR = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -722,7 +722,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
+        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
@@ -732,28 +732,27 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
+        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 110, -1, -1));
 
-        BotLimpiar.setForeground(new java.awt.Color(240, 240, 240));
-        BotLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
-        BotLimpiar.setText("UUUUU");
-        BotLimpiar.setBorderPainted(false);
-        BotLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotLimpiarActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-        fondo.add(BotLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, 50, -1));
+        fondo.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
-        BOTAÑADIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
-        BOTAÑADIR.setBorder(null);
-        BOTAÑADIR.setBorderPainted(false);
-        BOTAÑADIR.addActionListener(new java.awt.event.ActionListener() {
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
+        jButton7.setContentAreaFilled(false);
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BOTAÑADIRActionPerformed(evt);
+                jButton7ActionPerformed(evt);
             }
         });
-        fondo.add(BOTAÑADIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, 50, 40));
+        fondo.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, -1, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -841,14 +840,14 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_searchbarKeyPressed
 
-    private void BotLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotLimpiarActionPerformed
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        botonAgregar();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         limpiarCampos();
         setFechaActual();
-    }//GEN-LAST:event_BotLimpiarActionPerformed
-
-    private void BOTAÑADIRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOTAÑADIRActionPerformed
-        botonAgregar();
-    }//GEN-LAST:event_BOTAÑADIRActionPerformed
+    }//GEN-LAST:event_jButton7ActionPerformed
 
      
 
@@ -857,8 +856,6 @@ public class PrEmpleado extends javax.swing.JPanel {
     private javax.swing.JTextField AlcalMunTxtF;
     private javax.swing.JLabel ApMat;
     private javax.swing.JLabel ApPat;
-    private javax.swing.JButton BOTAÑADIR;
-    private javax.swing.JButton BotLimpiar;
     private javax.swing.JLabel CALLE;
     private javax.swing.JLabel COLONIA;
     private javax.swing.JLabel CP;
@@ -888,7 +885,9 @@ public class PrEmpleado extends javax.swing.JPanel {
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldApMaterno;

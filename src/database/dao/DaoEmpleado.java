@@ -502,14 +502,14 @@ public boolean updateEmployee(Object[] datosEmpleado) {
         // Preparar la consulta
         ps = conn.prepareStatement(sql);
 
-        // Asignar parámetros con validación explícita de tipos
+        // Asignar parámetros con el orden correcto
         ps.setString(1, (String) datosEmpleado[1]); // NOMBRE
         ps.setString(2, (String) datosEmpleado[2]); // AP_PATERNO
         ps.setString(3, (String) datosEmpleado[3]); // AP_MATERNO
         ps.setString(4, (String) datosEmpleado[4]); // FECHA_REG
-        ps.setString(5, (String) datosEmpleado[6]); // CORREO
+        ps.setString(5, (String) datosEmpleado[7]); // CORREO (¡Asegúrate de que el índice sea el correcto!)
         ps.setString(6, (String) datosEmpleado[8]); // ID_PUESTO
-        ps.setFloat(7, Float.parseFloat(datosEmpleado[9].toString()));   // SUELDO
+        ps.setFloat(7, Float.parseFloat(datosEmpleado[9].toString())); // SUELDO
         ps.setString(8, (String) datosEmpleado[5]); // USUARIO_EMPLEADO
         ps.setString(9, (String) datosEmpleado[6]); // CONTRASENIA_EMPLEADO
         ps.setString(10, (String) datosEmpleado[10]); // ID_DIRECCION
@@ -527,6 +527,7 @@ public boolean updateEmployee(Object[] datosEmpleado) {
         desconectar(); // Cerrar la conexión en el bloque finally
     }
 }
+
 
     
     
