@@ -6,9 +6,6 @@ package com.vews;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JTable;
 import database.dao.DaoClientes;
@@ -23,9 +20,6 @@ public class PrCliente extends javax.swing.JPanel {
 
     public static PrCliente cl;
 
-    /**
-     * Creates new form Inicio
-     */
     public PrCliente() {
         initComponents(); // Inicializa los componentes del formulario
         cargarEstados();
@@ -74,7 +68,7 @@ public class PrCliente extends javax.swing.JPanel {
         ELIMINAR_BOTON = new javax.swing.JButton();
         ESTADO = new javax.swing.JLabel();
         jComboBoxEstado = new javax.swing.JComboBox<>();
-        jButtonCONFIRMAR = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -325,13 +319,13 @@ public class PrCliente extends javax.swing.JPanel {
         jComboBoxEstado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 110, -1));
 
-        jButtonCONFIRMAR.setText("CONFIRMAR");
-        jButtonCONFIRMAR.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCONFIRMARActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonCONFIRMAR, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 470, -1, -1));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 470, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -391,8 +385,7 @@ if (filaSeleccionada != -1) {
         jTextFieldAlcalMun.setText((String) cliente[11]); // Alcaldía/Municipio
         jComboBoxEstado.setSelectedItem((String) cliente[12]); // Estado
 
-        // Bloquear los campos nuevamente para evitar cambios directos
-        bloquearCampos();
+       
     } else {
         JOptionPane.showMessageDialog(this, "No se pudo cargar la información del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -552,58 +545,9 @@ private void eliminarCliente() {
     }
 }
 
-private void bloquearCampos() {
-    // Bloquear los cuadros de texto para que no sean editables
-    jTextFieldNombre.setEditable(false);
-    jTextFieldApPaterno.setEditable(false);
-    jTextFieldApMaterno.setEditable(false);
-    jTextFieldFechaReg.setEditable(false);
-    jTextFieldCorreo.setEditable(false);
-    jTextFieldCalle.setEditable(false);
-    jTextFieldExterior.setEditable(false);
-    jTextFieldInterior.setEditable(false);
-    jTextFieldColonia.setEditable(false);
-    jTextFieldCP.setEditable(false);
-    jTextFieldAlcalMun.setEditable(false);
-    jComboBoxEstado.setEnabled(false);
-}
 
-private void habilitarCampos() {
-    // Habilitar los cuadros de texto para que sean editables
-    jTextFieldNombre.setEditable(true);
-    jTextFieldApPaterno.setEditable(true);
-    jTextFieldApMaterno.setEditable(true);
-    jTextFieldFechaReg.setEditable(true);
-    jTextFieldCorreo.setEditable(true);
-    jTextFieldCalle.setEditable(true);
-    jTextFieldExterior.setEditable(true);
-    jTextFieldInterior.setEditable(true);
-    jTextFieldColonia.setEditable(true);
-    jTextFieldCP.setEditable(true);
-    jTextFieldAlcalMun.setEditable(true);
-    jComboBoxEstado.setEnabled(true);
-}
 
-private void guardarCliente() {
-    try {
-        // Obtener los datos del formulario
-        Object[] cliente = obtenerDatosCliente(); // Método que recopila los datos del formulario
-        if (cliente == null) return; // Si los datos son inválidos, no continuar
 
-        // Llamar al método del DAO para actualizar el cliente
-        boolean exito = daoCliente.updateClient(cliente);
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Cliente actualizado correctamente.");
-            cargarClientes(); // Recargar la tabla de clientes
-            bloquearCampos(); // Bloquear campos nuevamente después de guardar
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al guardar cliente: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
-}
 
     private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
         manejarTablaCliente();
@@ -759,8 +703,6 @@ private void setFechaActual() {
         JOptionPane.showMessageDialog(this, "Selecciona un cliente de la tabla para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
     }
-    // Habilitar los campos para edición
-    habilitarCampos();
     GUARDAR_BOTON.setEnabled(true); // Activar el botón "Guardar"
     }//GEN-LAST:event_EDITAR_BOTONActionPerformed
 
@@ -853,7 +795,6 @@ try {
 
     // Limpiar y bloquear campos después de guardar
     limpiarCampos();
-    bloquearCampos();
     GUARDAR_BOTON.setEnabled(false); // Desactivar el botón Guardar
     datosConfirmados = null; // Limpiar datos confirmados
     cargarClientes(); // Recargar la tabla de clientes
@@ -887,42 +828,8 @@ try {
     jTextFieldNombre.setColumns(20);
     }//GEN-LAST:event_jTextFieldAlcalMunActionPerformed
 private Object[] datosConfirmados = null;
-    private void jButtonCONFIRMARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCONFIRMARActionPerformed
-    try {
-        // Verificar si todos los campos obligatorios están completos
-        if (camposCompletos()) {
-            datosConfirmados = obtenerDatosCliente(); // Recoge y valida los datos ingresados
-            if (datosConfirmados != null) {
-                GUARDAR_BOTON.setEnabled(true); // Habilita el botón Guardar
-                JOptionPane.showMessageDialog(this, "Datos confirmados. Ahora puedes guardar el cliente.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al confirmar los datos. Revisa los campos e inténtalo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al confirmar los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
-}
-
-// Método para verificar que los campos obligatorios estén llenos
-private boolean camposCompletos() {
-    return !jTextFieldNombre.getText().trim().isEmpty()
-        && !jTextFieldApPaterno.getText().trim().isEmpty()
-        && !jTextFieldCorreo.getText().trim().isEmpty()
-        && !jTextFieldFechaReg.getText().trim().isEmpty()
-        && jComboBoxEstado.getSelectedItem() != null;
-    }//GEN-LAST:event_jButtonCONFIRMARActionPerformed
-
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
-        limpiarCampos(); // Limpia todos los campos
-        habilitarCampos(); // Habilita todos los campos
-        setFechaActual(); // Establece la fecha actual automáticamente
-        datosConfirmados = null; // Limpia cualquier dato temporal confirmado
-        GUARDAR_BOTON.setEnabled(false); // Desactiva el botón "Guardar" hasta que se confirme
-        JOptionPane.showMessageDialog(this, "Campos listos para ingresar un nuevo cliente. Completa y confirma los datos.");
+       
     }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
 
     private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
@@ -938,6 +845,11 @@ private boolean camposCompletos() {
         evt.consume();
     }
     }//GEN-LAST:event_searchbarKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        limpiarCampos();
+        setFechaActual();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -960,7 +872,7 @@ private boolean camposCompletos() {
     private javax.swing.JButton GUARDAR_BOTON;
     private javax.swing.JLabel INTERIOR;
     private javax.swing.JLabel NOMBRE;
-    private javax.swing.JButton jButtonCONFIRMAR;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBoxEstado;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;

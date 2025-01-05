@@ -68,6 +68,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         if (empleadoInsertado) {
             JOptionPane.showMessageDialog(this, "Empleado guardado correctamente.");
             cargarEmpleados(); // Actualizar la tabla de empleados
+            limpiarCampos();
         } else {
             JOptionPane.showMessageDialog(this, "Error al guardar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         }

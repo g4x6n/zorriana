@@ -7,7 +7,6 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Locale;
@@ -267,7 +266,6 @@ public String obtenerCodigoEstado(String nombreEstado) {
     }
     return idDireccion;
 }
-private javax.swing.JTable resultsTable;
 
   public List<Object[]> cargarClientes() {
     conectar();
@@ -299,9 +297,6 @@ private javax.swing.JTable resultsTable;
     }
     return clientes;
 }
-
- 
-    
     // Obtener cliente por ID
     public Object[] obtenerClientePorId(String idCliente) {
         conectar(); 
