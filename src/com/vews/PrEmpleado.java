@@ -80,18 +80,16 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
     }
     private void botonEliminar() {
-         try {
-        // Verifica si se seleccionó una fila en la tabla
+    try {
+        // Verificar que se seleccionó un empleado
         int filaSeleccionada = resultsTable.getSelectedRow();
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
             return;
         }
 
-        // Obtiene el ID del empleado seleccionado
+        // Obtener IDs del empleado y la dirección
         String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-
-        // Obtiene el ID de la dirección asociada al empleado
         String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
 
         if (idDireccion == null || idDireccion.isEmpty()) {
@@ -102,16 +100,16 @@ public class PrEmpleado extends javax.swing.JPanel {
         // Confirmación antes de eliminar
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar al empleado?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirmacion != JOptionPane.YES_OPTION) {
-            return; // El usuario canceló la operación
+            return; // Cancelar la operación
         }
 
-        // Llama al método del DAO para eliminar empleado y dirección
+        // Llamar al método para eliminar empleado y dirección
         boolean exito = daoEmpleado.deleteEmployee(idEmpleado, idDireccion);
         if (exito) {
-            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
-            cargarEmpleados(); // Recarga la tabla para reflejar los cambios
+            JOptionPane.showMessageDialog(this, "Empleado y dirección eliminados correctamente.");
+            cargarEmpleados(); // Recargar la tabla
         } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado y la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al eliminar empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -119,7 +117,87 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
     }
     private void botonEditar(){
-        
+    try {
+        // Verificar que se haya seleccionado un empleado en la tabla
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.");
+            return;
+        }
+
+        // Obtener el ID del empleado seleccionado
+        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+
+        // Validar los datos ingresados en el formulario
+        String nombre = jTextFieldNombre.getText().trim();
+        String apPaterno = jTextFieldApPaterno.getText().trim();
+        String apMaterno = jTextFieldApMaterno.getText().trim();
+        String fechaReg = jTextFieldFechaReg.getText().trim();
+        String usuarioEmpleado = UserTxtF.getText().trim();
+        String contrasenaEmpleado = PswTxtF.getText().trim();
+        String correo = jTextFieldCorreo.getText().trim();
+        String puesto = PuestoCB.getSelectedItem().toString();
+
+        // Validar y convertir el sueldo
+        String sueldoTexto = SalTxtF.getText().trim();
+        float sueldo;
+        try {
+            sueldo = Float.parseFloat(sueldoTexto);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Formato de sueldo incorrecto. Ingresa un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener datos de la dirección
+        String calle = CalleTxtF.getText().trim();
+        String exterior = ExtTxtF.getText().trim();
+        String interior = IntTxtF.getText().trim();
+        String colonia = ColTxtF.getText().trim();
+        String cp = CPTxtF.getText().trim();
+        String alcalMun = AlcalMunTxtF.getText().trim();
+        String estado = EDO_BOX.getSelectedItem().toString();
+
+        // Validar y obtener IDs necesarios
+        String idEstado = daoEmpleado.obtenerCodigoEstado(estado);
+        if (idEstado == null || idEstado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idDireccion = daoEmpleado.obtenerIdDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+        if (idDireccion == null) {
+            idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+            if (idDireccion == null) {
+                JOptionPane.showMessageDialog(this, "Error al insertar la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        String idPuesto = daoEmpleado.insertarPuestoSiNoExiste(puesto);
+        if (idPuesto == null) {
+            JOptionPane.showMessageDialog(this, "Error al obtener el puesto.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear el arreglo de datos del empleado para actualizar
+        Object[] datosEmpleado = new Object[]{
+            idEmpleado, nombre, apPaterno, apMaterno, fechaReg, usuarioEmpleado,
+            contrasenaEmpleado, correo, idPuesto, sueldo, idDireccion
+        };
+
+        // Llamar al método de actualización en DaoEmpleado
+        boolean exito = daoEmpleado.updateEmployee(datosEmpleado);
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Empleado actualizado correctamente.");
+            cargarEmpleados(); // Recargar la tabla
+            limpiarCampos(); // Limpiar los campos del formulario
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
     }
     
     private void cargarEstados() {
@@ -194,8 +272,6 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
-
-
     private void editarEmpleado() {
         // Método para editar un empleado
         try {
@@ -217,7 +293,6 @@ public class PrEmpleado extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al editar empleado: " + e.getMessage());
         }
     }
-
     private Object[] obtenerDatosEmpleado() {
     try {
         String nombre = jTextFieldNombre.getText().trim();
@@ -249,7 +324,6 @@ public class PrEmpleado extends javax.swing.JPanel {
         return null;
     }
 }
-
     private void manejarTablaEmpleado() {
         int filaSeleccionada = resultsTable.getSelectedRow();
     if (filaSeleccionada != -1) {
@@ -282,8 +356,7 @@ public class PrEmpleado extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "No se pudo cargar la información del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    }
-    
+    }   
     private void BuscarEmpleado() {
         String filtro = searchbar.getText().trim();
 
@@ -327,8 +400,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         ex.printStackTrace();
     }
 
-    }
-    
+    }  
     private void setFechaActual() {
     // Obtener la fecha actual
     LocalDate now = LocalDate.now();
@@ -650,7 +722,7 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton4ActionPerformed(evt);
             }
         });
-        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, -1, -1));
+        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 110, -1, -1));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
@@ -660,23 +732,28 @@ public class PrEmpleado extends javax.swing.JPanel {
                 jButton6ActionPerformed(evt);
             }
         });
-        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 110, -1, -1));
+        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
 
-        BotLimpiar.setText("LIMPIAR CAMPOS");
+        BotLimpiar.setForeground(new java.awt.Color(240, 240, 240));
+        BotLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
+        BotLimpiar.setText("UUUUU");
+        BotLimpiar.setBorderPainted(false);
         BotLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotLimpiarActionPerformed(evt);
             }
         });
-        fondo.add(BotLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 480, -1, -1));
+        fondo.add(BotLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, 50, -1));
 
-        BOTAÑADIR.setText("AGREGAR");
+        BOTAÑADIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        BOTAÑADIR.setBorder(null);
+        BOTAÑADIR.setBorderPainted(false);
         BOTAÑADIR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BOTAÑADIRActionPerformed(evt);
             }
         });
-        fondo.add(BOTAÑADIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 120, -1, -1));
+        fondo.add(BOTAÑADIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, 50, 40));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 

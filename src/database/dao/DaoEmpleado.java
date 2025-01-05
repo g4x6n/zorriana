@@ -422,24 +422,28 @@ import java.util.List;
     // Eliminar empleado
     public boolean deleteEmployee(String idEmpleado, String idDireccion) {
     conectar();
+    boolean exito = false;
     try {
+        // Primero eliminar el empleado
         String sqlEmpleado = "DELETE FROM EMPLEADO WHERE ID_EMPLEADO = ?";
         ps = conn.prepareStatement(sqlEmpleado);
         ps.setString(1, idEmpleado);
-        ps.executeUpdate();
+        int filasEmpleado = ps.executeUpdate();
 
-        String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
-        ps = conn.prepareStatement(sqlDireccion);
-        ps.setString(1, idDireccion);
-        ps.executeUpdate();
-
-        return true;
-    } catch (SQLException ex) {
-        System.out.println("Error al eliminar empleado: " + ex.getMessage());
+        // Luego eliminar la dirección asociada si el empleado fue eliminado
+        if (filasEmpleado > 0) {
+            String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
+            ps = conn.prepareStatement(sqlDireccion);
+            ps.setString(1, idDireccion);
+            int filasDireccion = ps.executeUpdate();
+            exito = filasDireccion > 0;
+        }
+    } catch (SQLException e) {
+        System.out.println("Error al eliminar empleado y dirección: " + e.getMessage());
     } finally {
         desconectar();
     }
-    return false;
+    return exito;
 }
 
     // Listar empleados con dirección concatenada
@@ -479,13 +483,13 @@ import java.util.List;
         return empleados;
     }
 
-    public boolean updateEmployee(Object[] datosEmpleado) {
+public boolean updateEmployee(Object[] datosEmpleado) {
     conectar(); // Establecer conexión a la base de datos
     String sql = "UPDATE EMPLEADO SET " +
                  "NOMBRE = ?, " +
                  "AP_PATERNO = ?, " +
                  "AP_MATERNO = ?, " +
-                 "FECHA_REG = TO_DATE(?, 'DD-MON-YY'), " +
+                 "FECHA_REG = TO_DATE(?, 'YYYY-MM-DD'), " +
                  "CORREO = ?, " +
                  "ID_PUESTO = ?, " +
                  "SUELDO = ?, " +
@@ -498,17 +502,17 @@ import java.util.List;
         // Preparar la consulta
         ps = conn.prepareStatement(sql);
 
-        // Asignar parámetros
+        // Asignar parámetros con validación explícita de tipos
         ps.setString(1, (String) datosEmpleado[1]); // NOMBRE
         ps.setString(2, (String) datosEmpleado[2]); // AP_PATERNO
         ps.setString(3, (String) datosEmpleado[3]); // AP_MATERNO
         ps.setString(4, (String) datosEmpleado[4]); // FECHA_REG
         ps.setString(5, (String) datosEmpleado[6]); // CORREO
-        ps.setString(6, (String) datosEmpleado[7]); // ID_PUESTO
-        ps.setFloat(7, (Float) datosEmpleado[8]);   // SUELDO
+        ps.setString(6, (String) datosEmpleado[8]); // ID_PUESTO
+        ps.setFloat(7, Float.parseFloat(datosEmpleado[9].toString()));   // SUELDO
         ps.setString(8, (String) datosEmpleado[5]); // USUARIO_EMPLEADO
         ps.setString(9, (String) datosEmpleado[6]); // CONTRASENIA_EMPLEADO
-        ps.setString(10, (String) datosEmpleado[9]); // ID_DIRECCION
+        ps.setString(10, (String) datosEmpleado[10]); // ID_DIRECCION
         ps.setString(11, (String) datosEmpleado[0]); // ID_EMPLEADO
 
         // Ejecutar la actualización
@@ -523,6 +527,7 @@ import java.util.List;
         desconectar(); // Cerrar la conexión en el bloque finally
     }
 }
+
     
     
 }
