@@ -116,7 +116,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         e.printStackTrace();
     }
     }
-    private void botonEditar(){
+    private void botonEditar() {
     try {
         // Verificar que se haya seleccionado un empleado en la tabla
         int filaSeleccionada = resultsTable.getSelectedRow();
@@ -157,22 +157,31 @@ public class PrEmpleado extends javax.swing.JPanel {
         String alcalMun = AlcalMunTxtF.getText().trim();
         String estado = EDO_BOX.getSelectedItem().toString();
 
-        // Validar y obtener IDs necesarios
+        // Validar y obtener el ID del estado
         String idEstado = daoEmpleado.obtenerCodigoEstado(estado);
         if (idEstado == null || idEstado.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        String idDireccion = daoEmpleado.obtenerIdDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
-        if (idDireccion == null) {
-            idDireccion = daoEmpleado.insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
-            if (idDireccion == null) {
-                JOptionPane.showMessageDialog(this, "Error al insertar la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        // Obtener el ID de la dirección del empleado
+        String idDireccion = daoEmpleado.obtenerIdDireccionPorEmpleado(idEmpleado);
+        if (idDireccion == null || idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontró la dirección del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        // Actualizar la dirección
+        Object[] datosDireccion = {
+            idEstado, alcalMun, colonia, cp, calle, exterior, interior, idDireccion
+        };
+        boolean exitoDireccion = daoEmpleado.updateDireccion(datosDireccion);
+        if (!exitoDireccion) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID del puesto
         String idPuesto = daoEmpleado.insertarPuestoSiNoExiste(puesto);
         if (idPuesto == null) {
             JOptionPane.showMessageDialog(this, "Error al obtener el puesto.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -198,7 +207,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Error al actualizar empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace();
     }
-    }
+}
     
     private void cargarEstados() {
         // Llenar la lista de estados en el combo box
@@ -271,58 +280,6 @@ public class PrEmpleado extends javax.swing.JPanel {
         table.getColumnModel().getColumn(i).setMinWidth(anchos[i]);
     }
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-}
-    private void editarEmpleado() {
-        // Método para editar un empleado
-        try {
-            int filaSeleccionada = resultsTable.getSelectedRow();
-            if (filaSeleccionada == -1) {
-                JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.");
-                return;
-            }
-
-            Object[] empleado = obtenerDatosEmpleado();
-            boolean exito = daoEmpleado.updateEmployee(empleado);
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Empleado editado correctamente.");
-                cargarEmpleados();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al editar empleado.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al editar empleado: " + e.getMessage());
-        }
-    }
-    private Object[] obtenerDatosEmpleado() {
-    try {
-        String nombre = jTextFieldNombre.getText().trim();
-        String apPaterno = jTextFieldApPaterno.getText().trim();
-        String apMaterno = jTextFieldApMaterno.getText().trim();
-        String fechaReg = jTextFieldFechaReg.getText().trim();
-        String usuario = UserTxtF.getText().trim();
-        String contrasena = PswTxtF.getText().trim();
-        String correo = jTextFieldCorreo.getText().trim();
-        String puesto = PuestoCB.getSelectedItem().toString();
-        float salario = Float.parseFloat(SalTxtF.getText().trim());
-        String calle = CalleTxtF.getText().trim();
-        String exterior = ExtTxtF.getText().trim();
-        String interior = IntTxtF.getText().trim();
-        String colonia = ColTxtF.getText().trim();
-        String cp = CPTxtF.getText().trim();
-        String alcalMun = AlcalMunTxtF.getText().trim();
-        String estado = EDO_BOX.getSelectedItem().toString();
-
-        return new Object[] {
-            nombre, apPaterno, apMaterno, fechaReg, usuario, contrasena, correo,
-            puesto, salario, calle, exterior, interior, colonia, cp, alcalMun, estado
-        };
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error en el formato de sueldo. Asegúrate de ingresar un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        return null;
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al obtener datos del empleado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return null;
-    }
 }
     private void manejarTablaEmpleado() {
         int filaSeleccionada = resultsTable.getSelectedRow();
@@ -412,7 +369,6 @@ public class PrEmpleado extends javax.swing.JPanel {
     // Establecer la fecha en el campo correspondiente
     jTextFieldFechaReg.setText(fechaActual);
 }
-    
     private void limpiarCampos() {
     jTextFieldNombre.setText("");
     jTextFieldApPaterno.setText("");

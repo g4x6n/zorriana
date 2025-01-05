@@ -285,9 +285,9 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
                           <Component id="Categoria" min="-2" pref="70" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="Cat_Box" min="-2" pref="140" max="-2" attributes="0"/>
-                          <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="SKU" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
                           <Component id="SKUTxtF" min="-2" pref="160" max="-2" attributes="0"/>
@@ -352,8 +352,10 @@
                           </Group>
                           <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="Categoria" min="-2" pref="20" max="-2" attributes="0"/>
-                              <Component id="Cat_Box" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="Categoria" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="Cat_Box" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="SKU" min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="SKUTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -431,8 +433,17 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="MARCA">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="10" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="MARCA"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="MARCAMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="Marca_Box">
                   <Properties>
@@ -483,8 +494,17 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="Categoria">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Tahoma" size="10" style="1"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="CATEGORIA"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CategoriaMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="Cat_Box">
                   <Properties>

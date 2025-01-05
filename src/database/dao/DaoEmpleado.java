@@ -483,7 +483,7 @@ import java.util.List;
         return empleados;
     }
 
-public boolean updateEmployee(Object[] datosEmpleado) {
+    public boolean updateEmployee(Object[] datosEmpleado) {
     conectar(); // Establecer conexión a la base de datos
     String sql = "UPDATE EMPLEADO SET " +
                  "NOMBRE = ?, " +
@@ -526,6 +526,43 @@ public boolean updateEmployee(Object[] datosEmpleado) {
     } finally {
         desconectar(); // Cerrar la conexión en el bloque finally
     }
+}
+
+    public boolean updateDireccion(Object[] datoDireccion) {
+    boolean isUpdated = false;
+    conectar(); // Conectar a la base de datos
+    try {
+        String sql = "UPDATE DIRECCION SET " +
+                     "ID_ESTADO = ?, " +
+                     "ALCAL_MUN = ?, " +
+                     "COLONIA = ?, " +
+                     "CP = ?, " +
+                     "CALLE = ?, " +
+                     "EXTERIOR = ?, " +
+                     "INTERIOR = ? " +
+                     "WHERE ID_DIRECCION = ?";
+        ps = conn.prepareStatement(sql);
+
+        // Asignar valores a los parámetros
+        ps.setString(1, (String) datoDireccion[0]); // ID_ESTADO
+        ps.setString(2, (String) datoDireccion[1]); // ALCAL_MUN
+        ps.setString(3, (String) datoDireccion[2]); // COLONIA
+        ps.setString(4, (String) datoDireccion[3]); // CP
+        ps.setString(5, (String) datoDireccion[4]); // CALLE
+        ps.setString(6, (String) datoDireccion[5]); // EXTERIOR
+        ps.setString(7, (String) datoDireccion[6]); // INTERIOR
+        ps.setString(8, (String) datoDireccion[7]); // ID_DIRECCION
+
+        // Ejecutar la actualización
+        int rowsAffected = ps.executeUpdate();
+        isUpdated = rowsAffected > 0; // Si se actualizó al menos una fila, es exitoso
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar la dirección: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cerrar conexión
+    }
+    return isUpdated;  
 }
 
 

@@ -5,11 +5,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-public class PrProveedor extends javax.swing.JPanel {
+    public class PrProveedor extends javax.swing.JPanel {
     
 
-private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del DAO para manejo de empleados
- 
+    private final DaoProveedor daoProveedor = new DaoProveedor();
 
     public static PrProveedor pl;
 
@@ -21,7 +20,6 @@ private final DaoProveedor daoProveedor = new DaoProveedor(); // Instancia del D
     }
     
     private void cargarEstados() {
-        // Llenar la lista de estados en el combo box
         try {
             List<String> estados = daoProveedor.obtenerEstados(); // Implementar este método en DaoEmpleado
             EDO_BOX.removeAllItems();

@@ -40,7 +40,7 @@ public class PrProducto extends javax.swing.JPanel {
         }
     }
     
-    private void cargarMarcas() {
+    void cargarMarcas() {
         // Llenar la lista de marcas en el combo box
         try {
             List<String> marcas = daoProducto.obtenerMarca();
@@ -66,7 +66,7 @@ public class PrProducto extends javax.swing.JPanel {
         }
     }
     
-    private void cargarCategoria() {
+    void cargarCategoria() {
         // Llenar la lista de marcas en el combo box
         try {
             List<String> categorias = daoProducto.obtenerCategoria();
@@ -430,7 +430,14 @@ try {
             }
         });
 
+        MARCA.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         MARCA.setText("MARCA");
+        MARCA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MARCA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MARCAMouseClicked(evt);
+            }
+        });
 
         Marca_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Marca_Box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -450,7 +457,14 @@ try {
             }
         });
 
+        Categoria.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         Categoria.setText("CATEGORIA");
+        Categoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Categoria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CategoriaMouseClicked(evt);
+            }
+        });
 
         Cat_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Cat_Box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -550,9 +564,9 @@ try {
             .addGroup(productosLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Cat_Box, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
+                .addGap(30, 30, 30)
                 .addComponent(SKU)
                 .addGap(19, 19, 19)
                 .addComponent(SKUTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -607,8 +621,9 @@ try {
                     .addComponent(EdoProd_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Cat_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Categoria, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Cat_Box, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(SKU, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SKUTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
@@ -753,7 +768,7 @@ try {
     }//GEN-LAST:event_resultsTable1MouseClicked
 
     private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
- 
+       
     }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
 
     private void Prov_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prov_BoxActionPerformed
@@ -825,6 +840,16 @@ try {
         evt.consume();
     }
     }//GEN-LAST:event_searchbar1KeyPressed
+
+    private void MARCAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MARCAMouseClicked
+         TablaMarcas ventanaMarcas = new TablaMarcas(this);
+        ventanaMarcas.setVisible(true);
+    }//GEN-LAST:event_MARCAMouseClicked
+
+    private void CategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoriaMouseClicked
+        TablaCategoria ventanaCategoria = new TablaCategoria(this);
+        ventanaCategoria.setVisible(true);
+    }//GEN-LAST:event_CategoriaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
