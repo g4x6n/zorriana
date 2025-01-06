@@ -85,8 +85,6 @@ public class TablaMarcas extends javax.swing.JFrame {
     }
 
     
-  
-    
 private void configComponents(){
         // Titulo de la ventana
         setTitle("Marcas");

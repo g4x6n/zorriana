@@ -13,6 +13,9 @@ private final DaoVentas daoVentas = new DaoVentas();
     public static PrVenta cl;
 
     public PrVenta() {
+
+    initComponents();
+    cargarVentas();
     initComponents(); // Inicializa los componentes generados automáticamente
     cargarVentas();   // Carga los datos de la base de datos
     cargarEmpleados();
@@ -583,18 +586,10 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonEditarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVentaActionPerformed
-       // Object[] datosEmpleado = obtenerDatosEmpleado();
-       /* if (datosEmpleado == null) {
-            return; // Si hay un error en los datos, no continúa
-        }/*
+AgVenta ventanaDeVenta = new AgVenta("ID_Empleado");
+ventanaDeVenta.setLocationRelativeTo(null); // Centrar la ventana
+ventanaDeVenta.setVisible(true); // Mostrar la ventana
 
-        boolean exito = daoEmpleado.addEmployee(datosEmpleado);
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-            cargarEmpleados(); // Recarga la tabla de empleados
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al agregar el empleado.", "Error", JOptionPane.ERROR_MESSAGE);
-        }/**/
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 
     private void BUSQUEDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUSQUEDAMouseClicked

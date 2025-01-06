@@ -47,6 +47,29 @@ public class DaoVentas extends Conexion {
     }
     return exito;
 }
+    public String obtenerNombreEmpleadoPorId(String idEmpleado) {
+    conectar();
+    String nombreEmpleado = null;
+    try {
+        String sql = """
+            SELECT TRIM(NOMBRE) || ' ' || TRIM(AP_PATERNO) || ' ' || NVL(TRIM(AP_MATERNO, '')) AS NOMBRE_COMPLETO
+            FROM EMPLEADO
+            WHERE ID_EMPLEADO = ?
+        """;
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idEmpleado);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            nombreEmpleado = rs.getString("NOMBRE_COMPLETO");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el nombre del empleado: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return nombreEmpleado;
+}
+
 public boolean actualizarVenta(String idVenta, String idCliente, String idEmpleado, String idEstadoVenta, String idMetodoPago, Date fechaVenta) {
     conectar();
     boolean exito = false;
