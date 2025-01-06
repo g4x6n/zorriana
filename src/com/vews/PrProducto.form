@@ -112,7 +112,7 @@
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="productos" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
@@ -127,10 +127,10 @@
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" min="-2" pref="340" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="321" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -283,10 +283,10 @@
                                   <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
                                   <Component id="PisoTxtF" min="-2" pref="100" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="Zona" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="Zona" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
                                           <Component id="ZonaTxtF" min="-2" pref="100" max="-2" attributes="0"/>
                                           <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                           <Component id="Estantería" min="-2" max="-2" attributes="0"/>
@@ -294,11 +294,12 @@
                                           <Component id="EstantTxtF" min="-2" pref="80" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                                           <Component id="AñadirBoton" min="-2" pref="40" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                                          <Component id="EditarBut" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="ELIMINAR_BOTON" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="LimpiarButton" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -354,13 +355,13 @@
                               <Component id="Estantería" min="-2" pref="20" max="-2" attributes="0"/>
                               <Component id="EstantTxtF" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="ELIMINAR_BOTON" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="34" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="ELIMINAR_BOTON" max="32767" attributes="0"/>
                               <Component id="AñadirBoton" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="EditarBut" min="-2" max="-2" attributes="0"/>
+                              <Component id="LimpiarButton" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -595,15 +596,14 @@
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="A&#xf1;adirBotonMouseClicked"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="EditarBut">
+                <Component class="javax.swing.JLabel" name="LimpiarButton">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/img/producto.png"/>
+                      <Image iconType="3" name="/img/limpiar.png"/>
                     </Property>
-                    <Property name="contentAreaFilled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditarButActionPerformed"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LimpiarButtonMouseClicked"/>
                   </Events>
                 </Component>
               </SubComponents>

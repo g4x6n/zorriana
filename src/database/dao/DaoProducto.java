@@ -301,32 +301,31 @@ public boolean deleteProducto(String idProducto) {
     return exito;
 }
 
-public boolean insertarProducto(String idProducto, String nombre, String descripcion, String sku, String idCategoria,
-                                String idEstadoProducto, String idProveedor, int stock, double precio, int piso,
-                                String zona, int estanteria, String idMarca) {
+public boolean insertarProducto(String nombre, String descripcion, String sku, String idCategoria,
+                                String idEstadoProducto, String idProveedor, int stock, double precio,
+                                int piso, String zona, int estanteria, String idMarca) {
     conectar(); // Abre la conexión a la base de datos
     boolean exito = false; // Indica si la operación fue exitosa
 
     try {
-        // Consulta SQL para insertar un nuevo producto
-        String sql = "INSERT INTO PRODUCTO (ID_PRODUCTO, NOMBRE, DESCRIPCION, SKU, ID_CATEGORIA, ID_EDO_PRODUCTO, " +
+        // Consulta SQL para insertar un nuevo producto (sin especificar ID_PRODUCTO)
+        String sql = "INSERT INTO PRODUCTO (NOMBRE, DESCRIPCION, SKU, ID_CATEGORIA, ID_EDO_PRODUCTO, " +
                      "ID_PROVEEDOR, STOCK, PRECIO, PISO, ZONA, ESTANTERIA, ID_MARCA) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         ps = conn.prepareStatement(sql); // Prepara la consulta SQL
-        ps.setString(1, idProducto); // ID del producto
-        ps.setString(2, nombre); // Nombre del producto
-        ps.setString(3, descripcion); // Descripción del producto
-        ps.setString(4, sku); // SKU del producto
-        ps.setString(5, idCategoria); // ID de la categoría
-        ps.setString(6, idEstadoProducto); // ID del estado del producto
-        ps.setString(7, idProveedor); // ID del proveedor
-        ps.setInt(8, stock); // Cantidad en stock
-        ps.setDouble(9, precio); // Precio del producto
-        ps.setInt(10, piso); // Piso donde se encuentra el producto
-        ps.setString(11, zona); // Zona donde se encuentra el producto
-        ps.setInt(12, estanteria); // Estantería donde se encuentra el producto
-        ps.setString(13, idMarca); // ID de la marca
+        ps.setString(1, nombre); // Nombre del producto
+        ps.setString(2, descripcion); // Descripción del producto
+        ps.setString(3, sku); // SKU del producto
+        ps.setString(4, idCategoria); // ID de la categoría
+        ps.setString(5, idEstadoProducto); // ID del estado del producto
+        ps.setString(6, idProveedor); // ID del proveedor
+        ps.setInt(7, stock); // Cantidad en stock
+        ps.setDouble(8, precio); // Precio del producto
+        ps.setInt(9, piso); // Piso donde se encuentra el producto
+        ps.setString(10, zona); // Zona donde se encuentra el producto
+        ps.setInt(11, estanteria); // Estantería donde se encuentra el producto
+        ps.setString(12, idMarca); // ID de la marca
 
         // Ejecuta la consulta y verifica si se insertaron filas
         exito = ps.executeUpdate() > 0;
@@ -355,9 +354,9 @@ public String obtenerCodigoCategoria(String tipo) {
     conectar();
     String idCategoria = null;
     try {
-        String sql = "SELECT ID_CATEGORIA FROM CATEGORIA WHERE TIPO = ?";
+        String sql = "SELECT ID_CATEGORIA FROM CATEGORIA WHERE TRIM(UPPER(TIPO)) = ?";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, tipo);
+        ps.setString(1, tipo.trim().toUpperCase());
         rs = ps.executeQuery();
         if (rs.next()) {
             idCategoria = rs.getString("ID_CATEGORIA");
@@ -369,6 +368,7 @@ public String obtenerCodigoCategoria(String tipo) {
     }
     return idCategoria;
 }
+
 
 public String obtenerCodigoEstado(String estadoProducto) {
     conectar();
@@ -393,9 +393,9 @@ public String obtenerCodigoProveedor(String proveedor) {
     conectar();
     String idProveedor = null;
     try {
-        String sql = "SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE NOMBRE_EMPRESA = ?";
+        String sql = "SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE TRIM(UPPER(NOMBRE_EMPRESA)) = ?";
         ps = conn.prepareStatement(sql);
-        ps.setString(1, proveedor);
+        ps.setString(1, proveedor.trim().toUpperCase());
         rs = ps.executeQuery();
         if (rs.next()) {
             idProveedor = rs.getString("ID_PROVEEDOR");
@@ -427,7 +427,61 @@ public String obtenerCodigoMarca(String marca) {
     return idMarca;
 }
 
+public boolean actualizarProducto(Object[] datosProducto) {
+    conectar(); // Establecer conexión con la base de datos
+    String sql = "UPDATE PRODUCTO SET " +
+                 "NOMBRE = ?, " +
+                 "DESCRIPCION = ?, " +
+                 "SKU = ?, " +
+                 "ID_CATEGORIA = ?, " +
+                 "ID_EDO_PRODUCTO = ?, " +
+                 "ID_PROVEEDOR = ?, " +
+                 "STOCK = ?, " +
+                 "PRECIO = ?, " +
+                 "PISO = ?, " +
+                 "ZONA = ?, " +
+                 "ESTANTERIA = ?, " +
+                 "ID_MARCA = ? " +
+                 "WHERE ID_PRODUCTO = ?";
 
+    try {
+        ps = conn.prepareStatement(sql);
+
+        // Asignar los parámetros
+        ps.setString(1, (String) datosProducto[1]); // NOMBRE
+        ps.setString(2, (String) datosProducto[2]); // DESCRIPCION
+        ps.setString(3, (String) datosProducto[3]); // SKU
+        ps.setString(4, (String) datosProducto[4]); // ID_CATEGORIA
+        ps.setString(5, (String) datosProducto[5]); // ID_EDO_PRODUCTO
+        ps.setString(6, (String) datosProducto[6]); // ID_PROVEEDOR
+        ps.setInt(7, Integer.parseInt(datosProducto[7].toString())); // STOCK
+        ps.setDouble(8, Double.parseDouble(datosProducto[8].toString())); // PRECIO
+        ps.setInt(9, Integer.parseInt(datosProducto[9].toString())); // PISO
+        ps.setString(10, (String) datosProducto[10]); // ZONA
+        ps.setInt(11, Integer.parseInt(datosProducto[11].toString())); // ESTANTERIA
+        ps.setString(12, (String) datosProducto[12]); // ID_MARCA
+        ps.setString(13, (String) datosProducto[0]); // ID_PRODUCTO (clave primaria)
+
+        // Imprimir los datos asignados
+        System.out.println("Datos enviados al DAO:");
+        for (int i = 0; i < datosProducto.length; i++) {
+            System.out.println("Parametro " + (i + 1) + ": " + datosProducto[i]);
+        }
+
+        // Ejecutar la consulta
+        int filasActualizadas = ps.executeUpdate();
+        System.out.println("Filas actualizadas: " + filasActualizadas);
+
+        return filasActualizadas > 0;
+
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar producto: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+    } finally {
+        desconectar(); // Cerrar la conexión
+    }
+}
 
 }
 

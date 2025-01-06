@@ -73,13 +73,13 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> categorias = daoProducto.obtenerCategoria();
             Cat_Box.removeAllItems();
             for (String categoria : categorias) {
+                System.out.println("Cargando categoría: " + categoria);
                 Cat_Box.addItem(categoria.trim());
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar categorías: " + e.getMessage());
         }
     }
-    
     
     private void cargarProductos() { 
     try {
@@ -127,8 +127,6 @@ public class PrProducto extends javax.swing.JPanel {
     }
 }
     
-    
-    
     private void configurarColumnasTabla(JTable table) {
     // Establecer tamaños mínimos y preferidos para las columnas
     int[] anchos = {0, 150, 200, 100, 100, 120, 150, 60, 80, 50, 50, 80, 100};
@@ -147,7 +145,7 @@ public class PrProducto extends javax.swing.JPanel {
         // Verifica si hay un producto seleccionado
         int filaSeleccionada = resultsTable1.getSelectedRow();
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un producto en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            //JOptionPane.showMessageDialog(this, "Selecciona un producto en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -182,170 +180,121 @@ public class PrProducto extends javax.swing.JPanel {
 }
 
    private void añadirProducto() {
-    try {
-        // Obtener datos desde los campos
-        String idProducto = NomTxtF.getText().trim(); // Ajusta según tu campo
-        String nombre = NomTxtF.getText().trim();
+   try {
+        // Validar entradas del formulario
+        String nombreProducto = NomTxtF.getText().trim();
+        if (nombreProducto.isEmpty()) {
+            //JOptionPane.showMessageDialog(this, "Por favor ingrese el nombre del producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         String descripcion = DescTxtF.getText().trim();
         String sku = SKUTxtF.getText().trim();
-        String categoria = Cat_Box.getSelectedItem().toString();
-        String estadoProducto = EdoProd_Box.getSelectedItem().toString();
-        String proveedor = Prov_Box.getSelectedItem().toString();
-        String marca = Marca_Box.getSelectedItem().toString();
-
-        // Validación de campos obligatorios
-        if (nombre.isEmpty() || sku.isEmpty() || categoria == null || estadoProducto == null || proveedor == null || marca == null) {
-            JOptionPane.showMessageDialog(this, "Completa todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        if (sku.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese el SKU.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validar campos numéricos
-        if (StockTxtF.getText().trim().isEmpty() || PrecioTxtF.getText().trim().isEmpty() ||
-            PisoTxtF.getText().trim().isEmpty() || EstantTxtF.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos numéricos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        String categoria = (String) Cat_Box.getSelectedItem();
+        String idCategoria = daoProducto.obtenerCodigoCategoria(categoria);
+        if (idCategoria == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione una categoría válida.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Convertir valores numéricos
+        String estado = (String) EdoProd_Box.getSelectedItem();
+        String idEstado = daoProducto.obtenerCodigoEstado(estado);
+        if (idEstado == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String proveedor = (String) Prov_Box.getSelectedItem();
+        String idProveedor = daoProducto.obtenerCodigoProveedor(proveedor);
+        if (idProveedor == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione un proveedor válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String marca = (String) Marca_Box.getSelectedItem();
+        String idMarca = daoProducto.obtenerCodigoMarca(marca);
+        if (idMarca == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione una marca válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int stock = Integer.parseInt(StockTxtF.getText().trim());
         double precio = Double.parseDouble(PrecioTxtF.getText().trim());
         int piso = Integer.parseInt(PisoTxtF.getText().trim());
-        int estanteria = Integer.parseInt(EstantTxtF.getText().trim());
         String zona = ZonaTxtF.getText().trim();
+        int estanteria = Integer.parseInt(EstantTxtF.getText().trim());
 
-        // Obtener códigos de las tablas relacionadas
-        String idCategoria = daoProducto.obtenerCodigoCategoria(categoria);
-        String idEstadoProducto = daoProducto.obtenerCodigoEstado(estadoProducto);
-        String idProveedor = daoProducto.obtenerCodigoProveedor(proveedor);
-        String idMarca = daoProducto.obtenerCodigoMarca(marca);
-
-        // Validar que los códigos no sean nulos
-        if (idCategoria == null || idEstadoProducto == null || idProveedor == null || idMarca == null) {
-            JOptionPane.showMessageDialog(this, "Selecciona valores válidos en las listas desplegables.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Llamar al método del DAO
-        boolean exito = daoProducto.insertarProducto(idProducto, nombre, descripcion, sku, idCategoria, idEstadoProducto,
-                                                     idProveedor, stock, precio, piso, zona, estanteria, idMarca);
+        
+        // Llamar al DAO para insertar el producto
+        boolean exito = daoProducto.insertarProducto(
+           nombreProducto, descripcion, sku, idCategoria,
+            idEstado, idProveedor, stock, precio, piso, zona, estanteria, idMarca
+        );
 
         if (exito) {
-            JOptionPane.showMessageDialog(this, "Producto añadido correctamente.");
-            cargarProductos(); // Recargar la tabla
+            JOptionPane.showMessageDialog(this, "Producto agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarProductos(); // Actualizar la tabla de productos
+            limpiarCampos();
         } else {
-            JOptionPane.showMessageDialog(this, "Error al añadir el producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al agregar el producto. Verifique los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Verifica que los campos numéricos contengan valores válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese valores numéricos válidos para stock, precio, piso o estantería.", "Error", JOptionPane.ERROR_MESSAGE);
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al añadir producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error al agregar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
 
 
-
-   /* private void editarProducto() {
-    try {
-        int filaSeleccionada = resultsTable1.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un producto para editar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String idProducto = resultsTable1.getValueAt(filaSeleccionada, 0).toString();
-        String nombre = NomTxtF.getText().trim();
-        String descripcion = DescTxtF.getText().trim();
-        String sku = SKUTxtF.getText().trim();
-        String idCategoria = daoProducto.obtenerCodigoCategoria((String) Cat_Box.getSelectedItem());
-        String idEstadoProducto = daoProducto.obtenerCodigoEstadoProducto((String) EdoProd_Box.getSelectedItem());
-        String idProveedor = daoProducto.obtenerCodigoProveedor((String) Prov_Box.getSelectedItem());
-        String idMarca = daoProducto.obtenerCodigoMarca((String) Marca_Box.getSelectedItem());
-        int stock = Integer.parseInt(StockTxtF.getText().trim());
-        double precio = Double.parseDouble(PrecioTxtF.getText().trim());
-        int piso = Integer.parseInt(PisoTxtF.getText().trim());
-        String zona = ZonaTxtF.getText().trim();
-        int estanteria = Integer.parseInt(EstantTxtF.getText().trim());
-
-        if (nombre.isEmpty() || sku.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Completa todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        boolean exito = daoProducto.editarProducto(idProducto, nombre, descripcion, sku, idCategoria, idEstadoProducto, 
-                                                   idProveedor, stock, precio, piso, zona, estanteria, idMarca);
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Producto editado correctamente.");
-            cargarProductos();
-            limpiarCampos();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al editar el producto.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al editar producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}*/
-
-
-    
     private void manejarTablaProducto() {
-        int filaSeleccionada = resultsTable1.getSelectedRow();
+    int filaSeleccionada = resultsTable1.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
-            String categoria = resultsTable1.getValueAt(filaSeleccionada, 4).toString().trim(); // Categoría (TIPO)
-            String proveedor = resultsTable1.getValueAt(filaSeleccionada, 6).toString().trim(); // Proveedor (NOMBRE_EMPRESA)
-            String estado = resultsTable1.getValueAt(filaSeleccionada, 5).toString().trim(); // Estado del producto (CLASIFICACION)
-            String marca = resultsTable1.getValueAt(filaSeleccionada, 12).toString().trim(); // Marca (NOMBRE_MARCA)
-
             // Asignar valores a los campos
-            NomTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 1).toString().trim()); // Nombre
-            DescTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 2).toString().trim()); // Descripción
-            SKUTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 3).toString().trim()); // SKU
-            StockTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 7).toString()); // Stock
-            PrecioTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 8).toString()); // Precio
-            PisoTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 9).toString()); // Piso
-            ZonaTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 10).toString().trim()); // Zona
-            EstantTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 11).toString()); // Estantería
+            NomTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 1).toString().trim());
+            DescTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 2) != null ? resultsTable1.getValueAt(filaSeleccionada, 2).toString().trim() : "");
+            SKUTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 3).toString().trim());
+            StockTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 7).toString());
+            PrecioTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 8).toString());
+            PisoTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 9).toString());
+            ZonaTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 10).toString().trim());
+            EstantTxtF.setText(resultsTable1.getValueAt(filaSeleccionada, 11).toString());
 
             // Seleccionar categoría
-            for (int i = 0; i < Cat_Box.getItemCount(); i++) {
-                if (Cat_Box.getItemAt(i).equalsIgnoreCase(categoria)) {
-                    Cat_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
+            seleccionarEnComboBox(Cat_Box, resultsTable1.getValueAt(filaSeleccionada, 4).toString().trim());
 
             // Seleccionar proveedor
-            for (int i = 0; i < Prov_Box.getItemCount(); i++) {
-                if (Prov_Box.getItemAt(i).equalsIgnoreCase(proveedor)) {
-                    Prov_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
+            seleccionarEnComboBox(Prov_Box, resultsTable1.getValueAt(filaSeleccionada, 6).toString().trim());
 
             // Seleccionar estado del producto
-            for (int i = 0; i < EdoProd_Box.getItemCount(); i++) {
-                if (EdoProd_Box.getItemAt(i).equalsIgnoreCase(estado)) {
-                    EdoProd_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
+            seleccionarEnComboBox(EdoProd_Box, resultsTable1.getValueAt(filaSeleccionada, 5).toString().trim());
 
             // Seleccionar marca
-            for (int i = 0; i < Marca_Box.getItemCount(); i++) {
-                if (Marca_Box.getItemAt(i).equalsIgnoreCase(marca)) {
-                    Marca_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
+            seleccionarEnComboBox(Marca_Box, resultsTable1.getValueAt(filaSeleccionada, 12).toString().trim());
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
+}
+
+private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, String valor) {
+    for (int i = 0; i < comboBox.getItemCount(); i++) {
+        if (comboBox.getItemAt(i).equalsIgnoreCase(valor)) {
+            comboBox.setSelectedIndex(i);
+            break;
+        }
     }
-     
+}
+
     private void limpiarCampos() {
     NomTxtF.setText("");
     DescTxtF.setText("");
@@ -361,7 +310,6 @@ public class PrProducto extends javax.swing.JPanel {
     Marca_Box.setSelectedIndex(-1);
 }
 
-    
     private void buscarProducto()  {
          String filtro = searchbar1.getText().trim();
 
@@ -420,6 +368,8 @@ try {
     ex.printStackTrace();
 }
     }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -458,7 +408,7 @@ try {
         EstantTxtF = new javax.swing.JTextField();
         ELIMINAR_BOTON = new javax.swing.JButton();
         AñadirBoton = new javax.swing.JLabel();
-        EditarBut = new javax.swing.JButton();
+        LimpiarButton = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
@@ -670,11 +620,10 @@ try {
             }
         });
 
-        EditarBut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/producto.png"))); // NOI18N
-        EditarBut.setContentAreaFilled(false);
-        EditarBut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditarButActionPerformed(evt);
+        LimpiarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
+        LimpiarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LimpiarButtonMouseClicked(evt);
             }
         });
 
@@ -726,21 +675,22 @@ try {
                         .addGap(15, 15, 15)
                         .addComponent(PisoTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(Zona)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(productosLayout.createSequentialGroup()
-                                .addComponent(Zona)
-                                .addGap(7, 7, 7)
                                 .addComponent(ZonaTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
                                 .addComponent(Estantería)
                                 .addGap(5, 5, 5)
                                 .addComponent(EstantTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(productosLayout.createSequentialGroup()
+                                .addGap(78, 78, 78)
                                 .addComponent(AñadirBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(5, 5, 5)
-                                .addComponent(EditarBut)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ELIMINAR_BOTON)))))
+                                .addComponent(ELIMINAR_BOTON)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LimpiarButton)))))
                 .addGap(18, 18, 18))
         );
         productosLayout.setVerticalGroup(
@@ -783,12 +733,12 @@ try {
                     .addComponent(ZonaTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Estantería, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(EstantTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ELIMINAR_BOTON)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ELIMINAR_BOTON, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(AñadirBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EditarBut))
-                .addGap(30, 30, 30))
+                    .addComponent(LimpiarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
@@ -832,7 +782,7 @@ try {
                     .addGroup(fondoLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(fondoLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
                         .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoLayout.createSequentialGroup()
                                 .addGap(20, 20, 20)
@@ -843,8 +793,8 @@ try {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
@@ -886,10 +836,6 @@ try {
         manejarTablaProducto();
     }//GEN-LAST:event_resultsTable1MouseClicked
 
-    private void EditarButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarButActionPerformed
-        //editarProducto();
-    }//GEN-LAST:event_EditarButActionPerformed
-
     private void Prov_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prov_BoxActionPerformed
    
     }//GEN-LAST:event_Prov_BoxActionPerformed
@@ -904,6 +850,7 @@ try {
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
        buscarProducto();
+       cargarProductos();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void DescTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescTxtFActionPerformed
@@ -974,6 +921,10 @@ try {
         añadirProducto();
     }//GEN-LAST:event_AñadirBotonMouseClicked
 
+    private void LimpiarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarButtonMouseClicked
+        limpiarCampos();
+    }//GEN-LAST:event_LimpiarButtonMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AñadirBoton;
@@ -982,12 +933,12 @@ try {
     private javax.swing.JLabel DESCRIPCION;
     private javax.swing.JTextField DescTxtF;
     private javax.swing.JButton ELIMINAR_BOTON;
-    private javax.swing.JButton EditarBut;
     private javax.swing.JComboBox<String> EdoProd_Box;
     private javax.swing.JLabel EdoProducto;
     private javax.swing.JTextField EstantTxtF;
     private javax.swing.JLabel Estantería;
     private javax.swing.JLabel FILTRO;
+    private javax.swing.JLabel LimpiarButton;
     private javax.swing.JLabel MARCA;
     private javax.swing.JComboBox<String> Marca_Box;
     private javax.swing.JTextField NomTxtF;
