@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+
+
 /**
  *
  * @author Alex
@@ -221,9 +223,9 @@ public class PrCompras extends javax.swing.JPanel {
         Empleado = new javax.swing.JLabel();
         Empleado_Box = new javax.swing.JComboBox<>();
         Buscar_Boton = new javax.swing.JLabel();
-        EDITAR_BOTON = new javax.swing.JButton();
         DetalleCompra = new javax.swing.JScrollPane();
         TablaEdoCompra = new javax.swing.JTable();
+        Agregar_Compra_Botton = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -350,6 +352,11 @@ public class PrCompras extends javax.swing.JPanel {
 
         Prov_Box.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Prov_Box.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Prov_Box.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Prov_BoxActionPerformed(evt);
+            }
+        });
 
         Empleado.setText("EMPLEADO");
 
@@ -415,16 +422,6 @@ public class PrCompras extends javax.swing.JPanel {
         });
         fondo.add(Buscar_Boton, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 90, -1, 40));
 
-        EDITAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
-        EDITAR_BOTON.setContentAreaFilled(false);
-        EDITAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        EDITAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EDITAR_BOTONActionPerformed(evt);
-            }
-        });
-        fondo.add(EDITAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, -1, -1));
-
         TablaEdoCompra.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         TablaEdoCompra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -472,6 +469,14 @@ public class PrCompras extends javax.swing.JPanel {
 
         fondo.add(DetalleCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 860, 170));
 
+        Agregar_Compra_Botton.setText("jButton1");
+        Agregar_Compra_Botton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Agregar_Compra_BottonActionPerformed(evt);
+            }
+        });
+        fondo.add(Agregar_Compra_Botton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
+
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 910, 530));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -504,10 +509,6 @@ public class PrCompras extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_EdoCompra_BoxActionPerformed
 
-    private void EDITAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDITAR_BOTONActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EDITAR_BOTONActionPerformed
-
     private void FechaVTxtfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaVTxtfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FechaVTxtfActionPerformed
@@ -527,15 +528,34 @@ public class PrCompras extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_TablaCompraKeyPressed
 
+    private void Prov_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Prov_BoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Prov_BoxActionPerformed
+
+    private void Agregar_Compra_BottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar_Compra_BottonActionPerformed
+try {
+        // Crear una instancia de la ventana
+        TablaDeCompraNueva nuevaCompra = new TablaDeCompraNueva();
+        
+        // Configurar su visibilidad y posición
+        nuevaCompra.setVisible(true);
+        nuevaCompra.setLocationRelativeTo(null); // Centrar la ventana
+    } catch (Exception e) {
+        // Mostrar un mensaje de error si algo falla
+        JOptionPane.showMessageDialog(this, "Error al abrir la ventana de nueva compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Agregar_Compra_BottonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AGREGAR_BOTON;
+    private javax.swing.JButton Agregar_Compra_Botton;
     private javax.swing.JTextField BarraBusqueda;
     private javax.swing.JLabel Buscar_Boton;
     private javax.swing.JLabel COMPRAS;
     private javax.swing.JScrollPane Compra;
     private javax.swing.JScrollPane DetalleCompra;
-    private javax.swing.JButton EDITAR_BOTON;
     private javax.swing.JButton ELIMINAR_BOTON;
     private javax.swing.JLabel EdoCompra;
     private javax.swing.JComboBox<String> EdoCompra_Box;
