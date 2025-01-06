@@ -106,6 +106,7 @@ public class DaoCompras extends Conexion {
                      "FROM DETALLE_COMPRA " +
                      "JOIN PRODUCTO USING (ID_PRODUCTO) " +
                      "WHERE ID_COMPRA = ?";
+
         ps = conn.prepareStatement(sql);
         ps.setString(1, idCompra);
         rs = ps.executeQuery();

@@ -1,6 +1,7 @@
 
 package com.vews;
 import database.dao.DaoVentas;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -20,31 +21,57 @@ private final DaoVentas daoVentas = new DaoVentas();
     cargarMetodoPago();
         // Asignar evento de clic en la tabla
 jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
-        manejarTablaVenta();
+        int filaSeleccionada = jTable4.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            // Obtén el ID_VENTA desde la columna oculta
+            String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
+            System.out.println("ID_VENTA seleccionado: " + idVenta);
+
+            // Verificar si el ID_VENTA no es nulo o vacío
+            if (idVenta != null && !idVenta.isEmpty()) {
+                cargarDetalleVenta(idVenta); // Cargar los detalles basados en el ID_VENTA
+            } else {
+                System.out.println("Error: ID_VENTA vacío o nulo.");
+            }
+        }cargarDatosDesdeTablaVenta();
+        
     }
 });
 
 }
-
 private void cargarVentas() {
-    DaoVentas daoVentas = new DaoVentas();
     List<Object[]> ventas = daoVentas.listarVentas();
 
-    // Verifica si los datos están llegando
-    for (Object[] venta : ventas) {
-        System.out.println("Venta: " + java.util.Arrays.toString(venta));
-    }
+    // Verificar si se obtuvieron ventas
+    System.out.println("Total ventas obtenidas: " + ventas.size());
 
-    // Modelo de la tabla
-    DefaultTableModel modelo = (DefaultTableModel) jTable4.getModel();
-    modelo.setRowCount(0); // Limpia las filas existentes
+    // Crear el modelo de la tabla con las columnas necesarias
+    DefaultTableModel modelo = new DefaultTableModel(
+        new String[]{"ID_VENTA", "Fecha Venta", "Cliente", "Empleado", "Estado Venta", "Método Pago"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Hacer todas las celdas no editables
+        }
+    };
 
-    // Agrega los datos al modelo de la tabla
+    // Añadir cada venta al modelo de la tabla
     for (Object[] venta : ventas) {
         modelo.addRow(venta);
+        System.out.println("Venta añadida al modelo: " + Arrays.toString(venta)); // Depuración
     }
+
+    // Asignar el modelo al JTable
+    jTable4.setModel(modelo);
+
+    // Ocultar la columna del ID_VENTA (columna 0)
+    jTable4.getColumnModel().getColumn(0).setMinWidth(0);
+    jTable4.getColumnModel().getColumn(0).setMaxWidth(0);
+    jTable4.getColumnModel().getColumn(0).setWidth(0);
 }
+
 
     private void cargarEmpleados() {
     // Llenar la lista de empleados en el combo box
@@ -103,85 +130,53 @@ private void cargarVentas() {
         JOptionPane.showMessageDialog(this, "Error al cargar metodos de pago: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-private void seleccionarItemComboBox(javax.swing.JComboBox<String> comboBox, String valor) {
-    for (int i = 0; i < comboBox.getItemCount(); i++) {
-        if (comboBox.getItemAt(i).trim().equalsIgnoreCase(valor.trim())) {
-            comboBox.setSelectedIndex(i);
-            return; // Sale del bucle una vez encontrado
-        }
-    }
-    JOptionPane.showMessageDialog(this, "No se encontró el valor \"" + valor + "\" en el combo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-}
-
-
-private void manejarTablaVenta() {
+private void cargarDatosDesdeTablaVenta() {
     int filaSeleccionada = jTable4.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
             // Obtener los valores de la fila seleccionada
-            String fechaVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
-            String cliente = jTable4.getValueAt(filaSeleccionada, 1).toString().replaceAll("\\s+", " ").trim();
-            String empleado = jTable4.getValueAt(filaSeleccionada, 2).toString().replaceAll("\\s+", " ").trim();
-            String estadoVenta = jTable4.getValueAt(filaSeleccionada, 3).toString().trim();
-            String metodoPago = jTable4.getValueAt(filaSeleccionada, 4).toString().trim();
+            String fecha = jTable4.getValueAt(filaSeleccionada, 1).toString().trim();
+            String cliente = jTable4.getValueAt(filaSeleccionada, 2).toString().replaceAll("\\s+", " ").trim();
+            String empleado = jTable4.getValueAt(filaSeleccionada, 3).toString().replaceAll("\\s+", " ").trim();
+            String estadoVenta = jTable4.getValueAt(filaSeleccionada, 4).toString().trim();
+            String metodoPago = jTable4.getValueAt(filaSeleccionada, 5).toString().trim();
 
-            // Asignar los valores a los campos
-            jTextField1.setText(fechaVenta); // Fecha de Venta
+            // Asignar los valores a los campos de texto y combos
+            jTextField1.setText(fecha);
 
             // Estado de Venta
-            boolean estadoEncontrado = false;
             for (int i = 0; i < jComboBox2.getItemCount(); i++) {
                 if (jComboBox2.getItemAt(i).trim().equalsIgnoreCase(estadoVenta)) {
                     jComboBox2.setSelectedIndex(i);
-                    estadoEncontrado = true;
                     break;
                 }
-            }
-            if (!estadoEncontrado) {
-                JOptionPane.showMessageDialog(this, "No se encontró coincidencia para el estado de venta: " + estadoVenta, "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
 
             // Cliente
-            boolean clienteEncontrado = false;
             for (int i = 0; i < jComboBox1.getItemCount(); i++) {
                 if (jComboBox1.getItemAt(i).replaceAll("\\s+", " ").trim().equalsIgnoreCase(cliente)) {
                     jComboBox1.setSelectedIndex(i);
-                    clienteEncontrado = true;
                     break;
                 }
-            }
-            if (!clienteEncontrado) {
-                JOptionPane.showMessageDialog(this, "No se encontró coincidencia para el cliente: " + cliente, "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
 
             // Empleado
-            boolean empleadoEncontrado = false;
             for (int i = 0; i < jComboBox3.getItemCount(); i++) {
                 if (jComboBox3.getItemAt(i).replaceAll("\\s+", " ").trim().equalsIgnoreCase(empleado)) {
                     jComboBox3.setSelectedIndex(i);
-                    empleadoEncontrado = true;
                     break;
                 }
-            }
-            if (!empleadoEncontrado) {
-                JOptionPane.showMessageDialog(this, "No se encontró coincidencia para el empleado: " + empleado, "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
 
             // Método de Pago
-            boolean metodoPagoEncontrado = false;
             for (int i = 0; i < jComboBox4.getItemCount(); i++) {
                 if (jComboBox4.getItemAt(i).trim().equalsIgnoreCase(metodoPago)) {
                     jComboBox4.setSelectedIndex(i);
-                    metodoPagoEncontrado = true;
                     break;
                 }
             }
-            if (!metodoPagoEncontrado) {
-                JOptionPane.showMessageDialog(this, "No se encontró coincidencia para el método de pago: " + metodoPago, "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
-
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al cargar datos de la tabla: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -189,16 +184,45 @@ private void manejarTablaVenta() {
 }
 
 
+private void cargarDetalleVenta(String idVenta) {
+    List<Object[]> detalles = daoVentas.obtenerDetalleVenta(idVenta);
+
+    DefaultTableModel modelo = new DefaultTableModel(
+        new String[]{"Producto", "Cantidad", "Precio", "Total"}, 0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Hacer todas las celdas no editables
+        }
+    };
+
+    for (Object[] detalle : detalles) {
+        modelo.addRow(detalle);
+    }
+
+    jTable3.setModel(modelo);
+
+    if (detalles.isEmpty()) {
+        System.out.println("No se encontraron detalles para esta venta.");
+    }
+}
 
 
-private void cargarDetalleVenta(String fechaVenta) {
+private void BuscarVenta() {
+    String filtro = jTextField3.getText().trim(); // Obtener texto del campo de búsqueda
+
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
     try {
-        // Llamar al DAO para obtener los detalles de la venta
-        List<Object[]> detalles = daoVentas.obtenerDetalleVenta(fechaVenta);
+        // Realiza la búsqueda a través del DAO
+        List<Object[]> resultados = daoVentas.buscarVentas(filtro);
 
-        // Configurar el modelo de la tabla
+        // Configura el modelo de la tabla
         DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Producto", "Cantidad", "Precio Unitario", "Subtotal"}, 0
+            new String[]{"Fecha Venta", "Cliente", "Empleado", "Estado Venta", "Método Pago"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -206,17 +230,30 @@ private void cargarDetalleVenta(String fechaVenta) {
             }
         };
 
-        // Agregar los datos al modelo
-        for (Object[] detalle : detalles) {
-            model.addRow(detalle);
+        // Llena el modelo con los datos obtenidos
+        for (Object[] fila : resultados) {
+            model.addRow(fila);
         }
 
-        // Asignar el modelo a la tabla secundaria
-        jTable3.setModel(model);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar el detalle de la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        // Asigna el modelo a la tabla
+        jTable4.setModel(model);
+
+        // Muestra un mensaje si no hay resultados
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron ventas con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
 }
+private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {                                     
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        BuscarVenta();
+        evt.consume();
+    }
+}
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -252,7 +289,7 @@ private void cargarDetalleVenta(String fechaVenta) {
         jButtonEliminar = new javax.swing.JButton();
         jButtonEditarVenta = new javax.swing.JButton();
         guardado = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
+        BUSQUEDA = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -462,9 +499,14 @@ private void cargarDetalleVenta(String fechaVenta) {
         });
         fondo.add(guardado, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        fondo.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 100, -1, -1));
+        BUSQUEDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        BUSQUEDA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BUSQUEDA.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BUSQUEDAMouseClicked(evt);
+            }
+        });
+        fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -537,8 +579,14 @@ private void cargarDetalleVenta(String fechaVenta) {
         // TODO add your handling code here:
     }//GEN-LAST:event_guardadoActionPerformed
 
+    private void BUSQUEDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUSQUEDAMouseClicked
+        jTextField3.setText(""); // Asegurarse de que el campo de búsqueda esté vacío
+        BuscarVenta(); // Cargar todas las ventas inicialmente
+    }//GEN-LAST:event_BUSQUEDAMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BUSQUEDA;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton guardado;
     private javax.swing.JButton jButtonEditarVenta;
@@ -549,7 +597,6 @@ private void cargarDetalleVenta(String fechaVenta) {
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
