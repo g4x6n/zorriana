@@ -842,7 +842,6 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
        buscarProducto();
-       cargarProductos();
     }//GEN-LAST:event_jLabel11MouseClicked
 
     private void DescTxtFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DescTxtFActionPerformed
