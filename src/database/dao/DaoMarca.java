@@ -42,8 +42,6 @@ public class DaoMarca extends Conexion {
             if (rowsAffected == 0) {
                 System.out.println("Error: No se pudo insertar la marca.");
                 idMarca = null;
-            } else {
-                System.out.println("Marca insertada con ID: " + idMarca);
             }
         } catch (SQLException ex) {
             System.out.println("Error al insertar marca: " + ex.getMessage());

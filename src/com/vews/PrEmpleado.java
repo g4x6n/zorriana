@@ -667,7 +667,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         fondo.add(searchbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(578, 171, 230, -1));
 
         jLabel7.setText("FILTRAR:");
-        fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(515, 181, -1, -1));
+        fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, -1, 20));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         jButton1.setToolTipText("");

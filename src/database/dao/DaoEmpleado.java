@@ -167,7 +167,7 @@ import java.util.List;
             ps.setString(1, idPuesto);
             ps.setString(2, nombrePuesto.trim());
             ps.executeUpdate();
-            System.out.println("Puesto insertado: " + nombrePuesto + " con ID " + idPuesto);
+            
         }
     } catch (SQLException ex) {
         System.out.println("Error al insertar o verificar el puesto: " + ex.getMessage());
@@ -212,9 +212,7 @@ import java.util.List;
         if (rowsAffected == 0) {
             System.out.println("Error: No se pudo insertar la dirección.");
             idDireccion = null;
-        } else {
-            System.out.println("Dirección insertada con ID: " + idDireccion);
-        }
+        } 
     } catch (SQLException ex) {
         System.out.println("Error al insertar dirección: " + ex.getMessage());
         ex.printStackTrace();
@@ -405,7 +403,7 @@ import java.util.List;
 
         if (rs.next()) {
             idDireccion = rs.getString(1); // Obtener el próximo valor de la secuencia
-            System.out.println("ID de Dirección generado: " + idDireccion);
+            
         } else {
             System.out.println("No se pudo obtener el siguiente valor de la secuencia.");
         }

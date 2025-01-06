@@ -88,7 +88,7 @@ public void desconectar() {
         // Cerrar la conexión si está abierta
         if (conn != null && !conn.isClosed()) {
             conn.close();
-            System.out.println("Conexión cerrada correctamente.");
+            
         }
     } catch (SQLException sqle) {
         System.out.println(ConfigDataBase.DB_T_ERROR + sqle.getSQLState() +

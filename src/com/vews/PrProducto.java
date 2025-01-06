@@ -73,7 +73,6 @@ public class PrProducto extends javax.swing.JPanel {
             List<String> categorias = daoProducto.obtenerCategoria();
             Cat_Box.removeAllItems();
             for (String categoria : categorias) {
-                System.out.println("Cargando categoría: " + categoria);
                 Cat_Box.addItem(categoria.trim());
             }
         } catch (Exception e) {
@@ -201,7 +200,7 @@ private void buscarProducto() {
 
         // Obtén el ID del producto seleccionado
         String idProducto = resultsTable1.getValueAt(filaSeleccionada, 0).toString().trim();
-        System.out.println("ID del producto seleccionado: " + idProducto); // DEPURACIÓN
+        
 
         if (idProducto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El ID del producto seleccionado está vacío. Verifica los datos de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);

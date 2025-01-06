@@ -279,7 +279,7 @@ public List<Object[]> listarVentas() {
             ventas.add(venta);
 
             // Depuración
-            System.out.println("Venta obtenida: " + Arrays.toString(venta));
+            
         }
     } catch (SQLException ex) {
         System.out.println("Error al listar ventas: " + ex.getMessage());

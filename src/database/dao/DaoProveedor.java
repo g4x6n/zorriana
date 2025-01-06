@@ -28,7 +28,7 @@ public boolean actualizarProveedor(String idProveedor, Object[] proveedor) {
         ps.setString(7, obtenerCodigoEstado((String) proveedor[12])); // ID_ESTADO
         ps.setString(8, idProveedor); // ID_PROVEEDOR
 
-        System.out.println("Ejecutando actualización de DIRECCION: " + sqlDireccion);
+      
         int filasDireccion = ps.executeUpdate();
 
         // Actualizar la tabla PROVEEDOR si DIRECCION se actualizó correctamente
@@ -47,7 +47,7 @@ public boolean actualizarProveedor(String idProveedor, Object[] proveedor) {
             ps.setString(6, (String) proveedor[5]);                     // CORREO (NVARCHAR2(60))
             ps.setString(7, idProveedor);                               // ID_PROVEEDOR (NVARCHAR2(8))
 
-            System.out.println("Ejecutando actualización de PROVEEDOR: " + sqlProveedor);
+            
             int filasProveedor = ps.executeUpdate();
             return filasProveedor > 0;
         }

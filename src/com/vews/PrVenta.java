@@ -27,7 +27,7 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         if (filaSeleccionada != -1) {
             // Obtén el ID_VENTA desde la columna oculta
             String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
-            System.out.println("ID_VENTA seleccionado: " + idVenta);
+            
 
             // Verificar si el ID_VENTA no es nulo o vacío
             if (idVenta != null && !idVenta.isEmpty()) {
@@ -44,9 +44,7 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
 private void cargarVentas() {
     List<Object[]> ventas = daoVentas.listarVentas();
 
-    // Verificar si se obtuvieron ventas
-    System.out.println("Total ventas obtenidas: " + ventas.size());
-
+  
     // Crear el modelo de la tabla con las columnas necesarias
     DefaultTableModel modelo = new DefaultTableModel(
         new String[]{"ID_VENTA", "Fecha Venta", "Cliente", "Empleado", "Estado Venta", "Método Pago"}, 0
@@ -60,8 +58,7 @@ private void cargarVentas() {
     // Añadir cada venta al modelo de la tabla
     for (Object[] venta : ventas) {
         modelo.addRow(venta);
-        System.out.println("Venta añadida al modelo: " + Arrays.toString(venta)); // Depuración
-    }
+        }
 
     // Asignar el modelo al JTable
     jTable4.setModel(modelo);
@@ -193,7 +190,7 @@ private void eliminarVenta() {
 
         // Obtén el ID de la venta seleccionada
         String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
-        System.out.println("ID de la venta seleccionada: " + idVenta); // DEPURACIÓN
+        
 
         if (idVenta.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El ID de la venta seleccionada está vacío. Verifica los datos de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);

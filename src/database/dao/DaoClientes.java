@@ -42,8 +42,6 @@ public class DaoClientes extends Conexion {
         if (rowsAffected == 0) {
             System.out.println("Error: No se pudo insertar la dirección.");
             idDireccion = null;
-        } else {
-            System.out.println("Dirección insertada con ID: " + idDireccion);
         }
     } catch (SQLException ex) {
         System.out.println("Error al insertar dirección: " + ex.getMessage());
@@ -129,8 +127,7 @@ public class DaoClientes extends Conexion {
     public String obtenerCodigoEstado(String nombreEstado) {
     conectar(); // Asegurarse de conectar a la base de datos
     String codigoEstado = "";
-    System.out.println("Valor recibido para buscar estado: " + nombreEstado);
-    try {
+        try {
         String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
         ps = conn.prepareStatement(sql);
         ps.setString(1, nombreEstado.trim()); // Elimina espacios adicionales
