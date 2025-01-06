@@ -427,7 +427,7 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         });
         jPanel1.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 90, -1));
 
-        jLabel6.setText("TOTAL A PAGAR ");
+        jLabel6.setText("TOTAL PAGADO");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, -1, 20));
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -586,9 +586,9 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonEditarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVentaActionPerformed
-AgVenta ventanaDeVenta = new AgVenta("ID_Empleado");
-ventanaDeVenta.setLocationRelativeTo(null); // Centrar la ventana
-ventanaDeVenta.setVisible(true); // Mostrar la ventana
+    AgVenta ventanaDeVenta = new AgVenta("ID_Empleado");
+    ventanaDeVenta.setLocationRelativeTo(null); // Centrar la ventana
+    ventanaDeVenta.setVisible(true); // Mostrar la ventana
 
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 

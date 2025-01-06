@@ -6,6 +6,8 @@
 package com.dashboard;
 
 import com.vews.PrCliente;
+import com.vews.AgVenta;
+import com.vews.PrVenta;
 import com.vews.PrCompras;
 import com.vews.PrEmpleado;
 import com.vews.PrProducto;
@@ -39,7 +41,6 @@ public class dashboard extends javax.swing.JFrame {
         startClock();
         SetUsuario();
         initContent();
-        
         
     }
     private void initContent(){
