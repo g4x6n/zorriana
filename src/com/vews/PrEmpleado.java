@@ -264,14 +264,20 @@ public class PrEmpleado extends javax.swing.JPanel {
 
         // Asigna el modelo a la tabla
         resultsTable.setModel(model);
+
+        // Ocultar la columna de ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
         
         configurarColumnasTabla(resultsTable);
-    
+
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
     private void configurarColumnasTabla(JTable table) {
     // Define anchos preferidos para las columnas
     int[] anchos = {10, 150, 150, 150, 100, 200, 300}; // Ajusta estos valores según el contenido
@@ -315,7 +321,7 @@ public class PrEmpleado extends javax.swing.JPanel {
     }
     }   
     private void BuscarEmpleado() {
-        String filtro = searchbar.getText().trim();
+    String filtro = searchbar.getText().trim();
 
     if (filtro.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -345,6 +351,11 @@ public class PrEmpleado extends javax.swing.JPanel {
         }
 
         resultsTable.setModel(model);
+
+        // Ocultar la columna de ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
         
         configurarColumnasTabla(resultsTable);
 
@@ -356,8 +367,8 @@ public class PrEmpleado extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         ex.printStackTrace();
     }
+}
 
-    }  
     private void setFechaActual() {
     // Obtener la fecha actual
     LocalDate now = LocalDate.now();

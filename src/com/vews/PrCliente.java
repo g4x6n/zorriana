@@ -24,6 +24,12 @@ public class PrCliente extends javax.swing.JPanel {
         initComponents(); // Inicializa los componentes del formulario
         cargarEstados();
         cargarClientes();
+        resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        manejarTablaCliente();
+    }
+});
+
     }
 
     @SuppressWarnings("unchecked")
@@ -352,37 +358,43 @@ private void cargarEstados() {
     }
 }
 private void manejarTablaCliente() {
-        // Obtener la fila seleccionada
+    // Obtener la fila seleccionada
     int filaSeleccionada = resultsTable.getSelectedRow();
-if (filaSeleccionada != -1) {
-    // Obtener el ID del cliente desde la tabla
-    String idCliente = resultsTable.getValueAt(filaSeleccionada, 0).toString();
 
-    // Llamar al DAO para obtener los detalles completos del cliente
-    Object[] cliente = daoCliente.obtenerClientePorId(idCliente);
+    if (filaSeleccionada != -1) {
+        try {
+            // Obtener el ID del cliente desde la tabla (columna 0, aunque está oculta)
+            String idCliente = resultsTable.getModel().getValueAt(filaSeleccionada, 0).toString();
 
-    if (cliente != null) {
-        // Asignar valores a los campos del formulario
-        jTextFieldNombre.setText((String) cliente[1]); // Nombre
-        jTextFieldApPaterno.setText((String) cliente[2]); // Apellido Paterno
-        jTextFieldApMaterno.setText((String) cliente[3]); // Apellido Materno
-        jTextFieldFechaReg.setText(cliente[4] != null ? cliente[4].toString() : ""); // Fecha de Registro
-        jTextFieldCorreo.setText((String) cliente[5]); // Correo
+            // Llamar al DAO para obtener los detalles completos del cliente
+            Object[] cliente = daoCliente.obtenerClientePorId(idCliente);
 
-        // Asignar dirección
-        jTextFieldCalle.setText((String) cliente[6]); // Calle
-        jTextFieldExterior.setText((String) cliente[7]); // Exterior
-        jTextFieldInterior.setText((String) cliente[8]); // Interior
-        jTextFieldColonia.setText((String) cliente[9]); // Colonia
-        jTextFieldCP.setText((String) cliente[10]); // CP
-        jTextFieldAlcalMun.setText((String) cliente[11]); // Alcaldía/Municipio
-        jComboBoxEstado.setSelectedItem((String) cliente[12]); // Estado
+            if (cliente != null) {
+                // Asignar valores a los campos del formulario
+                jTextFieldNombre.setText((String) cliente[1]); // Nombre
+                jTextFieldApPaterno.setText((String) cliente[2]); // Apellido Paterno
+                jTextFieldApMaterno.setText((String) cliente[3]); // Apellido Materno
+                jTextFieldFechaReg.setText(cliente[4] != null ? cliente[4].toString() : ""); // Fecha de Registro
+                jTextFieldCorreo.setText((String) cliente[5]); // Correo
 
-       
+                // Asignar dirección
+                jTextFieldCalle.setText((String) cliente[6]); // Calle
+                jTextFieldExterior.setText((String) cliente[7]); // Exterior
+                jTextFieldInterior.setText((String) cliente[8]); // Interior
+                jTextFieldColonia.setText((String) cliente[9]); // Colonia
+                jTextFieldCP.setText((String) cliente[10]); // CP
+                jTextFieldAlcalMun.setText((String) cliente[11]); // Alcaldía/Municipio
+                jComboBoxEstado.setSelectedItem((String) cliente[12]); // Estado
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo cargar la información del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     } else {
-        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
-}
 
    }
 private void botonAgregar() {
@@ -560,20 +572,20 @@ private void botonEliminar() {
 }
 private void BuscarCliente() {
     String filtro = searchbar.getText().trim(); // Obtén el texto de la barra de búsqueda
-if (filtro.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    return;
-}
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-try {
-    // Llama al método de búsqueda en el DAO de clientes
-    DaoClientes daoCliente = new DaoClientes();
-    List<Object[]> resultados = daoCliente.buscarClientes(filtro);
+    try {
+        // Llama al método de búsqueda en el DAO de clientes
+        DaoClientes daoCliente = new DaoClientes();
+        List<Object[]> resultados = daoCliente.buscarClientes(filtro);
 
-    // Configura el modelo de la tabla
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-    ){
+        // Configura el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Ninguna celda será editable
@@ -581,27 +593,32 @@ try {
             }
         };
 
-    // Llena la tabla con los resultados
-    for (Object[] fila : resultados) {
-        model.addRow(new Object[]{
-            fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
-        });
-    }
+        // Llena la tabla con los resultados
+        for (Object[] fila : resultados) {
+            model.addRow(new Object[]{
+                fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6]
+            });
+        }
 
-    resultsTable.setModel(model);
-    
-    configurarColumnasTabla(resultsTable);
+        resultsTable.setModel(model);
 
-    // Verifica si no hay resultados
-    if (resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron clientes con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        // Ocultar la columna del ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
+
+        configurarColumnasTabla(resultsTable);
+
+        // Verifica si no hay resultados
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron clientes con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
 }
 
-}
 private void limpiarCampos() {
     jTextFieldNombre.setText("");
     jTextFieldApPaterno.setText("");
@@ -621,17 +638,16 @@ private void cargarClientes() {
         // Instancia del DAO para obtener los clientes
         DaoClientes daoCliente = new DaoClientes();
 
-        // Obtener todos los clientes (puedes modificar el filtro si lo necesitas)
-        List<Object[]> clientes = daoCliente.buscarClientes("");
+        // Obtener todos los clientes
+        List<Object[]> clientes = daoCliente.cargarClientes();
 
         // Crear un modelo para la tabla
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Apellido P", "Apellido M", "Fecha de Reg", "Correo", "Dirección"}, 0
-        ){
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Ninguna celda será editable
-                return false;
+                return false; // Ninguna celda será editable
             }
         };
 
@@ -642,14 +658,21 @@ private void cargarClientes() {
 
         // Establecer el modelo en la tabla
         resultsTable.setModel(model);
-        
+
+        // Configurar las columnas
         configurarColumnasTabla(resultsTable);
-        
+
+        // Ocultar la columna del ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
+
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
 private void configurarColumnasTabla(JTable table) {
     // Definir anchos preferidos y mínimos para las columnas
     int[] anchos = {10, 100, 100, 100, 150, 300}; // Ajusta estos valores según el contenido esperado

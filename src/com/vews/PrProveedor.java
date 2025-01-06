@@ -51,25 +51,32 @@ import database.dao.DaoProveedor;
         // Llena el modelo con los datos
         for (Object[] proveedor : proveedores) {
             model.addRow(new Object[]{
-                proveedor[0] != null ? proveedor[0] : "N/A",        // ID
-                proveedor[1] != null ? proveedor[1] : "N/A",        // Empresa
-                proveedor[2] != null ? proveedor[2] : "N/A",        // Contacto
-                proveedor[3] != null ? proveedor[3] : "N/A",        // LADA
-                proveedor[4] != null ? proveedor[4] : "N/A", // TELEFONO (Convertido a String)
-                proveedor[5] != null ? proveedor[5] : "N/A",        // Extensión
-                proveedor[6] != null ? proveedor[6] : "N/A",        // Correo
-                proveedor[7] != null ? proveedor[7] : "N/A"         // Dirección
+                proveedor[0], // ID
+                proveedor[1], // Empresa
+                proveedor[2], // Contacto
+                proveedor[3], // LADA
+                proveedor[4], // Teléfono
+                proveedor[5], // Extensión
+                proveedor[6], // Correo
+                proveedor[7]  // Dirección
             });
         }
 
         // Asigna el modelo a la tabla
         resultsTable.setModel(model);
+
+        // Ocultar la columna de ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
+
         configurarColumnasTabla(resultsTable);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
     
     private void configurarColumnasTabla(JTable table) {
     // Anchos preferidos para las columnas
@@ -82,52 +89,53 @@ import database.dao.DaoProveedor;
 }
 
     private void manejarTablaProveedor() {
-        int filaSeleccionada = resultsTable.getSelectedRow();
-if (filaSeleccionada != -1) {
-    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID (columna 0)
+    int filaSeleccionada = resultsTable.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString(); // Obtiene el ID oculto
 
-    // Llama al DAO para obtener los detalles completos del proveedor
-    Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
+        // Llama al DAO para obtener los detalles completos del proveedor
+        Object[] proveedor = daoProveedor.obtenerProveedorPorId(idProveedor);
 
-    if (proveedor != null) {
-        // Asigna valores a los campos del formulario
-        jTextFieldNombreEmpresa.setText((String) proveedor[1]); // Nombre Empresa
-        jTextFieldContacto.setText((String) proveedor[2]); // Nombre Contacto
-        jTextFieldLada.setText(String.valueOf(proveedor[3])); // LADA
-        jTextFieldTelefono.setText(String.valueOf(proveedor[4])); // Teléfono
-        jTextFieldExtension.setText(String.valueOf(proveedor[5])); // Extensión
-        jTextFieldCorreo.setText((String) proveedor[6]); // Correo
+        if (proveedor != null) {
+            // Asigna valores a los campos del formulario
+            jTextFieldNombreEmpresa.setText((String) proveedor[1]); // Nombre Empresa
+            jTextFieldContacto.setText((String) proveedor[2]); // Nombre Contacto
+            jTextFieldLada.setText(String.valueOf(proveedor[3])); // LADA
+            jTextFieldTelefono.setText(String.valueOf(proveedor[4])); // Teléfono
+            jTextFieldExtension.setText(String.valueOf(proveedor[5])); // Extensión
+            jTextFieldCorreo.setText((String) proveedor[6]); // Correo
 
-        // Asigna dirección
-        CalleTxtF.setText((String) proveedor[7]); // Calle
-        ExtTxtF.setText((String) proveedor[8]); // Exterior
-        IntTxtF.setText((String) proveedor[9]); // Interior
-        ColTxtF.setText((String) proveedor[10]); // Colonia
-        CPTxtF.setText((String) proveedor[11]); // CP
-        AlcalMunTxtF.setText((String) proveedor[12]); // Alcaldía/Municipio
-        EDO_BOX.setSelectedItem((String) proveedor[13]); // Estado
-    } else {
-        JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Asigna dirección
+            CalleTxtF.setText((String) proveedor[7]); // Calle
+            ExtTxtF.setText((String) proveedor[8]); // Exterior
+            IntTxtF.setText((String) proveedor[9]); // Interior
+            ColTxtF.setText((String) proveedor[10]); // Colonia
+            CPTxtF.setText((String) proveedor[11]); // CP
+            AlcalMunTxtF.setText((String) proveedor[12]); // Alcaldía/Municipio
+            EDO_BOX.setSelectedItem((String) proveedor[13]); // Estado
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo cargar la información del proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
-    }
+
     
     private void BuscarProveedor() {
-             String filtro = searchbar.getText().trim();
+    String filtro = searchbar.getText().trim();
 
-if (filtro.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    return;
-}
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
 
-try {
-    // Realiza la búsqueda
-    List<Object[]> resultados = daoProveedor.buscarProveedor(filtro);
+    try {
+        // Realiza la búsqueda
+        List<Object[]> resultados = daoProveedor.buscarProveedor(filtro);
 
-    // Configura el modelo de la tabla
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
-    ){
+        // Configura el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre Empresa", "Contacto", "LADA", "Teléfono", "Extensión", "Correo", "Dirección"}, 0
+        ){
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Ninguna celda será editable
@@ -135,33 +143,40 @@ try {
             }
         };
 
-    // Llena el modelo con los resultados
-    for (Object[] fila : resultados) {
-        model.addRow(new Object[]{
-            fila[0], // ID del proveedor
-            fila[1], // Nombre de la empresa
-            fila[2], // Contacto
-            fila[3], // LADA
-            fila[4], // Teléfono
-            fila[5], // Extensión
-            fila[6], // Correo
-            fila[7]  // Dirección
-        });
-    }
+        // Llena el modelo con los resultados
+        for (Object[] fila : resultados) {
+            model.addRow(new Object[]{
+                fila[0], // ID del proveedor
+                fila[1], // Nombre de la empresa
+                fila[2], // Contacto
+                fila[3], // LADA
+                fila[4], // Teléfono
+                fila[5], // Extensión
+                fila[6], // Correo
+                fila[7]  // Dirección
+            });
+        }
 
-    resultsTable.setModel(model);
-    configurarColumnasTabla(resultsTable);
+        // Asigna el modelo a la tabla
+        resultsTable.setModel(model);
 
-    // Muestra un mensaje si no hay resultados
-    if (resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron proveedores con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        // Ocultar la columna de ID
+        resultsTable.getColumnModel().getColumn(0).setMinWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setMaxWidth(0);
+        resultsTable.getColumnModel().getColumn(0).setWidth(0);
+
+        configurarColumnasTabla(resultsTable);
+
+        // Muestra un mensaje si no hay resultados
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron proveedores con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
 }
 
-    }
 private String ajustarLongitud(String valor, int longitud) {
     if (valor == null) return String.format("%-" + longitud + "s", ""); // Espacios si es null
     return String.format("%-" + longitud + "s", valor.substring(0, Math.min(valor.length(), longitud)));
