@@ -4,6 +4,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import database.dao.DaoProveedor;
 
     public class PrProveedor extends javax.swing.JPanel {
     
@@ -161,88 +162,57 @@ try {
 }
 
     }
+private String ajustarLongitud(String valor, int longitud) {
+    if (valor == null) return String.format("%-" + longitud + "s", ""); // Espacios si es null
+    return String.format("%-" + longitud + "s", valor.substring(0, Math.min(valor.length(), longitud)));
+}
 
-    private void agregarEmpleado() {
-        // Método para agregar un empleado
-        try {
-            Object[] empleado = obtenerDatosProveedor();
-            boolean exito = daoProveedor.addProveedor(empleado);
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Empleado agregado correctamente.");
-                cargarProveedores();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al agregar empleado.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al agregar empleado: " + e.getMessage());
-        }
+private void actualizarProveedor() {
+    int filaSeleccionada = resultsTable.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un proveedor de la tabla para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
     }
 
-    private void editarEmpleado() {
-        // Método para editar un empleado
-        try {
-            int filaSeleccionada = resultsTable.getSelectedRow();
-            if (filaSeleccionada == -1) {
-                JOptionPane.showMessageDialog(this, "Selecciona un empleado para editar.");
-                return;
-            }
+    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString();
 
-            Object[] empleado = obtenerDatosProveedor();
-            boolean exito = daoProveedor.updateEmployee(empleado);
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Empleado editado correctamente.");
-                cargarProveedores();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al editar empleado.");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al editar empleado: " + e.getMessage());
-        }
+    // Obtener datos del formulario
+    Object[] datosProveedor = obtenerDatosProveedor();
+    if (datosProveedor == null) {
+        return; // Hay error en los datos ingresados
     }
 
-    private void eliminarEmpleado() {
     try {
-        int filaSeleccionada = resultsTable.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Selecciona un empleado para eliminar.");
-            return;
-        }
+        // Llama al método del DAO para actualizar
+        boolean actualizado = daoProveedor.actualizarProveedor(idProveedor, datosProveedor);
 
-        // Obtén el ID del empleado seleccionado
-        String idEmpleado = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-
-        // Obtén el ID de la dirección asociada al empleado
-        String idDireccion = daoProveedor.obtenerIdDireccionPorEmpleado(idEmpleado);
-
-        if (idDireccion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.");
-            return;
-        }
-
-        // Llama al método deleteEmployee con ambos IDs
-        boolean exito = daoProveedor.deleteEmployee(idEmpleado, idDireccion);
-
-        if (exito) {
-            JOptionPane.showMessageDialog(this, "Empleado eliminado correctamente.");
-            cargarProveedores(); // Recarga la tabla
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Proveedor actualizado correctamente.");
+            cargarProveedores(); // Refrescar la tabla
         } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar el empleado.");
+            JOptionPane.showMessageDialog(this, "Error al actualizar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al eliminar el empleado: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
-  
-    private Object[] obtenerDatosProveedor() {
+
+    
+    
+    
+    
+private Object[] obtenerDatosProveedor() {
     try {
-        // Obtiene los datos del formulario
+        // Datos del proveedor
         String empresa = jTextFieldNombreEmpresa.getText().trim();
         String contacto = jTextFieldContacto.getText().trim();
         int lada = Integer.parseInt(jTextFieldLada.getText().trim());
         int telefono = Integer.parseInt(jTextFieldTelefono.getText().trim());
         int extension = Integer.parseInt(jTextFieldExtension.getText().trim());
         String correo = jTextFieldCorreo.getText().trim();
+
+        // Datos de la dirección
         String calle = CalleTxtF.getText().trim();
         String exterior = ExtTxtF.getText().trim();
         String interior = IntTxtF.getText().trim();
@@ -261,6 +231,7 @@ try {
         return null;
     }
 }
+
 
       @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -301,10 +272,9 @@ try {
         searchbar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        Anadir = new javax.swing.JButton();
+        Editar = new javax.swing.JButton();
+        Borrar = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -506,45 +476,35 @@ try {
         });
         fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 160, 60, -1));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
-        jButton3.setContentAreaFilled(false);
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        Anadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/añadir cpem.png"))); // NOI18N
+        Anadir.setContentAreaFilled(false);
+        Anadir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Anadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                AnadirActionPerformed(evt);
             }
         });
-        fondo.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, -1, -1));
+        fondo.add(Anadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, -1, -1));
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
-        jButton4.setContentAreaFilled(false);
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        Editar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar usuari.png"))); // NOI18N
+        Editar.setContentAreaFilled(false);
+        Editar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                EditarActionPerformed(evt);
             }
         });
-        fondo.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, -1, -1));
+        fondo.add(Editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 110, -1, -1));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        jButton5.setContentAreaFilled(false);
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        Borrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
+        Borrar.setContentAreaFilled(false);
+        Borrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Borrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                BorrarActionPerformed(evt);
             }
         });
-        fondo.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 110, -1, -1));
-
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
-        jButton6.setContentAreaFilled(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        fondo.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 110, -1, -1));
+        fondo.add(Borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 110, -1, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -553,15 +513,14 @@ try {
         getAccessibleContext().setAccessibleParent(this);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-     editarEmpleado();   
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        actualizarProveedor();
+    }//GEN-LAST:event_EditarActionPerformed
 
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void AnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnadirActionPerformed
+      
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    agregarEmpleado();        
-
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_AnadirActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         BuscarProveedor();
@@ -617,25 +576,9 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_ExtTxtFActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       eliminarEmpleado();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-  Object[] datosProveedor = obtenerDatosProveedor();
-if (datosProveedor == null) {
-    return; // Si hay un error en los datos, no continúa
-}
-
-boolean exito = daoProveedor.addProveedor(datosProveedor);
-if (exito) {
-    JOptionPane.showMessageDialog(this, "Proveedor agregado correctamente.");
-    cargarProveedores(); // Recarga la tabla de proveedores
-} else {
-    JOptionPane.showMessageDialog(this, "Error al agregar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
-}
-
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarActionPerformed
+        //actualizarProveedor();
+    }//GEN-LAST:event_BorrarActionPerformed
 
     private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
     if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -655,6 +598,8 @@ if (exito) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AlcalMun;
     private javax.swing.JTextField AlcalMunTxtF;
+    private javax.swing.JButton Anadir;
+    private javax.swing.JButton Borrar;
     private javax.swing.JLabel CALLE;
     private javax.swing.JLabel COLONIA;
     private javax.swing.JLabel CP;
@@ -666,6 +611,7 @@ if (exito) {
     private javax.swing.JComboBox<String> EDO_BOX;
     private javax.swing.JLabel ESTADO;
     private javax.swing.JLabel EXTERIOR;
+    private javax.swing.JButton Editar;
     private javax.swing.JTextField ExtTxtF;
     private javax.swing.JLabel Extension;
     private javax.swing.JLabel INTERIOR;
@@ -678,10 +624,6 @@ if (exito) {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldContacto;

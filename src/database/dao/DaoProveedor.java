@@ -4,8 +4,93 @@ import database.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import database.dao.DaoProveedor;
 
 public class DaoProveedor extends Conexion {
+    
+public boolean actualizarProveedor(String idProveedor, Object[] proveedor) {
+    conectar();
+    try {
+        
+        // Actualizar la tabla DIRECCION
+        String sqlDireccion = "UPDATE DIRECCION " +
+                              "SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
+                              "WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM PROVEEDOR WHERE ID_PROVEEDOR = ?)";
+        ps = conn.prepareStatement(sqlDireccion);
+
+        // Asignar parámetros para DIRECCION
+        ps.setString(1, (String) proveedor[6]);  // CALLE
+        ps.setString(2, (String) proveedor[7]);  // EXTERIOR
+        ps.setString(3, (String) proveedor[8]);  // INTERIOR
+        ps.setString(4, (String) proveedor[9]);  // COLONIA
+        ps.setString(5, (String) proveedor[10]); // CP
+        ps.setString(6, (String) proveedor[11]); // ALCAL_MUN
+        ps.setString(7, obtenerCodigoEstado((String) proveedor[12])); // ID_ESTADO
+        ps.setString(8, idProveedor); // ID_PROVEEDOR
+
+        System.out.println("Ejecutando actualización de DIRECCION: " + sqlDireccion);
+        int filasDireccion = ps.executeUpdate();
+
+        // Actualizar la tabla PROVEEDOR si DIRECCION se actualizó correctamente
+        if (filasDireccion > 0) {
+            String sqlProveedor = "UPDATE PROVEEDOR " +
+                                  "SET NOMBRE_EMPRESA = ?, NOMBRE_CONTACTO = ?, LADA = ?, TELEFONO = ?, EXTENSION = ?, CORREO = ? " +
+                                  "WHERE ID_PROVEEDOR = ?";
+            ps = conn.prepareStatement(sqlProveedor);
+
+            // Asignar parámetros para PROVEEDOR
+            ps.setString(1, ajustarLongitud((String) proveedor[0], 50)); // NOMBRE_EMPRESA (CHAR(50))
+            ps.setString(2, ajustarLongitud((String) proveedor[1], 30)); // NOMBRE_CONTACTO (CHAR(30))
+            ps.setInt(3, (int) proveedor[2]);                           // LADA (NUMBER)
+            ps.setString(4, ajustarLongitud((String) proveedor[3], 11)); // TELEFONO (CHAR(11))
+            ps.setInt(5, (int) proveedor[4]);                           // EXTENSION (NUMBER)
+            ps.setString(6, (String) proveedor[5]);                     // CORREO (NVARCHAR2(60))
+            ps.setString(7, idProveedor);                               // ID_PROVEEDOR (NVARCHAR2(8))
+
+            System.out.println("Ejecutando actualización de PROVEEDOR: " + sqlProveedor);
+            int filasProveedor = ps.executeUpdate();
+            return filasProveedor > 0;
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar proveedor: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        System.out.println("Consulta SQL para DIRECCION:");
+        System.out.println("UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM PROVEEDOR WHERE ID_PROVEEDOR = ?)");
+        System.out.println("Parámetros:");
+        System.out.println("1: " + proveedor[6]);
+        System.out.println("2: " + proveedor[7]);
+        System.out.println("3: " + proveedor[8]);
+        System.out.println("4: " + proveedor[9]);
+        System.out.println("5: " + proveedor[10]);
+        System.out.println("6: " + proveedor[11]);
+        System.out.println("7: " + obtenerCodigoEstado((String) proveedor[12]));
+        System.out.println("8: " + idProveedor);
+        System.out.println("Consulta SQL para PROVEEDOR:");
+        System.out.println("UPDATE PROVEEDOR SET NOMBRE_EMPRESA = ?, NOMBRE_CONTACTO = ?, LADA = ?, TELEFONO = ?, EXTENSION = ?, CORREO = ? WHERE ID_PROVEEDOR = ?");
+        System.out.println("Parámetros:");
+        System.out.println("1: " + proveedor[0]);
+        System.out.println("2: " + proveedor[1]);
+        System.out.println("3: " + proveedor[2]);
+        System.out.println("4: " + proveedor[3]);
+        System.out.println("5: " + proveedor[4]);
+        System.out.println("6: " + proveedor[5]);
+        System.out.println("7: " + idProveedor);
+
+
+        desconectar();
+    }
+    return false;
+}
+
+private String ajustarLongitud(String valor, int longitud) {
+    if (valor == null) {
+        // Retorna una cadena con espacios en blanco si el valor es null
+        return String.format("%-" + longitud + "s", "");
+    }
+    // Ajusta la longitud: recorta si es demasiado largo, rellena con espacios si es corto
+    return String.format("%-" + longitud + "s", valor.substring(0, Math.min(valor.length(), longitud)));
+}
 
     // Obtener código del estado
     private String obtenerCodigoEstado(String nombreEstado) {
@@ -134,60 +219,6 @@ public class DaoProveedor extends Conexion {
     return proveedor;
 }
 
-    // Editar un empleado existente
-    public boolean updateEmployee(Object[] empleado) {
-    conectar();
-    try {
-        if (empleado.length < 18) {
-            throw new IllegalArgumentException("El array empleado no contiene los índices esperados.");
-        }
-
-        String idDireccion = (String) empleado[16];
-        String idEmpleado = (String) empleado[17];
-
-        // Actualizar dirección
-        String sqlDireccion = "UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
-                              "WHERE ID_DIRECCION = ?";
-        ps = conn.prepareStatement(sqlDireccion);
-        ps.setString(1, (String) empleado[8]);  // Calle
-        ps.setString(2, (String) empleado[9]);  // Exterior
-        ps.setString(3, (String) empleado[10]); // Interior
-        ps.setString(4, (String) empleado[11]); // Colonia
-        ps.setString(5, (String) empleado[12]); // CP
-        ps.setString(6, (String) empleado[13]); // Alcaldía/Municipio
-        ps.setString(7, obtenerCodigoEstado((String) empleado[14])); // Estado
-        ps.setString(8, idDireccion);          // ID Dirección
-
-        ps.executeUpdate();
-
-        // Actualizar empleado
-        String sqlEmpleado = "UPDATE EMPLEADO SET NOMBRE = ?, AP_PATERNO = ?, AP_MATERNO = ?, FECHA_REG = ?, USUARIO_EMPLEADO = ?, " +
-                             "CONTRASENIA_EMPLEADO = ?, CORREO = ?, ID_PUESTO = ?, SUELDO = ? " +
-                             "WHERE ID_EMPLEADO = ?";
-        ps = conn.prepareStatement(sqlEmpleado);
-        ps.setString(1, (String) empleado[0]); // Nombre
-        ps.setString(2, (String) empleado[1]); // Apellido Paterno
-        ps.setString(3, (String) empleado[2]); // Apellido Materno
-        ps.setDate(4, Date.valueOf(empleado[3].toString())); // Fecha de Registro
-        ps.setString(5, (String) empleado[4]); // Usuario
-        ps.setString(6, (String) empleado[5]); // Contraseña
-        ps.setString(7, (String) empleado[6]); // Correo
-        ps.setFloat(9, (Float) empleado[8]);  // Salario
-        ps.setString(10, idEmpleado);          // ID Empleado
-
-        int filasEmpleado = ps.executeUpdate();
-        return filasEmpleado > 0;
-    } catch (SQLException ex) {
-        System.out.println("Error al editar empleado: " + ex.getMessage());
-        ex.printStackTrace();
-    } catch (IllegalArgumentException ex) {
-        System.out.println("Error: " + ex.getMessage());
-    } finally {
-        desconectar();
-    }
-    return false;
-}
-
     public List<String> obtenerEstados() {
     conectar();
     List<String> estados = new ArrayList<>();
@@ -244,51 +275,6 @@ public class DaoProveedor extends Conexion {
     return proveedores;
 }
 
-    public String obtenerIdDireccionPorEmpleado(String idProveedor) {
-    conectar();
-    String idDireccion = "";
-    try {
-        String sql = "SELECT ID_DIRECCION FROM EMPLEADO WHERE ID_PROVEEDOR = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, idProveedor);
-        rs = ps.executeQuery();
-        if (rs.next()) {
-            idDireccion = rs.getString("ID_DIRECCION");
-        }
-    } catch (SQLException ex) {
-        System.out.println("Error al obtener ID de la dirección: " + ex.getMessage());
-    } finally {
-        desconectar();
-    }
-    return idDireccion;
-}
-
-    // Eliminar empleado
-    public boolean deleteEmployee(String idEmpleado, String idDireccion) {
-    conectar();
-    try {
-        // Eliminar empleado
-        String sqlEmpleado = "DELETE FROM EMPLEADO WHERE ID_EMPLEADO = ?";
-        ps = conn.prepareStatement(sqlEmpleado);
-        ps.setString(1, idEmpleado);
-        ps.executeUpdate();
-
-        // Eliminar dirección
-        String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
-        ps = conn.prepareStatement(sqlDireccion);
-        ps.setString(1, idDireccion);
-        ps.executeUpdate();
-
-        return true;
-    } catch (SQLException ex) {
-        System.out.println("Error al eliminar empleado: " + ex.getMessage());
-    } finally {
-        desconectar();
-    }
-    return false;
-}
-
-    // Listar proveedores
     public List<Object[]> listProveedores() {
     conectar();
     List<Object[]> proveedores = new ArrayList<>();
@@ -322,6 +308,7 @@ public class DaoProveedor extends Conexion {
     }
     return proveedores;
 }
+
 
 
 }
