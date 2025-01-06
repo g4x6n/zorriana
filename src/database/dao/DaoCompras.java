@@ -4,6 +4,8 @@ import database.Conexion;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * @author Alex
@@ -97,7 +99,30 @@ public class DaoCompras extends Conexion {
     }
     return compras;
 }
+public List<Object[]> obtenerProductos() {
+    conectar(); // Método para conectar a la base de datos
+    List<Object[]> productos = new ArrayList<>();
+    try {
+        // Consulta para obtener el ID y el NOMBRE de los productos
+        String sql = "SELECT ID_PRODUCTO, NOMBRE FROM PRODUCTO";
+        ps = conn.prepareStatement(sql); // Preparar la consulta
+        rs = ps.executeQuery(); // Ejecutar la consulta
 
+        while (rs.next()) {
+            // Crear un array para almacenar los datos del producto
+            Object[] producto = new Object[2];
+            producto[0] = rs.getString("ID_PRODUCTO").trim(); // ID del producto
+            producto[1] = rs.getString("NOMBRE").trim(); // Nombre del producto
+            productos.add(producto); // Agregar el producto a la lista
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener productos: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Método para desconectar de la base de datos
+    }
+    return productos; // Retornar la lista de productos
+}
     public List<Object[]> obtenerDetalleCompra(String idCompra) {
     conectar();
     List<Object[]> detalleCompra = new ArrayList<>();
