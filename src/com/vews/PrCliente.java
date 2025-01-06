@@ -397,6 +397,7 @@ private void manejarTablaCliente() {
     }
 
    }
+
 private void botonAgregar() {
     try {
         // Obtener datos del formulario
@@ -545,7 +546,7 @@ private void botonEliminar() {
         String idDireccion = daoCliente.obtenerIdDireccionPorCliente(idCliente);
         
          if (idDireccion == null || idDireccion.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al cliente.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -570,6 +571,8 @@ private void botonEliminar() {
         e.printStackTrace();
     }
 }
+
+
 private void BuscarCliente() {
     String filtro = searchbar.getText().trim(); // Obtén el texto de la barra de búsqueda
     if (filtro.isEmpty()) {

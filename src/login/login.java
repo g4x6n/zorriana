@@ -7,12 +7,8 @@ package login;
 
 import java.awt.Color;
 import database.dao.DaoEmpleado;
-import database.Conexion;
 import javax.swing.JOptionPane;
 import com.dashboard.dashboard; 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import tools.UtilsGUI;
 /**
  *
  * @author Alex

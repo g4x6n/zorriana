@@ -77,7 +77,6 @@ import database.dao.DaoProveedor;
     }
 }
 
-    
     private void configurarColumnasTabla(JTable table) {
     // Anchos preferidos para las columnas
     int[] anchos = {10, 200, 150, 50, 100, 80, 200, 300}; // Ajusta estos valores según tus necesidades
@@ -119,7 +118,6 @@ import database.dao.DaoProveedor;
     }
 }
 
-    
     private void BuscarProveedor() {
     String filtro = searchbar.getText().trim();
 
@@ -177,57 +175,33 @@ import database.dao.DaoProveedor;
     }
 }
 
-private String ajustarLongitud(String valor, int longitud) {
-    if (valor == null) return String.format("%-" + longitud + "s", ""); // Espacios si es null
-    return String.format("%-" + longitud + "s", valor.substring(0, Math.min(valor.length(), longitud)));
+    private void limpiarCampos() {
+    jTextFieldNombreEmpresa.setText("");
+    jTextFieldContacto.setText("");
+    jTextFieldLada.setText("");
+    jTextFieldTelefono.setText("");
+    jTextFieldExtension.setText("");
+    jTextFieldCorreo.setText("");
+    CalleTxtF.setText("");
+    ExtTxtF.setText("");
+    IntTxtF.setText("");
+    ColTxtF.setText("");
+    CPTxtF.setText("");
+    AlcalMunTxtF.setText("");
+    EDO_BOX.setSelectedIndex(0); // Restablecer a "Seleccionar Estado"
 }
-
-private void actualizarProveedor() {
-    int filaSeleccionada = resultsTable.getSelectedRow();
-    if (filaSeleccionada == -1) {
-        JOptionPane.showMessageDialog(this, "Selecciona un proveedor de la tabla para actualizar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString();
-
-    // Obtener datos del formulario
-    Object[] datosProveedor = obtenerDatosProveedor();
-    if (datosProveedor == null) {
-        return; // Hay error en los datos ingresados
-    }
-
+    
+    private void botonAgregar() {
     try {
-        // Llama al método del DAO para actualizar
-        boolean actualizado = daoProveedor.actualizarProveedor(idProveedor, datosProveedor);
-
-        if (actualizado) {
-            JOptionPane.showMessageDialog(this, "Proveedor actualizado correctamente.");
-            cargarProveedores(); // Refrescar la tabla
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al actualizar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
-}
-
-    
-    
-    
-    
-private Object[] obtenerDatosProveedor() {
-    try {
-        // Datos del proveedor
-        String empresa = jTextFieldNombreEmpresa.getText().trim();
-        String contacto = jTextFieldContacto.getText().trim();
-        int lada = Integer.parseInt(jTextFieldLada.getText().trim());
-        int telefono = Integer.parseInt(jTextFieldTelefono.getText().trim());
-        int extension = Integer.parseInt(jTextFieldExtension.getText().trim());
+        // Obtener datos del formulario
+        String nombreEmpresa = jTextFieldNombreEmpresa.getText().trim();
+        String nombreContacto = jTextFieldContacto.getText().trim();
+        String lada = jTextFieldLada.getText().trim();
+        String telefono = jTextFieldTelefono.getText().trim();
+        String extension = ExtTxtF.getText().trim();
         String correo = jTextFieldCorreo.getText().trim();
 
-        // Datos de la dirección
+        // Dirección
         String calle = CalleTxtF.getText().trim();
         String exterior = ExtTxtF.getText().trim();
         String interior = IntTxtF.getText().trim();
@@ -236,14 +210,154 @@ private Object[] obtenerDatosProveedor() {
         String alcalMun = AlcalMunTxtF.getText().trim();
         String estado = (String) EDO_BOX.getSelectedItem();
 
-        // Retorna un arreglo con los datos
-        return new Object[]{
-            empresa, contacto, lada, telefono, extension, correo,
-            calle, exterior, interior, colonia, cp, alcalMun, estado
+        // Validar datos
+        if (nombreEmpresa.isEmpty() || nombreContacto.isEmpty() || lada.isEmpty() ||telefono.isEmpty() ||extension.isEmpty() || correo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos obligatorios.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Insertar cliente
+        boolean ProveedorInsertado = daoProveedor.insertarProveedor(nombreEmpresa,nombreContacto,lada,telefono, extension, correo, calle, exterior, interior, colonia, cp, alcalMun, estado);
+
+        if (ProveedorInsertado) {
+            JOptionPane.showMessageDialog(this, "Proveedor agregado exitosamente.");
+            cargarProveedores();
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al agregar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al agregar proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
+     
+    private void botonEliminar() {
+    try {
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un proveedor en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString().trim();
+        if (idProveedor.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El ID del proveedor seleccionado es inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String idDireccion = daoProveedor.obtenerIdDireccionPorProveedor(idProveedor);
+        if (idDireccion == null || idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+      
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar al proveedor?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // El usuario canceló
+        }
+
+        boolean exito = daoProveedor.deleteProveedor(idProveedor, idDireccion);
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Proveedor y dirección eliminados correctamente.");
+            cargarProveedores();
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
+    private void botonEditar() {
+     try {
+        // Verificar que se haya seleccionado un proveedor en la tabla
+        int filaSeleccionada = resultsTable.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un proveedor para editar.");
+            return;
+        }
+
+        // Obtener el ID del proveedor seleccionado
+        String idProveedor = resultsTable.getValueAt(filaSeleccionada, 0).toString();
+
+        // Validar los datos ingresados en el formulario
+        String nombreEmpresa = jTextFieldNombreEmpresa.getText().trim();
+        String nombreContacto = jTextFieldContacto.getText().trim();
+        String lada = jTextFieldLada.getText().trim();
+        String telefono = jTextFieldTelefono.getText().trim();
+        String extension = jTextFieldExtension.getText().trim();
+        String correo = jTextFieldCorreo.getText().trim();
+
+        // Obtener datos de la dirección
+        String calle = CalleTxtF.getText().trim();
+        String exterior = ExtTxtF.getText().trim();
+        String interior = IntTxtF.getText().trim();
+        String colonia = ColTxtF.getText().trim();
+        String cp = CPTxtF.getText().trim();
+        String alcalMun = AlcalMunTxtF.getText().trim();
+        String estado = (String) EDO_BOX.getSelectedItem();
+
+        // Validar y obtener IDs necesarios
+        String idEstado = daoProveedor.obtenerCodigoEstado(estado);
+        if (idEstado == null || idEstado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Estado inválido. Por favor selecciona un estado válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID de la dirección asociada al proveedor
+        String idDireccion = daoProveedor.obtenerIdDireccionPorProveedor(idProveedor);
+        if (idDireccion == null || idDireccion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener la dirección asociada al proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear el arreglo de datos para actualizar la dirección
+        Object[] datosDireccion = new Object[]{
+            idEstado,  // ID_ESTADO
+            alcalMun,  // ALCAL_MUN
+            colonia,   // COLONIA
+            cp,        // CP
+            calle,     // CALLE
+            exterior,  // EXTERIOR
+            interior,  // INTERIOR
+            idDireccion // ID_DIRECCION
         };
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error en el formato de LADA, teléfono o extensión. Asegúrate de ingresar números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
-        return null;
+
+        // Actualizar la dirección
+        boolean direccionActualizada = daoProveedor.updateDireccion(datosDireccion);
+        if (!direccionActualizada) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar la dirección.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear el arreglo de datos del proveedor para actualizar
+        Object[] datosProveedor = new Object[]{
+            idProveedor,   // ID del proveedor
+            nombreEmpresa, // Nombre de la empresa
+            nombreContacto,// Nombre del contacto
+            lada,          // LADA
+            telefono,      // Teléfono
+            extension.isEmpty() ? null : extension, // Extensión
+            correo,        // Correo
+            idDireccion    // ID de Dirección (ya existente)
+        };
+
+        // Actualizar el proveedor
+        boolean proveedorActualizado = daoProveedor.updateProveedor(datosProveedor);
+        if (proveedorActualizado) {
+            JOptionPane.showMessageDialog(this, "Proveedor actualizado correctamente.");
+            cargarProveedores(); // Recargar la tabla
+            limpiarCampos(); // Limpiar los campos del formulario
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al actualizar el proveedor.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al actualizar proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
     }
 }
 
@@ -290,6 +404,7 @@ private Object[] obtenerDatosProveedor() {
         Anadir = new javax.swing.JButton();
         Editar = new javax.swing.JButton();
         Borrar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -521,6 +636,14 @@ private Object[] obtenerDatosProveedor() {
         });
         fondo.add(Borrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 110, -1, -1));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/limpiar.png"))); // NOI18N
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, -1, -1));
+
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
         add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 570));
@@ -529,11 +652,11 @@ private Object[] obtenerDatosProveedor() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
-        actualizarProveedor();
+    botonEditar();
     }//GEN-LAST:event_EditarActionPerformed
 
     private void AnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnadirActionPerformed
-      
+      botonAgregar();
 
     }//GEN-LAST:event_AnadirActionPerformed
 
@@ -592,7 +715,7 @@ private Object[] obtenerDatosProveedor() {
     }//GEN-LAST:event_ExtTxtFActionPerformed
 
     private void BorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BorrarActionPerformed
-        //actualizarProveedor();
+        botonEliminar();
     }//GEN-LAST:event_BorrarActionPerformed
 
     private void resultsTableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_resultsTableKeyPressed
@@ -608,6 +731,10 @@ private Object[] obtenerDatosProveedor() {
         evt.consume();
     }
     }//GEN-LAST:event_searchbarKeyPressed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        limpiarCampos();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -639,6 +766,7 @@ private Object[] obtenerDatosProveedor() {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldContacto;

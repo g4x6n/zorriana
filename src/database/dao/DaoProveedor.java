@@ -4,180 +4,189 @@ import database.Conexion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import database.dao.DaoProveedor;
 
 public class DaoProveedor extends Conexion {
     
-public boolean actualizarProveedor(String idProveedor, Object[] proveedor) {
-    conectar();
-    try {
-        
-        // Actualizar la tabla DIRECCION
-        String sqlDireccion = "UPDATE DIRECCION " +
-                              "SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? " +
-                              "WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM PROVEEDOR WHERE ID_PROVEEDOR = ?)";
-        ps = conn.prepareStatement(sqlDireccion);
-
-        // Asignar parámetros para DIRECCION
-        ps.setString(1, (String) proveedor[6]);  // CALLE
-        ps.setString(2, (String) proveedor[7]);  // EXTERIOR
-        ps.setString(3, (String) proveedor[8]);  // INTERIOR
-        ps.setString(4, (String) proveedor[9]);  // COLONIA
-        ps.setString(5, (String) proveedor[10]); // CP
-        ps.setString(6, (String) proveedor[11]); // ALCAL_MUN
-        ps.setString(7, obtenerCodigoEstado((String) proveedor[12])); // ID_ESTADO
-        ps.setString(8, idProveedor); // ID_PROVEEDOR
-
-      
-        int filasDireccion = ps.executeUpdate();
-
-        // Actualizar la tabla PROVEEDOR si DIRECCION se actualizó correctamente
-        if (filasDireccion > 0) {
-            String sqlProveedor = "UPDATE PROVEEDOR " +
-                                  "SET NOMBRE_EMPRESA = ?, NOMBRE_CONTACTO = ?, LADA = ?, TELEFONO = ?, EXTENSION = ?, CORREO = ? " +
-                                  "WHERE ID_PROVEEDOR = ?";
-            ps = conn.prepareStatement(sqlProveedor);
-
-            // Asignar parámetros para PROVEEDOR
-            ps.setString(1, ajustarLongitud((String) proveedor[0], 50)); // NOMBRE_EMPRESA (CHAR(50))
-            ps.setString(2, ajustarLongitud((String) proveedor[1], 30)); // NOMBRE_CONTACTO (CHAR(30))
-            ps.setInt(3, (int) proveedor[2]);                           // LADA (NUMBER)
-            ps.setString(4, ajustarLongitud((String) proveedor[3], 11)); // TELEFONO (CHAR(11))
-            ps.setInt(5, (int) proveedor[4]);                           // EXTENSION (NUMBER)
-            ps.setString(6, (String) proveedor[5]);                     // CORREO (NVARCHAR2(60))
-            ps.setString(7, idProveedor);                               // ID_PROVEEDOR (NVARCHAR2(8))
-
-            
-            int filasProveedor = ps.executeUpdate();
-            return filasProveedor > 0;
-        }
-    } catch (SQLException ex) {
-        System.out.println("Error al actualizar proveedor: " + ex.getMessage());
-        ex.printStackTrace();
-    } finally {
-        System.out.println("Consulta SQL para DIRECCION:");
-        System.out.println("UPDATE DIRECCION SET CALLE = ?, EXTERIOR = ?, INTERIOR = ?, COLONIA = ?, CP = ?, ALCAL_MUN = ?, ID_ESTADO = ? WHERE ID_DIRECCION = (SELECT ID_DIRECCION FROM PROVEEDOR WHERE ID_PROVEEDOR = ?)");
-        System.out.println("Parámetros:");
-        System.out.println("1: " + proveedor[6]);
-        System.out.println("2: " + proveedor[7]);
-        System.out.println("3: " + proveedor[8]);
-        System.out.println("4: " + proveedor[9]);
-        System.out.println("5: " + proveedor[10]);
-        System.out.println("6: " + proveedor[11]);
-        System.out.println("7: " + obtenerCodigoEstado((String) proveedor[12]));
-        System.out.println("8: " + idProveedor);
-        System.out.println("Consulta SQL para PROVEEDOR:");
-        System.out.println("UPDATE PROVEEDOR SET NOMBRE_EMPRESA = ?, NOMBRE_CONTACTO = ?, LADA = ?, TELEFONO = ?, EXTENSION = ?, CORREO = ? WHERE ID_PROVEEDOR = ?");
-        System.out.println("Parámetros:");
-        System.out.println("1: " + proveedor[0]);
-        System.out.println("2: " + proveedor[1]);
-        System.out.println("3: " + proveedor[2]);
-        System.out.println("4: " + proveedor[3]);
-        System.out.println("5: " + proveedor[4]);
-        System.out.println("6: " + proveedor[5]);
-        System.out.println("7: " + idProveedor);
-
-
-        desconectar();
-    }
-    return false;
-}
-
-private String ajustarLongitud(String valor, int longitud) {
-    if (valor == null) {
-        // Retorna una cadena con espacios en blanco si el valor es null
-        return String.format("%-" + longitud + "s", "");
-    }
-    // Ajusta la longitud: recorta si es demasiado largo, rellena con espacios si es corto
-    return String.format("%-" + longitud + "s", valor.substring(0, Math.min(valor.length(), longitud)));
-}
-
-    // Obtener código del estado
-    private String obtenerCodigoEstado(String nombreEstado) {
-        String codigoEstado = "";
-        try {
-            String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, nombreEstado);
-            rs = ps.executeQuery();
-
-            if (rs.next()) {
-                codigoEstado = rs.getString(1);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al obtener código del estado: " + ex.getMessage());
-        }
-        return codigoEstado;
-    }
-
-    public boolean addProveedor(Object[] proveedor) {
+     
+    public String insertarDireccion(String calle, String exterior, String interior, String colonia, String cp, String alcalMun, String idEstado) {
     conectar(); // Conectar a la base de datos
-    String idDireccion = ""; 
-    String idProveedor = "";
+    String idDireccion = null;
 
     try {
-        // Generar ID para la dirección
-        String sqlGenerarIdDireccion = "SELECT 'D'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ID_DIRECCION,2,3)))+1,1),3,'0') FROM DIRECCION";
-        ps = conn.prepareStatement(sqlGenerarIdDireccion);
+        // Obtener el próximo ID de la secuencia
+        String sql = "SELECT SEQ_DIRECCION_ID.NEXTVAL FROM DUAL";
+        ps = conn.prepareStatement(sql);
         rs = ps.executeQuery();
         if (rs.next()) {
             idDireccion = rs.getString(1);
+        } else {
+            System.out.println("No se pudo generar un ID para la dirección.");
+            return null;
         }
 
-        // Generar ID para el proveedor
-        String sqlGenerarIdProveedor = "SELECT 'P'||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(ID_PROVEEDOR,2,3)))+1,1),3,'0') FROM PROVEEDOR";
-        ps = conn.prepareStatement(sqlGenerarIdProveedor);
-        rs = ps.executeQuery();
-        if (rs.next()) {
-            idProveedor = rs.getString(1);
-        }
-
-        // Obtener el código de estado
-        String codigoEstado = obtenerCodigoEstado((String) proveedor[12]); // Estado
-
-        // Validar la longitud de EXTERIOR y otros campos
-        String exterior = proveedor[6] != null ? proveedor[6].toString().substring(0, Math.min(proveedor[6].toString().length(), 5)) : null;
-
-        // Consulta SQL para insertar dirección
-        String sqlDireccion = "INSERT INTO DIRECCION (ID_DIRECCION, ID_ESTADO, ALCAL_MUN, COLONIA, CP, CALLE, EXTERIOR, INTERIOR) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        ps = conn.prepareStatement(sqlDireccion);
+        // Inserción de la nueva dirección
+        sql = "INSERT INTO DIRECCION (ID_DIRECCION, CALLE, EXTERIOR, INTERIOR, COLONIA, CP, ALCAL_MUN, ID_ESTADO) " +
+              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sql);
         ps.setString(1, idDireccion);
-        ps.setString(2, codigoEstado); // Código de estado
-        ps.setString(3, (String) proveedor[11]); // Alcaldía/Municipio
-        ps.setString(4, (String) proveedor[10]); // Colonia
-        ps.setString(5, (String) proveedor[9]); // CP
-        ps.setString(6, (String) proveedor[8]); // Calle
-        ps.setString(7, exterior); // Exterior truncado
-        ps.setString(8, (String) proveedor[7]); // Interior (puede ser null)
+        ps.setString(2, calle);
+        ps.setString(3, exterior);
+        ps.setString(4, interior);
+        ps.setString(5, colonia);
+        ps.setString(6, cp);
+        ps.setString(7, alcalMun);
+        ps.setString(8, idEstado);
 
-        int filasDireccion = ps.executeUpdate();
-
-        // Si la dirección se inserta correctamente, proceder con el proveedor
-        if (filasDireccion > 0) {
-            // Consulta SQL para insertar proveedor
-            String sqlProveedor = "INSERT INTO PROVEEDOR (ID_PROVEEDOR, NOMBRE_EMPRESA, NOMBRE_CONTACTO, LADA, TELEFONO, CORREO, ID_DIRECCION) " +
-                                  "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(sqlProveedor);
-            ps.setString(1, idProveedor);
-            ps.setString(2, (String) proveedor[0]); // Nombre empresa
-            ps.setString(3, (String) proveedor[1]); // Nombre contacto
-            ps.setInt(4, Integer.parseInt(proveedor[2].toString())); // LADA
-            ps.setInt(5, Integer.parseInt(proveedor[3].toString())); // Teléfono
-            ps.setString(6, (String) proveedor[4]); // Correo
-            ps.setString(7, idDireccion); // ID Dirección
-
-            int filasProveedor = ps.executeUpdate();
-            return filasProveedor > 0;
+        int rowsAffected = ps.executeUpdate();
+        if (rowsAffected == 0) {
+            System.out.println("Error: No se pudo insertar la dirección.");
+            idDireccion = null;
         }
     } catch (SQLException ex) {
-        System.out.println("Error al agregar proveedor: " + ex.getMessage());
+        System.out.println("Error al insertar dirección: " + ex.getMessage());
         ex.printStackTrace();
-    } finally {
-        desconectar(); // Cerrar la conexión
     }
-    return false;
+
+    return idDireccion;
 }
 
+    public String obtenerIdDireccion(String calle, String exterior, String interior, String colonia, String cp, String alcalMun, String idEstado) {
+    conectar(); // Conectar a la base de datos
+    String idDireccion = null;
+    try {
+        // Consulta SQL para buscar la dirección
+        String sql = "SELECT ID_DIRECCION FROM DIRECCION WHERE CALLE = ? AND EXTERIOR = ? AND INTERIOR = ? " +
+                     "AND COLONIA = ? AND CP = ? AND ALCAL_MUN = ? AND ID_ESTADO = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, calle.trim());
+        ps.setString(2, exterior.trim());
+        ps.setString(3, interior.trim());
+        ps.setString(4, colonia.trim());
+        ps.setString(5, cp.trim());
+        ps.setString(6, alcalMun.trim());
+        ps.setString(7, idEstado.trim());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idDireccion = rs.getString("ID_DIRECCION"); // Obtener el ID de la dirección
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID de la dirección: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+    return idDireccion; // Retornar el ID de la dirección o null si no se encontró
+}
+
+    public String obtenerCodigoEstado(String nombreEstado) {
+    conectar(); // Asegurarse de conectar a la base de datos
+    String codigoEstado = "";
+        try {
+        String sql = "SELECT ID_ESTADO FROM ESTADO WHERE UPPER(ESTADO) = UPPER(?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreEstado.trim()); // Elimina espacios adicionales
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            codigoEstado = rs.getString(1);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener código del estado: " + ex.getMessage());
+        }
+    return codigoEstado;
+}
+    
+    public boolean insertarProveedor(String nombreEmpresa, String nombreContacto, String lada, String telefono, String extension, String correo, String calle, String exterior, String interior, String colonia, String cp, String alcalMun, String estado) {
+    conectar(); // Conectar a la base de datos
+    boolean exito = false;
+
+    try {
+        // Obtener el ID del estado
+        String idEstado = obtenerCodigoEstado(estado);
+        if (idEstado == null) {
+            System.out.println("Error: El estado especificado no existe.");
+            return false;
+        }
+
+        // Insertar la dirección o verificar si ya existe
+        String idDireccion = obtenerIdDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+        if (idDireccion == null) {
+            idDireccion = insertarDireccion(calle, exterior, interior, colonia, cp, alcalMun, idEstado);
+        }
+
+        if (idDireccion == null) {
+            System.out.println("Error: No se pudo insertar o encontrar la dirección.");
+            return false;
+        }
+
+        // Validaciones de entrada
+        if (!lada.matches("\\d{1,3}")) {
+            System.out.println("Error: LADA debe ser un número de hasta 3 dígitos.");
+            return false;
+        }
+
+        if (extension != null && !extension.isEmpty() && !extension.matches("\\d{1,3}")) {
+            System.out.println("Error: La extensión debe ser un número de hasta 3 dígitos.");
+            return false;
+        }
+
+        // Insertar el cliente
+        String sql = "INSERT INTO PROVEEDOR (NOMBRE_EMPRESA, NOMBRE_CONTACTO, LADA, TELEFONO, EXTENSION, CORREO, ID_DIRECCION) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreEmpresa);
+        ps.setString(2, nombreContacto);
+        ps.setString(3, lada);
+        ps.setString(4, telefono);
+
+        // Manejar la extensión (puede ser nula)
+        if (extension == null || extension.isEmpty()) {
+            ps.setNull(5, java.sql.Types.INTEGER);
+        } else {
+            ps.setString(5, extension);
+        }
+
+        ps.setString(6, correo);
+        ps.setString(7, idDireccion);
+
+        exito = ps.executeUpdate() > 0;
+    } catch (SQLException ex) {
+        System.out.println("Error al insertar proveedor: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        // Cerrar recursos
+        try {
+            if (ps != null) ps.close();
+            desconectar(); // Cerrar conexión
+        } catch (SQLException ex) {
+            System.out.println("Error al cerrar los recursos: " + ex.getMessage());
+        }
+    }
+
+    return exito;
+}
+
+    public String obtenerIdDireccionPorProveedor(String idProveedor) {
+    conectar(); // Asegura la conexión a la base de datos
+    String idDireccion = null;
+    try {
+        String sql = "SELECT ID_DIRECCION FROM PROVEEDOR WHERE ID_PROVEEDOR = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idProveedor.trim());
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idDireccion = rs.getString("ID_DIRECCION");
+        } 
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID de dirección: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cierra la conexión a la base de datos
+    }
+    return idDireccion;
+}
+
+    
     public Object[] obtenerProveedorPorId(String idProveedor) {
     conectar();
     Object[] proveedor = new Object[15]; // Tamaño ajustado según las columnas seleccionadas en la consulta
@@ -307,6 +316,109 @@ private String ajustarLongitud(String valor, int longitud) {
         desconectar();
     }
     return proveedores;
+}
+
+    public boolean deleteProveedor(String idProveedor, String idDireccion) {
+    conectar(); 
+    boolean exito = false;// Conectar a la base de datos
+    try {
+        // Eliminar proveedor
+        String sqlProveedor = "DELETE FROM PROVEEDOR WHERE ID_PROVEEDOR = ?";
+        ps = conn.prepareStatement(sqlProveedor);
+        ps.setString(1, idProveedor);
+        int filasAfectadas = ps.executeUpdate();
+
+        if (filasAfectadas > 0) {
+          String sqlDireccion = "DELETE FROM DIRECCION WHERE ID_DIRECCION = ?";
+            ps = conn.prepareStatement(sqlDireccion);
+            ps.setString(1, idDireccion);
+            int filasDireccion = ps.executeUpdate();
+            exito = filasDireccion > 0;  
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al eliminar proveedor y direccion: " + ex.getMessage());
+        return false;
+    } finally {
+        desconectar(); // Cierra la conexión
+    }
+    return exito;
+}
+
+    public boolean updateProveedor(Object[] datosProveedor) {
+    conectar(); // Establecer conexión a la base de datos
+    String sql = "UPDATE PROVEEDOR SET " +
+                 "NOMBRE_EMPRESA = ?, " +
+                 "NOMBRE_CONTACTO = ?, " +
+                 "LADA = ?, " +
+                 "TELEFONO = ?, " +
+                 "EXTENSION = ?, " +
+                 "CORREO = ?, " +
+                 "ID_DIRECCION = ? " +
+                 "WHERE ID_PROVEEDOR = ?";
+
+    try {
+        // Preparar la consulta
+        ps = conn.prepareStatement(sql);
+
+        // Asignar parámetros con el orden correcto
+        ps.setString(1, (String) datosProveedor[1]); // NOMBRE_EMPRESA
+        ps.setString(2, (String) datosProveedor[2]); // NOMBRE_CONTACTO
+        ps.setInt(3, Integer.parseInt((String) datosProveedor[3])); // LADA
+        ps.setString(4, (String) datosProveedor[4]); // TELEFONO
+        ps.setInt(5, datosProveedor[5] != null ? Integer.parseInt((String) datosProveedor[5]) : 0); // EXTENSION
+        ps.setString(6, (String) datosProveedor[6]); // CORREO
+        ps.setString(7, (String) datosProveedor[7]); // ID_DIRECCION
+        ps.setString(8, (String) datosProveedor[0]); // ID_PROVEEDOR
+
+        // Ejecutar la actualización
+        int filasActualizadas = ps.executeUpdate();
+
+        return filasActualizadas > 0; // Retornar si se actualizaron filas
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar proveedor: " + e.getMessage());
+        return false;
+    } finally {
+        desconectar(); // Cerrar la conexión en el bloque finally
+    }
+}
+
+    
+    
+    public boolean updateDireccion(Object[] datoDireccion) {
+    boolean isUpdated = false;
+    conectar(); // Conectar a la base de datos
+    try {
+        String sql = "UPDATE DIRECCION SET " +
+                     "ID_ESTADO = ?, " +
+                     "ALCAL_MUN = ?, " +
+                     "COLONIA = ?, " +
+                     "CP = ?, " +
+                     "CALLE = ?, " +
+                     "EXTERIOR = ?, " +
+                     "INTERIOR = ? " +
+                     "WHERE ID_DIRECCION = ?";
+        ps = conn.prepareStatement(sql);
+
+        // Asignar valores a los parámetros
+        ps.setString(1, (String) datoDireccion[0]); // ID_ESTADO
+        ps.setString(2, (String) datoDireccion[1]); // ALCAL_MUN
+        ps.setString(3, (String) datoDireccion[2]); // COLONIA
+        ps.setString(4, (String) datoDireccion[3]); // CP
+        ps.setString(5, (String) datoDireccion[4]); // CALLE
+        ps.setString(6, (String) datoDireccion[5]); // EXTERIOR
+        ps.setString(7, (String) datoDireccion[6]); // INTERIOR
+        ps.setString(8, (String) datoDireccion[7]); // ID_DIRECCION
+
+        // Ejecutar la actualización
+        int rowsAffected = ps.executeUpdate();
+        isUpdated = rowsAffected > 0; // Si se actualizó al menos una fila, es exitoso
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar la dirección: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cerrar conexión
+    }
+    return isUpdated;  
 }
 
 
