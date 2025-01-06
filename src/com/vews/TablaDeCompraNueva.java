@@ -15,6 +15,15 @@ public class TablaDeCompraNueva extends javax.swing.JFrame {
      */
     public TablaDeCompraNueva() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        // Listener para reforzar el cierre correcto
+    addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent evt) {
+            System.out.println("Cerrando sólo TablaDeCompraNueva");
+            dispose(); // Cierra sólo esta ventana
+        }
+    });
     }
 
     /**
