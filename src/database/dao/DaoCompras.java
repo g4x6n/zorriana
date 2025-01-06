@@ -99,31 +99,65 @@ public class DaoCompras extends Conexion {
     }
     return compras;
 }
-    public List<Object[]> obtenerProductosPorProveedor(String proveedor) { //IDK
+public List<Object[]> obtenerProductosPorProveedor(String idProveedor) {
     conectar(); // Conexión a la base de datos
     List<Object[]> productos = new ArrayList<>();
     try {
-        // Ajusta la consulta para obtener productos por proveedor
-        String sql = "SELECT ID_PRODUCTO, NOMBRE FROM PRODUCTO WHERE ID_PROVEEDOR = " +
-                     "(SELECT ID_PROVEEDOR FROM PROVEEDOR WHERE NOMBRE_EMPRESA = ?)";
+        // Consulta SQL funcional
+        String sql = """
+                     SELECT ID_PRODUCTO, NOMBRE 
+                     FROM PRODUCTO 
+                     JOIN PROVEEDOR USING (ID_PROVEEDOR) 
+                     WHERE ID_PROVEEDOR = ?
+                     """;
         ps = conn.prepareStatement(sql);
-        ps.setString(1, proveedor); // Parámetro para filtrar por el nombre del proveedor
+        ps.setString(1, idProveedor); // Filtrar por ID del proveedor
         rs = ps.executeQuery();
 
+        // Procesar resultados
         while (rs.next()) {
             Object[] producto = new Object[2];
             producto[0] = rs.getString("ID_PRODUCTO").trim(); // ID del producto
             producto[1] = rs.getString("NOMBRE").trim();      // Nombre del producto
             productos.add(producto);
         }
+
+        // Mensaje de depuración
+        System.out.println("Productos encontrados: " + productos.size());
+
     } catch (SQLException ex) {
         System.out.println("Error al obtener productos por proveedor: " + ex.getMessage());
         ex.printStackTrace();
     } finally {
         desconectar(); // Cierra la conexión
     }
-    return productos;
-} //IDK
+    return productos; // Retorna la lista de productos
+}
+    public List<Object[]> obtenerProveedores() {
+    conectar(); // Conexión a la base de datos
+    List<Object[]> proveedores = new ArrayList<>();
+    try {
+        // Consulta SQL para obtener ID_PROVEEDOR y NOMBRE_EMPRESA
+        String sql = "SELECT ID_PROVEEDOR, NOMBRE_EMPRESA FROM PROVEEDOR";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        // Procesar resultados
+        while (rs.next()) {
+            Object[] proveedor = new Object[2];
+            proveedor[0] = rs.getString("ID_PROVEEDOR").trim(); // ID del proveedor
+            proveedor[1] = rs.getString("NOMBRE_EMPRESA").trim(); // Nombre del proveedor
+            proveedores.add(proveedor);
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener proveedores: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cierra la conexión
+    }
+    return proveedores; // Retorna la lista de proveedores
+}
     public List<Object[]> obtenerProductos() {
     conectar(); // Método para conectar a la base de datos
     List<Object[]> productos = new ArrayList<>();
