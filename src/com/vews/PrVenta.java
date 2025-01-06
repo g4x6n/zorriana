@@ -182,6 +182,44 @@ private void cargarDatosDesdeTablaVenta() {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
+private void eliminarVenta() {
+    try {
+        // Verifica si hay una venta seleccionada
+        int filaSeleccionada = jTable4.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una venta en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtén el ID de la venta seleccionada
+        String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
+        System.out.println("ID de la venta seleccionada: " + idVenta); // DEPURACIÓN
+
+        if (idVenta.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El ID de la venta seleccionada está vacío. Verifica los datos de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmación antes de eliminar
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar la venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // El usuario canceló
+        }
+
+        // Llama al método para eliminar venta en el DAO
+        boolean exito = daoVentas.deleteVenta(idVenta);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Venta eliminada correctamente.");
+            cargarVentas(); // Recargar tabla de ventas
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la venta. Puede tener detalles asociados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
 
 
 private void cargarDetalleVenta(String idVenta) {
@@ -247,6 +285,7 @@ private void BuscarVenta() {
         ex.printStackTrace();
     }
 }
+
 private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {                                     
     if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
         BuscarVenta();
@@ -278,7 +317,6 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         jComboBox4 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -288,7 +326,6 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         jTable3 = new javax.swing.JTable();
         jButtonEliminar = new javax.swing.JButton();
         jButtonEditarVenta = new javax.swing.JButton();
-        guardado = new javax.swing.JButton();
         BUSQUEDA = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -402,13 +439,9 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
 
         fondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 420, 160));
 
-        jLabel7.setFont(new java.awt.Font("Jost", 1, 18)); // NOI18N
-        jLabel7.setText("VENTA");
-        fondo.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 80, -1));
-
         jLabel8.setFont(new java.awt.Font("Jost", 1, 18)); // NOI18N
         jLabel8.setText("DETALLE VENTA");
-        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
+        fondo.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, -1, -1));
 
         jTable4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
@@ -438,14 +471,14 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         });
         jScrollPane4.setViewportView(jTable4);
 
-        fondo.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 430, 370));
+        fondo.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 430, 140));
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
             }
         });
-        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 230, -1));
+        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 320, -1));
 
         jLabel10.setText("FILTRAR:");
         fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, -1, 20));
@@ -467,7 +500,7 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        fondo.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 420, 180));
+        fondo.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 750, 180));
 
         jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         jButtonEliminar.setContentAreaFilled(false);
@@ -477,7 +510,7 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
                 jButtonEliminarActionPerformed(evt);
             }
         });
-        fondo.add(jButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 100, -1, -1));
+        fondo.add(jButtonEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 400, 70, 60));
 
         jButtonEditarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/editar venta.png"))); // NOI18N
         jButtonEditarVenta.setContentAreaFilled(false);
@@ -487,17 +520,7 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
                 jButtonEditarVentaActionPerformed(evt);
             }
         });
-        fondo.add(jButtonEditarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, -1, -1));
-
-        guardado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/guardar.png"))); // NOI18N
-        guardado.setContentAreaFilled(false);
-        guardado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        guardado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardadoActionPerformed(evt);
-            }
-        });
-        fondo.add(guardado, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
+        fondo.add(jButtonEditarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 340, 80, 50));
 
         BUSQUEDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         BUSQUEDA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -506,7 +529,7 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
                 BUSQUEDAMouseClicked(evt);
             }
         });
-        fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, -1, -1));
+        fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 100, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -557,7 +580,9 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
-//        eliminarEmpleado();
+
+        eliminarVenta();
+    
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonEditarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVentaActionPerformed
@@ -575,10 +600,6 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
         }/**/
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 
-    private void guardadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_guardadoActionPerformed
-
     private void BUSQUEDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUSQUEDAMouseClicked
         jTextField3.setText(""); // Asegurarse de que el campo de búsqueda esté vacío
         BuscarVenta(); // Cargar todas las ventas inicialmente
@@ -588,7 +609,6 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BUSQUEDA;
     private javax.swing.JPanel fondo;
-    private javax.swing.JButton guardado;
     private javax.swing.JButton jButtonEditarVenta;
     private javax.swing.JButton jButtonEliminar;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -602,7 +622,6 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

@@ -8,7 +8,158 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DaoVentas extends Conexion {
-    
+
+    public boolean deleteVenta(String idVenta) {
+    conectar();
+    boolean exito = false; // Indica si la operación fue exitosa
+    try {
+        System.out.println("Intentando eliminar venta con ID: '" + idVenta + "'");
+
+        // Verificar si la venta está asociada en DETALLE_VENTA
+        String sqlDetalleVenta = "SELECT COUNT(*) FROM DETALLE_VENTA WHERE TRIM(ID_VENTA) = ?";
+        ps = conn.prepareStatement(sqlDetalleVenta);
+        ps.setString(1, idVenta);
+        rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            System.out.println("No se puede eliminar la venta porque tiene detalles asociados.");
+            return false;
+        }
+
+        // Eliminar la venta
+        String sqlVenta = "DELETE FROM VENTA WHERE TRIM(ID_VENTA) = ?";
+        ps = conn.prepareStatement(sqlVenta);
+        ps.setString(1, idVenta);
+        int filasAfectadas = ps.executeUpdate();
+
+        exito = filasAfectadas > 0;
+
+        if (exito) {
+            System.out.println("Venta eliminada exitosamente.");
+        } else {
+            System.out.println("No se encontró la venta con el ID proporcionado.");
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error al eliminar la venta: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Cierra la conexión a la base de datos
+    }
+    return exito;
+}
+public boolean actualizarVenta(String idVenta, String idCliente, String idEmpleado, String idEstadoVenta, String idMetodoPago, Date fechaVenta) {
+    conectar();
+    boolean exito = false;
+
+    try {
+        String sql = """
+            UPDATE VENTA
+            SET ID_CLIENTE = ?, 
+                ID_EMPLEADO = ?, 
+                ID_ESTADO_VENTA = ?, 
+                ID_METODO_PAGO = ?, 
+                FECHA_VENTA = ?
+            WHERE ID_VENTA = ?
+        """;
+
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idCliente);        // Cliente asociado a la venta
+        ps.setString(2, idEmpleado);      // Empleado que realizó la venta
+        ps.setString(3, idEstadoVenta);   // Estado de la venta
+        ps.setString(4, idMetodoPago);    // Método de pago
+        ps.setDate(5, new java.sql.Date(fechaVenta.getTime())); // Fecha de la venta
+        ps.setString(6, idVenta);         // ID de la venta a actualizar
+
+        int filasActualizadas = ps.executeUpdate();
+        exito = filasActualizadas > 0;
+
+        if (exito) {
+            System.out.println("Venta actualizada exitosamente.");
+        } else {
+            System.out.println("No se encontró la venta con el ID proporcionado.");
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar la venta: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
+    }
+    return exito;
+}
+public String obtenerIdCliente(String nombreCompleto) {
+    conectar();
+    String idCliente = null;
+    try {
+        String sql = "SELECT ID_CLIENTE FROM CLIENTE WHERE TRIM(NOMBRE || ' ' || AP_PATERNO || ' ' || NVL(AP_MATERNO, '')) = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreCompleto.trim());
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idCliente = rs.getString("ID_CLIENTE");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID del cliente: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idCliente;
+}
+public String obtenerIdEmpleado(String nombreCompleto) {
+    conectar();
+    String idEmpleado = null;
+    try {
+        String sql = "SELECT ID_EMPLEADO FROM EMPLEADO WHERE TRIM(NOMBRE || ' ' || AP_PATERNO || ' ' || NVL(AP_MATERNO, '')) = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreCompleto.trim());
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idEmpleado = rs.getString("ID_EMPLEADO");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID del empleado: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idEmpleado;
+}
+public String obtenerIdEstadoVenta(String estadoVenta) {
+    conectar();
+    String idEstadoVenta = null;
+    try {
+        String sql = "SELECT ID_ESTADO_VENTA FROM ESTADO_VENTA WHERE TRIM(ESTADO_VENTA) = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, estadoVenta.trim());
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idEstadoVenta = rs.getString("ID_ESTADO_VENTA");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID del estado de venta: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idEstadoVenta;
+}
+public String obtenerIdMetodoPago(String metodoPago) {
+    conectar();
+    String idMetodoPago = null;
+    try {
+        String sql = "SELECT ID_METODO_PAGO FROM METODO_PAGO WHERE TRIM(METODO_PAGO) = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, metodoPago.trim());
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idMetodoPago = rs.getString("ID_METODO_PAGO");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener ID del método de pago: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idMetodoPago;
+}
+
 public List<Object[]> buscarVentas(String filtro) {
     conectar();
     List<Object[]> ventas = new ArrayList<>();
@@ -217,5 +368,8 @@ public List<String> obtenerMetodoPago() {
     return metodopago; // Retornar la lista de empleados
     }
 }
+
+
+
 
 

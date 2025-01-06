@@ -81,7 +81,7 @@ public class PrProducto extends javax.swing.JPanel {
         }
     }
     
-    private void cargarProductos() { 
+   private void cargarProductos() { 
     try {
         // Obtiene los productos desde el DAO
         List<Object[]> productos = daoProducto.listProductos();
@@ -89,7 +89,7 @@ public class PrProducto extends javax.swing.JPanel {
         // Configura el modelo de la tabla con las columnas necesarias
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"ID", "Nombre", "Descripción", "SKU", "Tipo", "Clasificación", "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"}, 0
-        ){
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Ninguna celda será editable
@@ -100,25 +100,29 @@ public class PrProducto extends javax.swing.JPanel {
         // Llena el modelo con los datos
         for (Object[] producto : productos) {
             model.addRow(new Object[]{
-                producto[0]!= null ? producto[0] : "N/A",                          // ID
-                producto[1]!= null ? producto[1] : "N/A",                          // Nombre
-                producto[2]!= null ? producto[2] : "N/A",                          // Descripción
-                producto[3]!= null ? producto[3] : "N/A",                          // SKU
-                producto[4]!= null ? producto[4] : "N/A",                          // Tipo
-                producto[5]!= null ? producto[5] : "N/A",                          // Clasificación
-                producto[6]!= null ? producto[6] : "N/A",                          // Empresa
-                producto[7]!= null ? producto[7] : "N/A",                          // Stock
-                producto[8]!= null ? producto[8] : "N/A",                          // Precio
-                producto[9]!= null ? producto[9] : "N/A",                          // Piso
-                producto[10]!= null ? producto[10] : "N/A",                         // Zona
-                producto[11]!= null ? producto[11] : "N/A",                         // Estantería
-                producto[12]!= null ? producto[12] : "N/A"                          // NOMBRE_MARCA
+                producto[0] != null ? producto[0] : "N/A",                          // ID
+                producto[1] != null ? producto[1] : "N/A",                          // Nombre
+                producto[2] != null ? producto[2] : "N/A",                          // Descripción
+                producto[3] != null ? producto[3] : "N/A",                          // SKU
+                producto[4] != null ? producto[4] : "N/A",                          // Tipo
+                producto[5] != null ? producto[5] : "N/A",                          // Clasificación
+                producto[6] != null ? producto[6] : "N/A",                          // Empresa
+                producto[7] != null ? producto[7] : "N/A",                          // Stock
+                producto[8] != null ? producto[8] : "N/A",                          // Precio
+                producto[9] != null ? producto[9] : "N/A",                          // Piso
+                producto[10] != null ? producto[10] : "N/A",                        // Zona
+                producto[11] != null ? producto[11] : "N/A",                        // Estantería
+                producto[12] != null ? producto[12] : "N/A"                         // NOMBRE_MARCA
             });
         }
 
         // Asigna el modelo a la tabla
         resultsTable1.setModel(model);
-        
+
+        // Ocultar la columna de ID
+        ocultarColumna(resultsTable1, 0);
+
+        // Configurar columnas con tamaños predefinidos
         configurarColumnasTabla(resultsTable1);
         
     } catch (Exception e) {
@@ -126,6 +130,52 @@ public class PrProducto extends javax.swing.JPanel {
         e.printStackTrace();
     }
 }
+
+private void ocultarColumna(JTable table, int columna) {
+    TableColumn column = table.getColumnModel().getColumn(columna);
+    column.setMinWidth(0);
+    column.setMaxWidth(0);
+    column.setPreferredWidth(0);
+    column.setResizable(false);
+}
+private void buscarProducto() {
+    String filtro = searchbar1.getText().trim();
+
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        List<Object[]> resultados = daoProducto.buscarProducto(filtro); // Llamada al DAO
+
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
+                         "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Ninguna celda editable
+            }
+        };
+
+        for (Object[] fila : resultados) {
+            model.addRow(fila); // Agregar datos al modelo
+        }
+
+        resultsTable1.setModel(model); // Asignar modelo a la tabla
+        ocultarColumna(resultsTable1, 0); // Ocultar la columna "ID"
+        configurarColumnasTabla(resultsTable1); // Configurar columnas restantes
+
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
+
     
     private void configurarColumnasTabla(JTable table) {
     // Establecer tamaños mínimos y preferidos para las columnas
@@ -310,64 +360,6 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
     Marca_Box.setSelectedIndex(-1);
 }
 
-    private void buscarProducto()  {
-         String filtro = searchbar1.getText().trim();
-
-if (filtro.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    return;
-}
-
-try {
-    // Realiza la búsqueda
-    List<Object[]> resultados = daoProducto.buscarProducto(filtro);
-
-    // Configura el modelo de la tabla
-    DefaultTableModel model = new DefaultTableModel(
-        new String[]{
-            "ID", "Nombre", "Descripción", "SKU", "Categoría", "Estado", 
-            "Proveedor", "Stock", "Precio", "Piso", "Zona", "Estantería", "Marca"
-        }, 0
-    ){
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // Ninguna celda será editable
-                return false;
-            }
-        };
-
-    // Llena el modelo con los resultados
-    for (Object[] fila : resultados) {
-        model.addRow(new Object[]{
-            fila[0], // ID del producto
-            fila[1], // Nombre
-            fila[2], // Descripción
-            fila[3], // SKU
-            fila[4], // Categoría
-            fila[5], // Estado del producto
-            fila[6], // Proveedor
-            fila[7], // Stock
-            fila[8], // Precio
-            fila[9], // Piso
-            fila[10], // Zona
-            fila[11], // Estantería
-            fila[12]  // Marca
-        });
-    }
-
-    resultsTable1.setModel(model);
-    configurarColumnasTabla(resultsTable1);
-    
-
-    // Muestra un mensaje si no hay resultados
-    if (resultados.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
-    }
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    ex.printStackTrace();
-}
-    }
     
     
     @SuppressWarnings("unchecked")
