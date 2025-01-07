@@ -579,35 +579,40 @@ private void limpiarCampos() {
     }//GEN-LAST:event_QUITARActionPerformed
 
     private void AGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGARActionPerformed
-    int cantidadDeseada = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada"));
-    int filaSeleccionada = TABLAPRODUCTOS.getSelectedRow();
+    try {
+        int filaSeleccionada = TABLAPRODUCTOS.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    if (filaSeleccionada != -1) {
+        String cantidadDeseadaStr = JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada");
+        if (cantidadDeseadaStr == null || cantidadDeseadaStr.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int cantidadDeseada = Integer.parseInt(cantidadDeseadaStr.trim());
         int stockDisponible = (Integer) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 1);
 
         if (cantidadDeseada > stockDisponible) {
             JOptionPane.showMessageDialog(this, "No hay suficiente stock para la cantidad solicitada", "Error de stock", JOptionPane.ERROR_MESSAGE);
-        } else {
-            double precio = (Double) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 2);
-            double subtotal = cantidadDeseada * precio;
-
-            DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
-            String nombreProducto = TABLAPRODUCTOS.getValueAt(filaSeleccionada, 0).toString();
-
-            // Inserta la fila correctamente
-            modeloDetalle.insertRow(0, new Object[]{nombreProducto, cantidadDeseada, precio, subtotal});
-
-            // Actualizar stock en la tabla de productos
-            int nuevoStock = stockDisponible - cantidadDeseada;
-            TABLAPRODUCTOS.setValueAt(nuevoStock, filaSeleccionada, 1);
-
-            // Actualizar el total
-            actualizarTotal();
+            return;
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un producto para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
 
+        double precio = (Double) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 2);
+        double subtotal = cantidadDeseada * precio;
+
+        DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
+        String nombreProducto = TABLAPRODUCTOS.getValueAt(filaSeleccionada, 0).toString();
+
+        modeloDetalle.addRow(new Object[]{nombreProducto, cantidadDeseada, precio, subtotal});
+        TABLAPRODUCTOS.setValueAt(stockDisponible - cantidadDeseada, filaSeleccionada, 1);
+        actualizarTotal();
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese una cantidad válida.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_AGREGARActionPerformed
 
     private void CONFIRMARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONFIRMARActionPerformed
