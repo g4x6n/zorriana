@@ -13,34 +13,36 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 
-/**
- *
- * @author leona
- */
 public class TablaDeCompraNueva extends javax.swing.JFrame {
+private String usuarioActivo;
 
-    /**
-     * Creates new form NewJFrame
-     */
-    public TablaDeCompraNueva() {
-        
-        initComponents();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        // Listener para reforzar el cierre correcto
+
+
+public TablaDeCompraNueva(String usuarioActivo) {
+    this.usuarioActivo = usuarioActivo; // Guarda el usuario activo
+
+    initComponents(); // Inicializa los componentes de la interfaz gráfica
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+    // Listener para reforzar el cierre correcto
     addWindowListener(new java.awt.event.WindowAdapter() {
         @Override
         public void windowClosing(java.awt.event.WindowEvent evt) {
             System.out.println("Cerrando sólo TablaDeCompraNueva");
             dispose(); // Cierra sólo esta ventana
-            
         }
     });
+
+    // Configuración adicional
     setFechaActual(); // Establecer la fecha actual en el cuadro de texto
     cargarProductosTabla();
     cargarProveedores();
     cargarEstadosDeCompra();
-    
-    }
+
+    // Establece el usuario activo en el JLabel
+    Usuario.setText(usuarioActivo);
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -205,6 +207,10 @@ private void cargarProveedores() {
         FechaDelDia.setText(fechaActual.format(formatter)); // Establece la fecha en el JTextField
     }
    
+// Constructor sin argumentos
+public TablaDeCompraNueva() {
+    this("UsuarioDesconocido"); // Llama al constructor principal con un valor por defecto
+}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -310,7 +316,7 @@ private void cargarProveedores() {
         jPanel1.add(Carrito, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 370, 130));
 
         Fecha.setText("FECHA DE COMPRA");
-        jPanel1.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 110, 20));
+        jPanel1.add(Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 140, 20));
 
         FechaDelDia.setEditable(false);
         FechaDelDia.addActionListener(new java.awt.event.ActionListener() {
@@ -318,7 +324,7 @@ private void cargarProveedores() {
                 FechaDelDiaActionPerformed(evt);
             }
         });
-        jPanel1.add(FechaDelDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 170, 30));
+        jPanel1.add(FechaDelDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 140, 30));
 
         QuitarDeLaCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/boton-menos.png"))); // NOI18N
         QuitarDeLaCompra.setBorder(null);
@@ -344,7 +350,7 @@ private void cargarProveedores() {
         jPanel1.add(Comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, -1, -1));
 
         ProveedoresLabe.setText("PROVEEDOR");
-        jPanel1.add(ProveedoresLabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 70, 30));
+        jPanel1.add(ProveedoresLabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 30, 90, 30));
 
         Proveedores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         Proveedores.addActionListener(new java.awt.event.ActionListener() {
@@ -366,10 +372,10 @@ private void cargarProveedores() {
         jPanel1.add(EstadosDeCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, 110, 30));
 
         UsuarioLable.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
-        jPanel1.add(UsuarioLable, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 20, -1, -1));
+        jPanel1.add(UsuarioLable, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, -1, -1));
 
         Usuario.setText("jLabel2");
-        jPanel1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, 80, 20));
+        jPanel1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 160, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -19,9 +19,11 @@ public class PrCompras extends javax.swing.JPanel {
      private final DaoCompras daoCompras = new DaoCompras();
      private dashboard mainDashboard;
     public static PrCompras comp;
+    private String usuarioActivo;
 
    
-    public PrCompras() {
+    public PrCompras(String usuarioActivo) {
+        this.usuarioActivo = usuarioActivo;
         initComponents();
         cargarProveedores();
         cargarEmpleados();
@@ -30,7 +32,6 @@ public class PrCompras extends javax.swing.JPanel {
     }
 
   public PrCompras(dashboard mainDashboard) {
-        this(); // Llama al constructor por defecto
         this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
     }
     public void setMainDashboard(dashboard main) {
@@ -328,6 +329,11 @@ public class PrCompras extends javax.swing.JPanel {
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
         ELIMINAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ELIMINAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ELIMINAR_BOTONActionPerformed(evt);
+            }
+        });
         fondo.add(ELIMINAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Jost", 1, 18)); // NOI18N
@@ -541,19 +547,21 @@ public class PrCompras extends javax.swing.JPanel {
     }//GEN-LAST:event_Prov_BoxActionPerformed
 
     private void Agregar_Compra_BottonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Agregar_Compra_BottonActionPerformed
-try {
-        // Crear una instancia de la ventana
-        TablaDeCompraNueva nuevaCompra = new TablaDeCompraNueva();
-        
-        // Configurar su visibilidad y posición
-        nuevaCompra.setVisible(true);
-        nuevaCompra.setLocationRelativeTo(null); // Centrar la ventana
-    } catch (Exception e) {
-        // Mostrar un mensaje de error si algo falla
-        JOptionPane.showMessageDialog(this, "Error al abrir la ventana de nueva compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-        // TODO add your handling code here:
+        try {
+            // Pasa el usuario activo al constructor
+            TablaDeCompraNueva nuevaCompra = new TablaDeCompraNueva(usuarioActivo);
+
+            nuevaCompra.setVisible(true);
+            nuevaCompra.setLocationRelativeTo(null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al abrir la ventana de nueva compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    
     }//GEN-LAST:event_Agregar_Compra_BottonActionPerformed
+
+    private void ELIMINAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ELIMINAR_BOTONActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ELIMINAR_BOTONActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

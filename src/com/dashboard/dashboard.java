@@ -5,6 +5,7 @@
 
 package com.dashboard;
 
+import java.awt.event.ActionEvent;
 import com.vews.PrCliente;
 import com.vews.AgVenta;
 import com.dashboard.dashboard; // Asegúrate de importar la clase dashboard
@@ -35,7 +36,7 @@ public class dashboard extends javax.swing.JFrame {
     private String usuarioAutenticado;
     
     public dashboard(String usuarioAutenticado) {
-        this.usuarioAutenticado = usuarioAutenticado;
+            this.usuarioAutenticado = usuarioAutenticado;
         initComponents();
         configComponents();
         SetDate();
@@ -461,8 +462,9 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_VentasActionPerformed
 
     private void Boton_ComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ComprasActionPerformed
-        ShowJPanel (new PrCompras ());  
-        // TODO add your handling code here:
+    // Crear una nueva instancia de PrCompras y pasar el usuario autenticado
+    PrCompras comprasPanel = new PrCompras(usuarioAutenticado);
+    ShowJPanel(comprasPanel);  
     }//GEN-LAST:event_Boton_ComprasActionPerformed
     private void SetDate (){
         java.time.LocalDateTime now = java.time.LocalDateTime.now();
