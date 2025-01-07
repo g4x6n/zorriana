@@ -45,7 +45,25 @@ public class DaoProducto extends Conexion {
     }
     return marcas;
 }
-    
+    public String obtenerIdProductoPorNombre(String nombreProducto) {
+    conectar();
+    String idProducto = null;
+    try {
+        String sql = "SELECT ID_PRODUCTO FROM PRODUCTO WHERE NOMBRE = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreProducto);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idProducto = rs.getString("ID_PRODUCTO");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el ID del producto: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idProducto;
+}
+
     public List<String> obtenerEdoProd() {
     conectar();
     List<String> edoprods = new ArrayList<>();

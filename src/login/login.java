@@ -318,7 +318,7 @@ public class login extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_PswFieldKeyPressed
 
-    private void iniciarSesion() {
+   private void iniciarSesion() {
     String usuario = UsrTxtF.getText();
     char[] password = PswField.getPassword();
 
@@ -336,13 +336,12 @@ public class login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.", 
                                       "Error de autenticación", JOptionPane.ERROR_MESSAGE);
     } else {
-        String nombreCompleto = empleado[3] + " "+ empleado[4] + " " + empleado[5]; // Construye el nombre completo
-        //JOptionPane.showMessageDialog(this, "Bienvenido"  + nombreCompleto + ".", 
-                                     // "Inicio de sesión exitoso.", JOptionPane.INFORMATION_MESSAGE);
+        String nombreCompleto = empleado[3] + " " + empleado[4] + " " + (empleado[5] != null ? empleado[5] : "");
         new dashboard(nombreCompleto).setVisible(true); // Pasa el nombre al dashboard
         this.dispose(); // Cierra la ventana actual
     }
 }
+
 
 
     private void BTNEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNEntrarMouseClicked

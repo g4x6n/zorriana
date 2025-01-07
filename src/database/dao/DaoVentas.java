@@ -15,38 +15,38 @@ public class DaoVentas extends Conexion {
     try {
         System.out.println("Intentando eliminar venta con ID: '" + idVenta + "'");
 
-        // Verificar si la venta está asociada en DETALLE_VENTA
-        String sqlDetalleVenta = "SELECT COUNT(*) FROM DETALLE_VENTA WHERE TRIM(ID_VENTA) = ?";
+        // Primero, eliminar detalles de la venta
+        String sqlDetalleVenta = "DELETE FROM DETALLE_VENTA WHERE TRIM(ID_VENTA) = ?";
         ps = conn.prepareStatement(sqlDetalleVenta);
         ps.setString(1, idVenta);
-        rs = ps.executeQuery();
-        if (rs.next() && rs.getInt(1) > 0) {
-            System.out.println("No se puede eliminar la venta porque tiene detalles asociados.");
-            return false;
+        int detallesEliminados = ps.executeUpdate();
+
+        if (detallesEliminados > 0) {
+            System.out.println("Detalles de la venta eliminados exitosamente.");
         }
 
-        // Eliminar la venta
+        // Ahora, eliminar la venta
         String sqlVenta = "DELETE FROM VENTA WHERE TRIM(ID_VENTA) = ?";
         ps = conn.prepareStatement(sqlVenta);
         ps.setString(1, idVenta);
         int filasAfectadas = ps.executeUpdate();
 
         exito = filasAfectadas > 0;
-
         if (exito) {
             System.out.println("Venta eliminada exitosamente.");
         } else {
-            System.out.println("No se encontró la venta con el ID proporcionado.");
+            System.out.println("No se encontró la venta con el ID proporcionado o no se pudo eliminar.");
         }
 
     } catch (SQLException ex) {
-        System.out.println("Error al eliminar la venta: " + ex.getMessage());
+        System.out.println("Error al eliminar la venta y/o detalles de la venta: " + ex.getMessage());
         ex.printStackTrace();
     } finally {
         desconectar(); // Cierra la conexión a la base de datos
     }
     return exito;
 }
+
     public String obtenerNombreEmpleadoPorId(String idEmpleado) {
     conectar();
     String nombreEmpleado = null;
@@ -120,6 +120,8 @@ public String obtenerIdCliente(String nombreCompleto) {
         rs = ps.executeQuery();
         if (rs.next()) {
             idCliente = rs.getString("ID_CLIENTE");
+        } else {
+            System.out.println("Cliente no encontrado para: " + nombreCompleto);
         }
     } catch (SQLException ex) {
         System.out.println("Error al obtener ID del cliente: " + ex.getMessage());
@@ -128,6 +130,7 @@ public String obtenerIdCliente(String nombreCompleto) {
     }
     return idCliente;
 }
+
 public String obtenerIdEmpleado(String nombreCompleto) {
     conectar();
     String idEmpleado = null;
@@ -146,42 +149,44 @@ public String obtenerIdEmpleado(String nombreCompleto) {
     }
     return idEmpleado;
 }
-public String obtenerIdEstadoVenta(String estadoVenta) {
-    conectar();
+public String obtenerIdEstadoVenta(String estadoVentaSeleccionado) {
+    conectar(); // Conectar a la base de datos
     String idEstadoVenta = null;
+    String query = "SELECT ID_EDO_VENTA FROM ESTADO_VENTA WHERE ESTADO = ?";
     try {
-        String sql = "SELECT ID_ESTADO_VENTA FROM ESTADO_VENTA WHERE TRIM(ESTADO_VENTA) = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, estadoVenta.trim());
-        rs = ps.executeQuery();
+        ps = conn.prepareStatement(query); // Preparar la consulta
+        ps.setString(1, estadoVentaSeleccionado); // Asignar el parámetro
+        rs = ps.executeQuery(); // Ejecutar la consulta
         if (rs.next()) {
-            idEstadoVenta = rs.getString("ID_ESTADO_VENTA");
+            idEstadoVenta = rs.getString("ID_EDO_VENTA"); // Obtener el resultado
         }
-    } catch (SQLException ex) {
-        System.out.println("Error al obtener ID del estado de venta: " + ex.getMessage());
+    } catch (SQLException e) {
+        System.out.println("Error al obtener ID del estado de venta: " + e.getMessage());
     } finally {
-        desconectar();
+        desconectar(); // Desconectar de la base de datos
     }
     return idEstadoVenta;
 }
+
 public String obtenerIdMetodoPago(String metodoPago) {
-    conectar();
+    conectar(); // Conectar a la base de datos
     String idMetodoPago = null;
+    String query = "SELECT ID_MET_PAGO FROM METODO_PAGO WHERE TRIM(METODO) = ?";
     try {
-        String sql = "SELECT ID_METODO_PAGO FROM METODO_PAGO WHERE TRIM(METODO_PAGO) = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, metodoPago.trim());
-        rs = ps.executeQuery();
+        ps = conn.prepareStatement(query); // Preparar la consulta
+        ps.setString(1, metodoPago.trim()); // Asignar el parámetro
+        rs = ps.executeQuery(); // Ejecutar la consulta
         if (rs.next()) {
-            idMetodoPago = rs.getString("ID_METODO_PAGO");
+            idMetodoPago = rs.getString("ID_MET_PAGO"); // Obtener el resultado
         }
     } catch (SQLException ex) {
         System.out.println("Error al obtener ID del método de pago: " + ex.getMessage());
     } finally {
-        desconectar();
+        desconectar(); // Desconectar de la base de datos
     }
     return idMetodoPago;
 }
+
 
 public List<Object[]> buscarVentas(String filtro) {
     conectar();
@@ -312,6 +317,23 @@ public List<Object[]> listarVentas() {
     return ventas;
 }
 
+public boolean guardarDetalleVenta(String idVenta, String idProducto, int cantidad) {
+    conectar();
+    boolean exito = false;
+    try {
+        String sql = "INSERT INTO DETALLE_VENTA (ID_VENTA, ID_PRODUCTO, CANTIDAD) VALUES (?, ?, ?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idVenta);
+        ps.setString(2, idProducto);
+        ps.setInt(3, cantidad);
+        exito = ps.executeUpdate() > 0;
+    } catch (SQLException ex) {
+        System.out.println("Error al guardar el detalle de la venta: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return exito;
+}
 
 public List<String> obtenerEmpleado() {
     conectar(); // Método para conectar a la base de datos
@@ -332,6 +354,27 @@ public List<String> obtenerEmpleado() {
     }
     return empleados; // Retornar la lista de empleados
 }
+public boolean guardarVenta(String idVenta, String idCliente, String idEmpleado, String idEstadoVenta, String idMetodoPago, Date fechaVenta) {
+    conectar(); // Conectar a la base de datos
+    boolean exito = false;
+    String query = "INSERT INTO VENTA (ID_VENTA, ID_CLIENTE, ID_EMPLEADO, ID_EDO_VENTA, ID_MET_PAGO, FECHA_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
+    try {
+        ps = conn.prepareStatement(query); // Preparar la consulta
+        ps.setString(1, idVenta); // Asignar valores
+        ps.setString(2, idCliente);
+        ps.setString(3, idEmpleado);
+        ps.setString(4, idEstadoVenta);
+        ps.setString(5, idMetodoPago);
+        ps.setDate(6, new java.sql.Date(fechaVenta.getTime())); // Convertir la fecha
+        exito = ps.executeUpdate() > 0; // Ejecutar y verificar si se insertó
+    } catch (SQLException ex) {
+        System.out.println("Error al guardar la venta: " + ex.getMessage());
+    } finally {
+        desconectar(); // Desconectar de la base de datos
+    }
+    return exito;
+}
+
 
 public List<String> obtenerCliente() {
     conectar(); // Método para conectar a la base de datos

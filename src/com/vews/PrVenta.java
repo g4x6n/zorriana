@@ -1,5 +1,7 @@
 
 package com.vews;
+
+import com.dashboard.dashboard;
 import database.dao.DaoVentas;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +11,7 @@ import javax.swing.JOptionPane;
 
 public class PrVenta extends javax.swing.JPanel {
 private final DaoVentas daoVentas = new DaoVentas();
+private dashboard mainDashboard;
 
     public static PrVenta cl;
 
@@ -22,6 +25,8 @@ private final DaoVentas daoVentas = new DaoVentas();
     cargarClientes();
     cargarEdoVenta();
     cargarMetodoPago();
+    jTextField2.setEditable(false);
+
         // Asignar evento de clic en la tabla
 jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
     @Override
@@ -137,7 +142,7 @@ private void cargarDatosDesdeTablaVenta() {
             // Obtener los valores de la fila seleccionada
             String fecha = jTable4.getValueAt(filaSeleccionada, 1).toString().trim();
             String cliente = jTable4.getValueAt(filaSeleccionada, 2).toString().replaceAll("\\s+", " ").trim();
-            String empleado = jTable4.getValueAt(filaSeleccionada, 3).toString().replaceAll("\\s+", " ").trim();
+            String empleado = jTable4.getValueAt(filaSeleccionada, 3).toString().trim(); // Obtener nombre completo
             String estadoVenta = jTable4.getValueAt(filaSeleccionada, 4).toString().trim();
             String metodoPago = jTable4.getValueAt(filaSeleccionada, 5).toString().trim();
 
@@ -161,6 +166,8 @@ private void cargarDatosDesdeTablaVenta() {
             }
 
             // Empleado
+            // Asegurar que el nombre se muestra correctamente sin espacios innecesarios
+            empleado = empleado.replaceAll("\\s+", " ").trim();
             for (int i = 0; i < jComboBox3.getItemCount(); i++) {
                 if (jComboBox3.getItemAt(i).replaceAll("\\s+", " ").trim().equalsIgnoreCase(empleado)) {
                     jComboBox3.setSelectedIndex(i);
@@ -182,18 +189,17 @@ private void cargarDatosDesdeTablaVenta() {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
+
+
 private void eliminarVenta() {
     try {
-        // Verifica si hay una venta seleccionada
         int filaSeleccionada = jTable4.getSelectedRow();
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Selecciona una venta en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // Obtén el ID de la venta seleccionada
         String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
-        
 
         if (idVenta.isEmpty()) {
             JOptionPane.showMessageDialog(this, "El ID de la venta seleccionada está vacío. Verifica los datos de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -201,25 +207,27 @@ private void eliminarVenta() {
         }
 
         // Confirmación antes de eliminar
-        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar la venta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar la venta y todos sus detalles?", "Confirmación", JOptionPane.YES_NO_OPTION);
         if (confirmacion != JOptionPane.YES_OPTION) {
-            return; // El usuario canceló
+            return; // El usuario canceló la operación
         }
 
         // Llama al método para eliminar venta en el DAO
         boolean exito = daoVentas.deleteVenta(idVenta);
 
         if (exito) {
-            JOptionPane.showMessageDialog(this, "Venta eliminada correctamente.");
+            JOptionPane.showMessageDialog(this, "Venta y detalles eliminados correctamente.");
             cargarVentas(); // Recargar tabla de ventas
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar la venta. Puede tener detalles asociados.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la venta. Verifica que la venta exista y que no tenga restricciones asociadas.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al eliminar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
+
+
 
 
 private void cargarDetalleVenta(String idVenta) {
@@ -243,7 +251,9 @@ private void cargarDetalleVenta(String idVenta) {
     if (detalles.isEmpty()) {
         System.out.println("No se encontraron detalles para esta venta.");
     }
+    actualizarTotal(); // Llamar a actualizarTotal cada vez que se cargan detalles
 }
+
 
 
 private void BuscarVenta() {
@@ -293,6 +303,27 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     }
 }
 
+private void actualizarTotal() {
+    DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel(); // jTable3 es la tabla de detalles de venta
+    double total = 0.0;
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        double subtotal = Double.parseDouble(modelo.getValueAt(i, 3).toString()); // Asume que el subtotal está en la columna 4
+        total += subtotal;
+    }
+
+    jTextField2.setText(String.format("%.2f", total)); // Formatea el total a dos decimales
+}
+    // Nuevo constructor que acepta el dashboard como parámetro
+    public PrVenta(dashboard mainDashboard) {
+        this(); // Llama al constructor por defecto
+        this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
+    }
+
+
+public void setMainDashboard(dashboard main) {
+    this.mainDashboard = main;
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -586,10 +617,13 @@ private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {
     }//GEN-LAST:event_jButtonEliminarActionPerformed
 
     private void jButtonEditarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVentaActionPerformed
-    AgVenta ventanaDeVenta = new AgVenta("ID_Empleado");
-    ventanaDeVenta.setLocationRelativeTo(null); // Centrar la ventana
-    ventanaDeVenta.setVisible(true); // Mostrar la ventana
-
+    if (this.mainDashboard == null) {
+        JOptionPane.showMessageDialog(this, "No se ha inicializado el Dashboard principal.", "Error", JOptionPane.ERROR_MESSAGE);
+        return; // Salir del método para evitar el error
+    }
+    String usuarioAutenticado = this.mainDashboard.getUsuarioAutenticado();
+    AgVenta ventanaVenta = new AgVenta(usuarioAutenticado);
+    ventanaVenta.setVisible(true);
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 
     private void BUSQUEDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUSQUEDAMouseClicked

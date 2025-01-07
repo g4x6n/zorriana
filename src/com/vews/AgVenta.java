@@ -16,39 +16,51 @@ public class AgVenta extends javax.swing.JFrame {
     private final String empleadoActual; // Empleado que inició sesión
     private final DaoVentas daoVentas = new DaoVentas(); // Acceso a la base de datos
     
+    
     public AgVenta(String empleadoActual) {
         this.empleadoActual = empleadoActual;
-        this.daoProducto = new DaoProducto(); // Inicializa DaoProducto
+        this.daoProducto = new DaoProducto();
         initComponents();
-        configurarComponentes();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         cargarProductos(); // Cargar productos al inicializar
-        TOTAL.setEditable(false); 
+        TOTAL.setEditable(false);
+        configurarNombreEmpleado(empleadoActual);
+        configurarComponentes();
+        
+        
     }
-    public AgVenta(String empleadoActual, Object[] datosEmpleado) {
-    this.empleadoActual = empleadoActual;
-    this.daoProducto = new DaoProducto();
-    initComponents();
-    configurarComponentes();
+private void configurarComponentes() {
+    // Configurar el título de la ventana
+    setTitle("Registrar Venta");
 
-    // Mostrar el nombre completo del empleado en jLabel7
-    if (datosEmpleado != null) {
-        String nombreCompleto = datosEmpleado[3] + " " + datosEmpleado[4] + " " + (datosEmpleado[5] != null ? datosEmpleado[5] : "");
-        jLabel7.setText(nombreCompleto.trim());
-    } else {
-        jLabel7.setText("Empleado no encontrado");
-    }
-
+    // Configurar la posición de la ventana
     setLocationRelativeTo(null);
-    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+    // Configurar el campo de fecha con la fecha actual
+    java.time.LocalDate fechaActual = java.time.LocalDate.now(); // Obtener la fecha actual
+    AGFECHADEVENTA.setText(fechaActual.toString()); // Mostrar la fecha actual en el campo de texto
+    AGFECHADEVENTA.setEditable(false); // Hacer el campo no editable
+
+    // Cargar clientes en el JComboBox
+    cargarClientes();
+
+    // Cargar estados de venta en el JComboBox
+    cargarEstadosVenta();
+
+    // Cargar métodos de pago en el JComboBox
+    cargarMetodosPago();
+
+    // Configurar los productos en la tabla de productos
     cargarProductos();
-    TOTAL.setEditable(false);
 }
 
+    private void configurarNombreEmpleado(String nombreEmpleado) {
+        jLabel7.setText(nombreEmpleado); // Asignar el nombre del empleado a jLabel7
+    }
     private void cargarProductos() {
         try {
-            List<Object[]> listaProductos = daoProducto.listProductos(); // Asume que listProductos() devuelve los datos correctos
+            List<Object[]> listaProductos = daoProducto.listProductos();
             DefaultTableModel modelo = (DefaultTableModel) TABLAPRODUCTOS.getModel();
             modelo.setRowCount(0);
 
@@ -64,50 +76,35 @@ public class AgVenta extends javax.swing.JFrame {
         }
     }
 
-private void configurarComponentes() {
-    // Verifica si el ID del empleado es válido
-    System.out.println("ID Empleado Actual: " + empleadoActual);
-
-    // Obtener el nombre del empleado por su ID desde DaoVentas
-    String nombreEmpleado = daoVentas.obtenerNombreEmpleadoPorId(empleadoActual); // Usamos el ID para obtener el nombre
-    if (nombreEmpleado != null) {
-        System.out.println("Nombre del empleado: " + nombreEmpleado); // Verifica el nombre obtenido
-        jLabel7.setText(nombreEmpleado); // Mostrar el nombre del empleado en el JLabel
-    } else {
-        System.out.println("Empleado no encontrado con ID: " + empleadoActual); // Si no se encuentra el empleado
-        jLabel7.setText("Empleado no encontrado");
+    private void configurarFechaActual() {
+        java.time.LocalDate fechaActual = java.time.LocalDate.now();
+        AGFECHADEVENTA.setText(fechaActual.toString());
+        AGFECHADEVENTA.setEditable(false);
     }
 
-    // Configurar los demás componentes (clientes, fecha, etc.)
-    cargarClientes(); // Cargar clientes desde la base de datos
-    java.time.LocalDate fechaActual = java.time.LocalDate.now(); // Obtener la fecha actual
-    AGFECHADEVENTA.setText(fechaActual.toString()); // Mostrar la fecha en el campo
-    AGFECHADEVENTA.setEditable(false); // Desactivar la edición del campo de fecha
-    cargarEstadosVenta(); // Cargar los estados de venta
-    cargarMetodosPago(); // Cargar los métodos de pago
+private void cargarClientes() {
+    try {
+        List<String> clientes = daoVentas.obtenerCliente(); // Obtener clientes desde la base de datos
+        AGCLIENTE.removeAllItems(); // Limpiar JComboBox
+        for (String cliente : clientes) {
+            AGCLIENTE.addItem(cliente.trim()); // Agregar cliente al JComboBox
+        }
+        if (AGCLIENTE.getItemCount() > 0) {
+            AGCLIENTE.setSelectedIndex(0); // Seleccionar el primer cliente
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
 
 
-    private void cargarClientes() {
-        try {
-            List<String> clientes = daoVentas.obtenerCliente(); // Obtener clientes desde la base de datos
-            AGCLIENTE.removeAllItems(); // Limpiar JComboBox
-            for (String cliente : clientes) {
-                AGCLIENTE.addItem(cliente.trim());
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     private void cargarEstadosVenta() {
         try {
-            List<String> estados = daoVentas.obtenerEstadodeVenta(); // Obtener estados desde la base de datos
-            AGEDOVENTA.removeAllItems(); // Limpiar JComboBox
+            List<String> estados = daoVentas.obtenerEstadodeVenta();
+            AGEDOVENTA.removeAllItems();
             for (String estado : estados) {
                 AGEDOVENTA.addItem(estado.trim());
             }
-            // Establecer "Pagado" como predeterminado si existe
             if (estados.contains("Pagado")) {
                 AGEDOVENTA.setSelectedItem("Pagado");
             }
@@ -118,8 +115,8 @@ private void configurarComponentes() {
 
     private void cargarMetodosPago() {
         try {
-            List<String> metodosPago = daoVentas.obtenerMetodoPago(); // Obtener métodos de pago
-            AGMETODOPAGO.removeAllItems(); // Limpiar JComboBox
+            List<String> metodosPago = daoVentas.obtenerMetodoPago();
+            AGMETODOPAGO.removeAllItems();
             for (String metodo : metodosPago) {
                 AGMETODOPAGO.addItem(metodo.trim());
             }
@@ -127,26 +124,120 @@ private void configurarComponentes() {
             JOptionPane.showMessageDialog(this, "Error al cargar métodos de pago: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-private void configComponents(){
-        // Titulo de la ventana
-        setTitle("Marcas");
-        // posición de la ventana
-        setLocationRelativeTo(null);
-    }
- private javax.swing.JScrollPane jScrollPaneProductos;
-private javax.swing.JTable tablaProductos;
 
 private void actualizarTotal() {
     DefaultTableModel modelo = (DefaultTableModel) AgDVenta.getModel();
     double total = 0.0;
+
     for (int i = 0; i < modelo.getRowCount(); i++) {
-        double subtotal = (Double) modelo.getValueAt(i, 3); // Asegúrate de que es la columna correcta
-        System.out.println("Subtotal de fila " + i + ": " + subtotal); // Log para depuración
-        total += subtotal;
+        Object valorSubtotal = modelo.getValueAt(i, 3); // Columna de subtotales
+
+        if (valorSubtotal != null) {
+            try {
+                // Convertir el subtotal a Double, independientemente del tipo de objeto
+                total += Double.parseDouble(valorSubtotal.toString());
+            } catch (NumberFormatException e) {
+                System.err.println("Error al convertir el subtotal en la fila " + i + ": " + valorSubtotal);
+            }
+        }
     }
-    TOTAL.setText(String.format("%.2f", total));
+
+    // Establece el total en el campo de texto con el símbolo de pesos
+    TOTAL.setText("$" + String.format("%.2f", total));
 }
 
+private void guardarVenta() {
+    try {
+        // Validar que hay productos en el detalle de venta
+        DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
+        if (modeloDetalle.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto al detalle de la venta", "Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener datos de la pantalla
+        String clienteSeleccionado = AGCLIENTE.getSelectedItem().toString(); // Cliente
+        String estadoVentaSeleccionado = AGEDOVENTA.getSelectedItem().toString(); // Estado de Venta
+        String metodoPagoSeleccionado = AGMETODOPAGO.getSelectedItem().toString(); // Método de Pago
+        String empleadoActual = jLabel7.getText(); // Empleado
+        java.sql.Date fechaVenta = java.sql.Date.valueOf(AGFECHADEVENTA.getText().trim()); // Fecha de la venta
+
+        // Depurar valores seleccionados
+        System.out.println("Cliente Seleccionado: " + clienteSeleccionado);
+        System.out.println("Estado de Venta Seleccionado: " + estadoVentaSeleccionado);
+        System.out.println("Método de Pago Seleccionado: " + metodoPagoSeleccionado);
+        System.out.println("Empleado Actual: " + empleadoActual);
+        System.out.println("Fecha de Venta: " + fechaVenta);
+
+        // Obtener los IDs correspondientes de cliente, estado de venta, método de pago y empleado
+        String idCliente = daoVentas.obtenerIdCliente(clienteSeleccionado);
+        String idEstadoVenta = daoVentas.obtenerIdEstadoVenta(estadoVentaSeleccionado);
+        String idMetodoPago = daoVentas.obtenerIdMetodoPago(metodoPagoSeleccionado);
+        String idEmpleado = daoVentas.obtenerIdEmpleado(empleadoActual);
+
+        // Depurar valores obtenidos
+        System.out.println("ID Cliente: " + idCliente);
+        System.out.println("ID Estado Venta: " + idEstadoVenta);
+        System.out.println("ID Método Pago: " + idMetodoPago);
+        System.out.println("ID Empleado: " + idEmpleado);
+
+        // Validar que los IDs no sean nulos
+        if (idCliente == null || idEstadoVenta == null || idMetodoPago == null || idEmpleado == null) {
+            JOptionPane.showMessageDialog(this, "Error al obtener los IDs de los datos seleccionados", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Generar un ID único para la venta
+        String idVenta = java.util.UUID.randomUUID().toString();
+        System.out.println("ID Venta Generado: " + idVenta);
+
+        // Guardar el detalle de la venta
+        for (int i = 0; i < modeloDetalle.getRowCount(); i++) {
+            String producto = modeloDetalle.getValueAt(i, 0).toString(); // Nombre del producto
+            int cantidad = Integer.parseInt(modeloDetalle.getValueAt(i, 1).toString()); // Cantidad
+            String idProducto = daoProducto.obtenerIdProductoPorNombre(producto); // Obtener ID del producto
+
+            // Depurar valores del producto
+            System.out.println("Producto: " + producto + ", Cantidad: " + cantidad + ", ID Producto: " + idProducto);
+
+            if (idProducto == null) {
+                JOptionPane.showMessageDialog(this, "Error al obtener el ID del producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Guardar cada producto en el detalle de la venta
+            boolean detalleGuardado = daoVentas.guardarDetalleVenta(idVenta, idProducto, cantidad);
+            if (!detalleGuardado) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el detalle de la venta para el producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        // Guardar la venta principal
+        boolean ventaGuardada = daoVentas.guardarVenta(idVenta, idCliente, idEmpleado, idEstadoVenta, idMetodoPago, fechaVenta);
+        if (ventaGuardada) {
+            JOptionPane.showMessageDialog(this, "Venta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar la venta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
+
+private void limpiarCampos() {
+    // Limpiar los campos de la pantalla después de guardar la venta
+    DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
+    modeloDetalle.setRowCount(0);
+    AGCLIENTE.setSelectedIndex(0);
+    AGEDOVENTA.setSelectedIndex(0);
+    AGMETODOPAGO.setSelectedIndex(0);
+    TOTAL.setText("$0.00");
+}
 
 
 
@@ -256,7 +347,7 @@ private void actualizarTotal() {
                 {null, null, null}
             },
             new String [] {
-                "Nombre", "Precio", "Cantidad"
+                "Nombre", "Cantidad", "Precio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -344,14 +435,11 @@ private void actualizarTotal() {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(AGCLIENTE, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(77, 77, 77)
-                                .addComponent(jLabel7)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                            .addComponent(AGCLIENTE, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -362,25 +450,23 @@ private void actualizarTotal() {
             .addGroup(layout.createSequentialGroup()
                 .addGap(152, 152, 152)
                 .addComponent(jLabel6)
-                .addGap(0, 616, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(AGREGAR)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(TOTAL, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39))
+                        .addComponent(TOTAL))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(AGREGAR)
-                        .addGap(35, 35, 35)
                         .addComponent(QUITAR)
                         .addGap(34, 34, 34)
-                        .addComponent(CONFIRMAR)
-                        .addContainerGap())))
+                        .addComponent(CONFIRMAR)))
+                .addGap(39, 39, 39))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,34 +539,52 @@ private void actualizarTotal() {
     }//GEN-LAST:event_AGCLIENTEActionPerformed
 
     private void QUITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QUITARActionPerformed
-    int filaSeleccionada = AgDVenta.getSelectedRow();
-    if (filaSeleccionada != -1) { // Verificar si se seleccionó alguna fila
-        int cantidadEnCarrito = (Integer) AgDVenta.getValueAt(filaSeleccionada, 1); // Asumiendo que la cantidad está en la columna 1
-        int cantidadAEliminar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la cantidad a eliminar", cantidadEnCarrito));
-        
-        if (cantidadAEliminar > cantidadEnCarrito) {
-            JOptionPane.showMessageDialog(this, "No puede eliminar más de lo que hay en el carrito", "Error de cantidad", JOptionPane.ERROR_MESSAGE);
-        } else if (cantidadAEliminar == cantidadEnCarrito) {
-            // Eliminar toda la fila si la cantidad a eliminar es igual a la del carrito
-            ((DefaultTableModel) AgDVenta.getModel()).removeRow(filaSeleccionada);
-        } else {
-            // Reducir la cantidad
-            int nuevaCantidad = cantidadEnCarrito - cantidadAEliminar;
-            AgDVenta.setValueAt(nuevaCantidad, filaSeleccionada, 1); // Actualizar la cantidad en la tabla
-            double precio = (Double) AgDVenta.getValueAt(filaSeleccionada, 2);
-            AgDVenta.setValueAt(precio * nuevaCantidad, filaSeleccionada, 3); // Actualizar el subtotal
+      int filaSeleccionada = AgDVenta.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String nombreProducto = AgDVenta.getValueAt(filaSeleccionada, 0).toString();
+        int cantidadEnCarrito = (Integer) AgDVenta.getValueAt(filaSeleccionada, 1);
+        // Solicitar al usuario la cantidad a eliminar
+        String cantidadAString = JOptionPane.showInputDialog(this, "Ingrese la cantidad a eliminar", cantidadEnCarrito);
+        if (cantidadAString != null && !cantidadAString.isEmpty()) {
+            int cantidadAEliminar = Integer.parseInt(cantidadAString);
+            if (cantidadAEliminar <= cantidadEnCarrito) {
+                int stockActual = 0;
+
+                // Restaurar el stock en la misma fila de la tabla de productos
+                for (int i = 0; i < TABLAPRODUCTOS.getRowCount(); i++) {
+                    if (TABLAPRODUCTOS.getValueAt(i, 0).equals(nombreProducto)) {
+                        stockActual = (Integer) TABLAPRODUCTOS.getValueAt(i, 1);
+                        TABLAPRODUCTOS.setValueAt(stockActual + cantidadAEliminar, i, 1);
+                        break;
+                    }
+                }
+
+                // Actualizar la cantidad o eliminar la fila si la cantidad a eliminar es la total
+                if (cantidadAEliminar == cantidadEnCarrito) {
+                    ((DefaultTableModel) AgDVenta.getModel()).removeRow(filaSeleccionada);
+                } else {
+                    int nuevaCantidad = cantidadEnCarrito - cantidadAEliminar;
+                    AgDVenta.setValueAt(nuevaCantidad, filaSeleccionada, 1);
+                    double precio = (Double) AgDVenta.getValueAt(filaSeleccionada, 2);
+                    AgDVenta.setValueAt(precio * nuevaCantidad, filaSeleccionada, 3);
+                }
+                actualizarTotal();
+            } else {
+                JOptionPane.showMessageDialog(this, "No puede eliminar más de lo que hay en el carrito", "Error de cantidad", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        actualizarTotal(); // Actualiza el total después de realizar los cambios
     } else {
         JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
     }//GEN-LAST:event_QUITARActionPerformed
 
     private void AGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGARActionPerformed
-     int cantidadDeseada = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada"));
+    int cantidadDeseada = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada"));
     int filaSeleccionada = TABLAPRODUCTOS.getSelectedRow();
+
     if (filaSeleccionada != -1) {
         int stockDisponible = (Integer) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 1);
+
         if (cantidadDeseada > stockDisponible) {
             JOptionPane.showMessageDialog(this, "No hay suficiente stock para la cantidad solicitada", "Error de stock", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -489,17 +593,25 @@ private void actualizarTotal() {
 
             DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
             String nombreProducto = TABLAPRODUCTOS.getValueAt(filaSeleccionada, 0).toString();
-            // Inserta la fila en la posición cero
+
+            // Inserta la fila correctamente
             modeloDetalle.insertRow(0, new Object[]{nombreProducto, cantidadDeseada, precio, subtotal});
+
+            // Actualizar stock en la tabla de productos
+            int nuevoStock = stockDisponible - cantidadDeseada;
+            TABLAPRODUCTOS.setValueAt(nuevoStock, filaSeleccionada, 1);
+
+            // Actualizar el total
+            actualizarTotal();
         }
     } else {
         JOptionPane.showMessageDialog(this, "Seleccione un producto para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
-    actualizarTotal();
+
     }//GEN-LAST:event_AGREGARActionPerformed
 
     private void CONFIRMARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONFIRMARActionPerformed
-       
+    guardarVenta();       
     }//GEN-LAST:event_CONFIRMARActionPerformed
 
     private void TOTALActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TOTALActionPerformed

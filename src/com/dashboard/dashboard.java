@@ -7,6 +7,7 @@ package com.dashboard;
 
 import com.vews.PrCliente;
 import com.vews.AgVenta;
+import com.dashboard.dashboard; // Asegúrate de importar la clase dashboard
 import com.vews.PrVenta;
 import com.vews.PrCompras;
 import com.vews.PrEmpleado;
@@ -453,8 +454,10 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Boton_EmpleadosActionPerformed
 
     private void Boton_VentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_VentasActionPerformed
-        ShowJPanel (new PrVenta ());  
-        // TODO add your handling code here:
+   // Crear una nueva instancia de PrVenta pasando el dashboard actual
+    PrVenta prVenta = new PrVenta(this); 
+    ShowJPanel(prVenta);  // Mostrar el panel de ventas
+
     }//GEN-LAST:event_Boton_VentasActionPerformed
 
     private void Boton_ComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_ComprasActionPerformed
@@ -521,6 +524,10 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
     }
+public String getUsuarioAutenticado() {
+    return usuarioAutenticado;
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Boton_Cliente;
