@@ -1,54 +1,49 @@
-
 package com.vews;
 
 import com.dashboard.dashboard;
 import database.dao.DaoVentas;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PrVenta extends javax.swing.JPanel {
-private final DaoVentas daoVentas = new DaoVentas();
-private dashboard mainDashboard;
+    private final DaoVentas daoVentas = new DaoVentas();
+    private dashboard mainDashboard;
 
     public static PrVenta cl;
 
     public PrVenta() {
-
-    initComponents();
-    cl = this;
-    cargarVentas();
-    initComponents(); // Inicializa los componentes generados automáticamente
-    cargarVentas();   // Carga los datos de la base de datos
-    cargarEmpleados();
-    cargarClientes();
-    cargarEdoVenta();
-    cargarMetodoPago();
-    jTextField2.setEditable(false);
-
-        // Asignar evento de clic en la tabla
-jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
-    @Override
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int filaSeleccionada = jTable4.getSelectedRow();
-        if (filaSeleccionada != -1) {
-            // Obtén el ID_VENTA desde la columna oculta
-            String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim();
-            
-
-            // Verificar si el ID_VENTA no es nulo o vacío
-            if (idVenta != null && !idVenta.isEmpty()) {
-                cargarDetalleVenta(idVenta); // Cargar los detalles basados en el ID_VENTA
-            } else {
-                System.out.println("Error: ID_VENTA vacío o nulo.");
-            }
-        }cargarDatosDesdeTablaVenta();
-        
+        initComponents();
+        cl = this;
+        cargarVentas();   // Carga los datos de la base de datos
+        cargarEmpleados();
+        cargarClientes();
+        cargarEdoVenta();
+        cargarMetodoPago();
+        jTextField2.setEditable(false);
+        addTableMouseListener(); // Configura el mouse listener para jTable4
     }
-});
 
+    private void addTableMouseListener() {
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
+            }
+        });
+    }
+    private void jTable4MouseClicked(MouseEvent evt) {
+    int filaSeleccionada = jTable4.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim(); // Acceder a la columna oculta (ID_VENTA)
+        System.out.println("ID de Venta seleccionada: " + idVenta);  // Debug print
+        mostrarDetallesVenta(idVenta); // Mostrar los detalles de la venta seleccionada
+    }
 }
+
     void cargarVentas() {
     List<Object[]> ventas = daoVentas.listarVentas();
 
@@ -221,32 +216,21 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         e.printStackTrace();
     }
 }
-    private void cargarDetalleVenta(String idVenta) {
-    List<Object[]> detalles = daoVentas.obtenerDetalleVenta(idVenta);
+    private void mostrarDetallesVenta(String idVenta) {
+    List<Object[]> detallesVenta = daoVentas.obtenerDetalleVenta(idVenta);
+    DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel();
+    modelo.setRowCount(0); // Limpia el modelo para nuevos datos
 
-    DefaultTableModel modelo = new DefaultTableModel(
-        new String[]{"Producto", "Cantidad", "Precio", "Total"}, 0
-    ) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // Hacer todas las celdas no editables
+    if (!detallesVenta.isEmpty()) {
+        for (Object[] detalle : detallesVenta) {
+            modelo.addRow(detalle);
         }
-    };
-
-    for (Object[] detalle : detalles) {
-        modelo.addRow(detalle);
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontraron detalles para esta venta.", "Información", JOptionPane.INFORMATION_MESSAGE);
     }
-
-    jTable3.setModel(modelo);
-
-    if (detalles.isEmpty()) {
-        System.out.println("No se encontraron detalles para esta venta.");
-    }
-    actualizarTotal(); // Llamar a actualizarTotal cada vez que se cargan detalles
 }
     private void BuscarVenta() {
-    String filtro = jTextField3.getText().trim(); // Obtener texto del campo de búsqueda
-
+    String filtro = jTextField3.getText().trim();
     if (filtro.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
         return;
@@ -256,9 +240,9 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         // Realiza la búsqueda a través del DAO
         List<Object[]> resultados = daoVentas.buscarVentas(filtro);
 
-        // Configura el modelo de la tabla
-        DefaultTableModel model = new DefaultTableModel(
-            new String[]{"Fecha Venta", "Cliente", "Empleado", "Estado Venta", "Método Pago"}, 0
+        // Crear el modelo de la tabla con las columnas necesarias
+        DefaultTableModel modelo = new DefaultTableModel(
+            new String[]{"ID_VENTA", "Fecha Venta", "Cliente", "Empleado", "Estado Venta", "Método Pago"}, 0
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -268,13 +252,17 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
 
         // Llena el modelo con los datos obtenidos
         for (Object[] fila : resultados) {
-            model.addRow(fila);
+            modelo.addRow(fila); // Añade directamente todas las filas al modelo
         }
 
-        // Asigna el modelo a la tabla
-        jTable4.setModel(model);
+        // Asigna el modelo al JTable
+        jTable4.setModel(modelo);
 
-        // Muestra un mensaje si no hay resultados
+        // Ocultar la columna del ID_VENTA
+        jTable4.getColumnModel().getColumn(0).setMinWidth(0);
+        jTable4.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTable4.getColumnModel().getColumn(0).setWidth(0);
+
         if (resultados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se encontraron ventas con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -283,18 +271,7 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         ex.printStackTrace();
     }
 }
-    private void actualizarTotal() {
-    DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel(); // jTable3 es la tabla de detalles de venta
-    double total = 0.0;
 
-    for (int i = 0; i < modelo.getRowCount(); i++) {
-        double subtotal = Double.parseDouble(modelo.getValueAt(i, 3).toString()); // Asume que el subtotal está en la columna 4
-        total += subtotal;
-    }
-
-    jTextField2.setText(String.format("%.2f", total)); // Formatea el total a dos decimales
-}
-    // Nuevo constructor que acepta el dashboard como parámetro
     public PrVenta(dashboard mainDashboard) {
         this(); // Llama al constructor por defecto
         this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
@@ -302,7 +279,6 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
     public void setMainDashboard(dashboard main) {
     this.mainDashboard = main;
 }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -335,7 +311,7 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         jTable3 = new javax.swing.JTable();
         jButtonEliminar = new javax.swing.JButton();
         jButtonEditarVenta = new javax.swing.JButton();
-        BUSQUEDA = new javax.swing.JLabel();
+        BUSQUEDA = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -532,13 +508,12 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
         fondo.add(jButtonEditarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 340, 80, 50));
 
         BUSQUEDA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        BUSQUEDA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BUSQUEDA.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BUSQUEDAMouseClicked(evt);
+        BUSQUEDA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BUSQUEDAActionPerformed(evt);
             }
         });
-        fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 100, -1, -1));
+        fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 90, 40, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -604,14 +579,13 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
     ventanaVenta.setVisible(true);
     }//GEN-LAST:event_jButtonEditarVentaActionPerformed
 
-    private void BUSQUEDAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BUSQUEDAMouseClicked
-        jTextField3.setText(""); // Asegurarse de que el campo de búsqueda esté vacío
-        BuscarVenta(); // Cargar todas las ventas inicialmente
-    }//GEN-LAST:event_BUSQUEDAMouseClicked
+    private void BUSQUEDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSQUEDAActionPerformed
+          BuscarVenta();
+    }//GEN-LAST:event_BUSQUEDAActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel BUSQUEDA;
+    private javax.swing.JButton BUSQUEDA;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButtonEditarVenta;
     private javax.swing.JButton jButtonEliminar;
