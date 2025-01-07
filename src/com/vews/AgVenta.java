@@ -146,87 +146,74 @@ private void actualizarTotal() {
     TOTAL.setText("$" + String.format("%.2f", total));
 }
 
-private void guardarVenta() {
-    try {
-        // Validar que hay productos en el detalle de venta
-        DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
-        if (modeloDetalle.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto al detalle de la venta", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        // Obtener datos de la pantalla
-        String clienteSeleccionado = AGCLIENTE.getSelectedItem().toString(); // Cliente
-        String estadoVentaSeleccionado = AGEDOVENTA.getSelectedItem().toString(); // Estado de Venta
-        String metodoPagoSeleccionado = AGMETODOPAGO.getSelectedItem().toString(); // Método de Pago
-        String empleadoActual = jLabel7.getText(); // Empleado
-        java.sql.Date fechaVenta = java.sql.Date.valueOf(AGFECHADEVENTA.getText().trim()); // Fecha de la venta
-
-        // Depurar valores seleccionados
-        System.out.println("Cliente Seleccionado: " + clienteSeleccionado);
-        System.out.println("Estado de Venta Seleccionado: " + estadoVentaSeleccionado);
-        System.out.println("Método de Pago Seleccionado: " + metodoPagoSeleccionado);
-        System.out.println("Empleado Actual: " + empleadoActual);
-        System.out.println("Fecha de Venta: " + fechaVenta);
-
-        // Obtener los IDs correspondientes de cliente, estado de venta, método de pago y empleado
-        String idCliente = daoVentas.obtenerIdCliente(clienteSeleccionado);
-        String idEstadoVenta = daoVentas.obtenerIdEstadoVenta(estadoVentaSeleccionado);
-        String idMetodoPago = daoVentas.obtenerIdMetodoPago(metodoPagoSeleccionado);
-        String idEmpleado = daoVentas.obtenerIdEmpleado(empleadoActual);
-
-        // Depurar valores obtenidos
-        System.out.println("ID Cliente: " + idCliente);
-        System.out.println("ID Estado Venta: " + idEstadoVenta);
-        System.out.println("ID Método Pago: " + idMetodoPago);
-        System.out.println("ID Empleado: " + idEmpleado);
-
-        // Validar que los IDs no sean nulos
-        if (idCliente == null || idEstadoVenta == null || idMetodoPago == null || idEmpleado == null) {
-            JOptionPane.showMessageDialog(this, "Error al obtener los IDs de los datos seleccionados", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Generar un ID único para la venta
-        String idVenta = java.util.UUID.randomUUID().toString();
-        System.out.println("ID Venta Generado: " + idVenta);
-
-        // Guardar el detalle de la venta
-        for (int i = 0; i < modeloDetalle.getRowCount(); i++) {
-            String producto = modeloDetalle.getValueAt(i, 0).toString(); // Nombre del producto
-            int cantidad = Integer.parseInt(modeloDetalle.getValueAt(i, 1).toString()); // Cantidad
-            String idProducto = daoProducto.obtenerIdProductoPorNombre(producto); // Obtener ID del producto
-
-            // Depurar valores del producto
-            System.out.println("Producto: " + producto + ", Cantidad: " + cantidad + ", ID Producto: " + idProducto);
-
-            if (idProducto == null) {
-                JOptionPane.showMessageDialog(this, "Error al obtener el ID del producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+ private void guardarVenta() {
+        try {
+            DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
+            if (modeloDetalle.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "Debe agregar al menos un producto al detalle de la venta", "Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Guardar cada producto en el detalle de la venta
-            boolean detalleGuardado = daoVentas.guardarDetalleVenta(idVenta, idProducto, cantidad);
-            if (!detalleGuardado) {
-                JOptionPane.showMessageDialog(this, "Error al guardar el detalle de la venta para el producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+            String clienteSeleccionado = AGCLIENTE.getSelectedItem().toString();
+            String estadoVentaSeleccionado = AGEDOVENTA.getSelectedItem().toString();
+            String metodoPagoSeleccionado = AGMETODOPAGO.getSelectedItem().toString();
+            String empleadoActual = jLabel7.getText();
+            java.sql.Date fechaVenta = java.sql.Date.valueOf(AGFECHADEVENTA.getText().trim());
+
+            String idCliente = daoVentas.obtenerIdCliente(clienteSeleccionado);
+            String idEstadoVenta = daoVentas.obtenerIdEstadoVenta(estadoVentaSeleccionado);
+            String idMetodoPago = daoVentas.obtenerIdMetodoPago(metodoPagoSeleccionado);
+            String idEmpleado = daoVentas.obtenerIdEmpleado(empleadoActual);
+
+            if (idCliente == null || idEstadoVenta == null || idMetodoPago == null || idEmpleado == null) {
+                JOptionPane.showMessageDialog(this, "Error al obtener los IDs de los datos seleccionados", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
 
-        // Guardar la venta principal
-        boolean ventaGuardada = daoVentas.guardarVenta(idVenta, idCliente, idEmpleado, idEstadoVenta, idMetodoPago, fechaVenta);
-        if (ventaGuardada) {
+            String idVenta = "V" + String.format("%06d", new java.util.Random().nextInt(1000000));
+            System.out.println("ID Venta Generado: " + idVenta);
+
+            boolean ventaGuardada = daoVentas.guardarVenta(idVenta, idCliente, idEmpleado, idEstadoVenta, idMetodoPago, fechaVenta);
+            if (!ventaGuardada) {
+                JOptionPane.showMessageDialog(this, "Error al registrar la venta principal", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            for (int i = 0; i < modeloDetalle.getRowCount(); i++) {
+                Object productoObj = modeloDetalle.getValueAt(i, 0);
+                Object cantidadObj = modeloDetalle.getValueAt(i, 1);
+
+                if (productoObj == null || cantidadObj == null) {
+                    JOptionPane.showMessageDialog(this, "Error: Hay celdas vacías en el detalle de venta.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String producto = productoObj.toString();
+                int cantidad = Integer.parseInt(cantidadObj.toString());
+                String idProducto = daoProducto.obtenerIdProductoPorNombre(producto);
+
+                if (idProducto == null) {
+                    JOptionPane.showMessageDialog(this, "Error al obtener el ID del producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                boolean detalleGuardado = daoVentas.guardarDetalleVenta(idVenta, idProducto, cantidad);
+                if (!detalleGuardado) {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el detalle de la venta para el producto: " + producto, "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
             JOptionPane.showMessageDialog(this, "Venta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            limpiarCampos();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar la venta", "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al guardar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
+            dispose();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
-}
+
 
 
 private void limpiarCampos() {
@@ -364,10 +351,7 @@ private void limpiarCampos() {
 
         AgDVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Cantidad", "Precio", "Subtotal"
@@ -474,9 +458,9 @@ private void limpiarCampos() {
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel7))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
