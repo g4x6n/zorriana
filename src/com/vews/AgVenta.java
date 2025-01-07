@@ -5,13 +5,12 @@
 package com.vews;
 import database.dao.DaoProducto;
 import database.dao.DaoVentas; // Para interactuar con el DAO
-import java.text.SimpleDateFormat; // Para formatear fechas
-import java.util.Date; // Para manejar la fecha actual
 import java.util.List; // Para manejar listas
 import javax.swing.*; // Para componentes gráficos como JComboBox, JLabel, etc.
 import javax.swing.table.DefaultTableModel;
 
-public class AgVenta extends javax.swing.JFrame {
+    public class AgVenta extends javax.swing.JFrame {
+        
     private final DaoProducto daoProducto; // Acceso a la base de datos para productos
     private final String empleadoActual; // Empleado que inició sesión
     private final DaoVentas daoVentas = new DaoVentas(); // Acceso a la base de datos
@@ -30,7 +29,7 @@ public class AgVenta extends javax.swing.JFrame {
         
         
     }
-private void configurarComponentes() {
+    private void configurarComponentes() {
     // Configurar el título de la ventana
     setTitle("Registrar Venta");
 
@@ -54,7 +53,6 @@ private void configurarComponentes() {
     // Configurar los productos en la tabla de productos
     cargarProductos();
 }
-
     private void configurarNombreEmpleado(String nombreEmpleado) {
         jLabel7.setText(nombreEmpleado); // Asignar el nombre del empleado a jLabel7
     }
@@ -75,14 +73,7 @@ private void configurarComponentes() {
             JOptionPane.showMessageDialog(this, "Error al cargar los productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private void configurarFechaActual() {
-        java.time.LocalDate fechaActual = java.time.LocalDate.now();
-        AGFECHADEVENTA.setText(fechaActual.toString());
-        AGFECHADEVENTA.setEditable(false);
-    }
-
-private void cargarClientes() {
+    private void cargarClientes() {
     try {
         List<String> clientes = daoVentas.obtenerCliente(); // Obtener clientes desde la base de datos
         AGCLIENTE.removeAllItems(); // Limpiar JComboBox
@@ -96,8 +87,6 @@ private void cargarClientes() {
         JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-
-
     private void cargarEstadosVenta() {
         try {
             List<String> estados = daoVentas.obtenerEstadodeVenta();
@@ -112,7 +101,6 @@ private void cargarClientes() {
             JOptionPane.showMessageDialog(this, "Error al cargar estados de venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
     private void cargarMetodosPago() {
         try {
             List<String> metodosPago = daoVentas.obtenerMetodoPago();
@@ -124,8 +112,7 @@ private void cargarClientes() {
             JOptionPane.showMessageDialog(this, "Error al cargar métodos de pago: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-private void actualizarTotal() {
+    private void actualizarTotal() {
     DefaultTableModel modelo = (DefaultTableModel) AgDVenta.getModel();
     double total = 0.0;
 
@@ -145,8 +132,7 @@ private void actualizarTotal() {
     // Establece el total en el campo de texto con el símbolo de pesos
     TOTAL.setText("$" + String.format("%.2f", total));
 }
-
- private void guardarVenta() {
+    private void guardarVenta() {
         try {
             DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
             if (modeloDetalle.getRowCount() == 0) {
@@ -205,28 +191,92 @@ private void actualizarTotal() {
             }
 
             JOptionPane.showMessageDialog(this, "Venta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+            if (PrVenta.cl != null) {
+            PrVenta.cl.cargarVentas();
+            }
             dispose();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al guardar la venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
+    private void botonQuitar() {
+      int filaSeleccionada = AgDVenta.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        String nombreProducto = AgDVenta.getValueAt(filaSeleccionada, 0).toString();
+        int cantidadEnCarrito = (Integer) AgDVenta.getValueAt(filaSeleccionada, 1);
+        // Solicitar al usuario la cantidad a eliminar
+        String cantidadAString = JOptionPane.showInputDialog(this, "Ingrese la cantidad a eliminar", cantidadEnCarrito);
+        if (cantidadAString != null && !cantidadAString.isEmpty()) {
+            int cantidadAEliminar = Integer.parseInt(cantidadAString);
+            if (cantidadAEliminar <= cantidadEnCarrito) {
+                int stockActual = 0;
 
+                // Restaurar el stock en la misma fila de la tabla de productos
+                for (int i = 0; i < TABLAPRODUCTOS.getRowCount(); i++) {
+                    if (TABLAPRODUCTOS.getValueAt(i, 0).equals(nombreProducto)) {
+                        stockActual = (Integer) TABLAPRODUCTOS.getValueAt(i, 1);
+                        TABLAPRODUCTOS.setValueAt(stockActual + cantidadAEliminar, i, 1);
+                        break;
+                    }
+                }
 
+                // Actualizar la cantidad o eliminar la fila si la cantidad a eliminar es la total
+                if (cantidadAEliminar == cantidadEnCarrito) {
+                    ((DefaultTableModel) AgDVenta.getModel()).removeRow(filaSeleccionada);
+                } else {
+                    int nuevaCantidad = cantidadEnCarrito - cantidadAEliminar;
+                    AgDVenta.setValueAt(nuevaCantidad, filaSeleccionada, 1);
+                    double precio = (Double) AgDVenta.getValueAt(filaSeleccionada, 2);
+                    AgDVenta.setValueAt(precio * nuevaCantidad, filaSeleccionada, 3);
+                }
+                actualizarTotal();
+            } else {
+                JOptionPane.showMessageDialog(this, "No puede eliminar más de lo que hay en el carrito", "Error de cantidad", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+ }
+    private void botonAgregar(){
+      try {
+        int filaSeleccionada = TABLAPRODUCTOS.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-private void limpiarCampos() {
-    // Limpiar los campos de la pantalla después de guardar la venta
-    DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
-    modeloDetalle.setRowCount(0);
-    AGCLIENTE.setSelectedIndex(0);
-    AGEDOVENTA.setSelectedIndex(0);
-    AGMETODOPAGO.setSelectedIndex(0);
-    TOTAL.setText("$0.00");
-}
+        String cantidadDeseadaStr = JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada");
+        if (cantidadDeseadaStr == null || cantidadDeseadaStr.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        int cantidadDeseada = Integer.parseInt(cantidadDeseadaStr.trim());
+        int stockDisponible = (Integer) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 1);
 
+        if (cantidadDeseada > stockDisponible) {
+            JOptionPane.showMessageDialog(this, "No hay suficiente stock para la cantidad solicitada", "Error de stock", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double precio = (Double) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 2);
+        double subtotal = cantidadDeseada * precio;
+
+        DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
+        String nombreProducto = TABLAPRODUCTOS.getValueAt(filaSeleccionada, 0).toString();
+
+        modeloDetalle.addRow(new Object[]{nombreProducto, cantidadDeseada, precio, subtotal});
+        TABLAPRODUCTOS.setValueAt(stockDisponible - cantidadDeseada, filaSeleccionada, 1);
+        actualizarTotal();
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingrese una cantidad válida.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+    }
+ }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -523,80 +573,11 @@ private void limpiarCampos() {
     }//GEN-LAST:event_AGCLIENTEActionPerformed
 
     private void QUITARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QUITARActionPerformed
-      int filaSeleccionada = AgDVenta.getSelectedRow();
-    if (filaSeleccionada != -1) {
-        String nombreProducto = AgDVenta.getValueAt(filaSeleccionada, 0).toString();
-        int cantidadEnCarrito = (Integer) AgDVenta.getValueAt(filaSeleccionada, 1);
-        // Solicitar al usuario la cantidad a eliminar
-        String cantidadAString = JOptionPane.showInputDialog(this, "Ingrese la cantidad a eliminar", cantidadEnCarrito);
-        if (cantidadAString != null && !cantidadAString.isEmpty()) {
-            int cantidadAEliminar = Integer.parseInt(cantidadAString);
-            if (cantidadAEliminar <= cantidadEnCarrito) {
-                int stockActual = 0;
-
-                // Restaurar el stock en la misma fila de la tabla de productos
-                for (int i = 0; i < TABLAPRODUCTOS.getRowCount(); i++) {
-                    if (TABLAPRODUCTOS.getValueAt(i, 0).equals(nombreProducto)) {
-                        stockActual = (Integer) TABLAPRODUCTOS.getValueAt(i, 1);
-                        TABLAPRODUCTOS.setValueAt(stockActual + cantidadAEliminar, i, 1);
-                        break;
-                    }
-                }
-
-                // Actualizar la cantidad o eliminar la fila si la cantidad a eliminar es la total
-                if (cantidadAEliminar == cantidadEnCarrito) {
-                    ((DefaultTableModel) AgDVenta.getModel()).removeRow(filaSeleccionada);
-                } else {
-                    int nuevaCantidad = cantidadEnCarrito - cantidadAEliminar;
-                    AgDVenta.setValueAt(nuevaCantidad, filaSeleccionada, 1);
-                    double precio = (Double) AgDVenta.getValueAt(filaSeleccionada, 2);
-                    AgDVenta.setValueAt(precio * nuevaCantidad, filaSeleccionada, 3);
-                }
-                actualizarTotal();
-            } else {
-                JOptionPane.showMessageDialog(this, "No puede eliminar más de lo que hay en el carrito", "Error de cantidad", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    } else {
-        JOptionPane.showMessageDialog(this, "Seleccione un producto para eliminar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-    }
+     botonQuitar();
     }//GEN-LAST:event_QUITARActionPerformed
 
     private void AGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGARActionPerformed
-    try {
-        int filaSeleccionada = TABLAPRODUCTOS.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto para agregar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        String cantidadDeseadaStr = JOptionPane.showInputDialog(this, "Ingrese la cantidad deseada");
-        if (cantidadDeseadaStr == null || cantidadDeseadaStr.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int cantidadDeseada = Integer.parseInt(cantidadDeseadaStr.trim());
-        int stockDisponible = (Integer) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 1);
-
-        if (cantidadDeseada > stockDisponible) {
-            JOptionPane.showMessageDialog(this, "No hay suficiente stock para la cantidad solicitada", "Error de stock", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        double precio = (Double) TABLAPRODUCTOS.getValueAt(filaSeleccionada, 2);
-        double subtotal = cantidadDeseada * precio;
-
-        DefaultTableModel modeloDetalle = (DefaultTableModel) AgDVenta.getModel();
-        String nombreProducto = TABLAPRODUCTOS.getValueAt(filaSeleccionada, 0).toString();
-
-        modeloDetalle.addRow(new Object[]{nombreProducto, cantidadDeseada, precio, subtotal});
-        TABLAPRODUCTOS.setValueAt(stockDisponible - cantidadDeseada, filaSeleccionada, 1);
-        actualizarTotal();
-
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Por favor, ingrese una cantidad válida.", "Error de formato", JOptionPane.ERROR_MESSAGE);
-    }
+        botonAgregar();
     }//GEN-LAST:event_AGREGARActionPerformed
 
     private void CONFIRMARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONFIRMARActionPerformed

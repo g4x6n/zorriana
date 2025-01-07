@@ -3,7 +3,6 @@ package com.vews;
 
 import com.dashboard.dashboard;
 import database.dao.DaoVentas;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -18,6 +17,7 @@ private dashboard mainDashboard;
     public PrVenta() {
 
     initComponents();
+    cl = this;
     cargarVentas();
     initComponents(); // Inicializa los componentes generados automáticamente
     cargarVentas();   // Carga los datos de la base de datos
@@ -49,7 +49,7 @@ jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
 });
 
 }
-private void cargarVentas() {
+    void cargarVentas() {
     List<Object[]> ventas = daoVentas.listarVentas();
 
   
@@ -76,8 +76,6 @@ private void cargarVentas() {
     jTable4.getColumnModel().getColumn(0).setMaxWidth(0);
     jTable4.getColumnModel().getColumn(0).setWidth(0);
 }
-
-
     private void cargarEmpleados() {
     // Llenar la lista de empleados en el combo box
     try {
@@ -92,8 +90,7 @@ private void cargarVentas() {
         JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-
-        private void cargarClientes() {
+    private void cargarClientes() {
     // Llenar la lista de empleados en el combo box
     try {
         List<String> clientes = daoVentas.obtenerCliente(); // Obtener la lista de empleados
@@ -107,7 +104,7 @@ private void cargarVentas() {
         JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-   private void cargarEdoVenta() {
+    private void cargarEdoVenta() {
     // Llenar la lista de empleados en el combo box
     try {
         List<String> edoventas = daoVentas.obtenerEstadodeVenta(); // Obtener la lista de empleados
@@ -121,7 +118,7 @@ private void cargarVentas() {
         JOptionPane.showMessageDialog(this, "Error al cargar estados de venta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-      private void cargarMetodoPago() {
+    private void cargarMetodoPago() {
     // Llenar la lista de empleados en el combo box
     try {
         List<String> metodopago = daoVentas.obtenerMetodoPago(); // Obtener la lista de empleados
@@ -135,7 +132,7 @@ private void cargarVentas() {
         JOptionPane.showMessageDialog(this, "Error al cargar metodos de pago: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-private void cargarDatosDesdeTablaVenta() {
+    private void cargarDatosDesdeTablaVenta() {
     int filaSeleccionada = jTable4.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
@@ -189,9 +186,7 @@ private void cargarDatosDesdeTablaVenta() {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
-
-
-private void eliminarVenta() {
+    private void eliminarVenta() {
     try {
         int filaSeleccionada = jTable4.getSelectedRow();
         if (filaSeleccionada == -1) {
@@ -226,11 +221,7 @@ private void eliminarVenta() {
         e.printStackTrace();
     }
 }
-
-
-
-
-private void cargarDetalleVenta(String idVenta) {
+    private void cargarDetalleVenta(String idVenta) {
     List<Object[]> detalles = daoVentas.obtenerDetalleVenta(idVenta);
 
     DefaultTableModel modelo = new DefaultTableModel(
@@ -253,10 +244,7 @@ private void cargarDetalleVenta(String idVenta) {
     }
     actualizarTotal(); // Llamar a actualizarTotal cada vez que se cargan detalles
 }
-
-
-
-private void BuscarVenta() {
+    private void BuscarVenta() {
     String filtro = jTextField3.getText().trim(); // Obtener texto del campo de búsqueda
 
     if (filtro.isEmpty()) {
@@ -295,15 +283,7 @@ private void BuscarVenta() {
         ex.printStackTrace();
     }
 }
-
-private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {                                     
-    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-        BuscarVenta();
-        evt.consume();
-    }
-}
-
-private void actualizarTotal() {
+    private void actualizarTotal() {
     DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel(); // jTable3 es la tabla de detalles de venta
     double total = 0.0;
 
@@ -319,9 +299,7 @@ private void actualizarTotal() {
         this(); // Llama al constructor por defecto
         this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
     }
-
-
-public void setMainDashboard(dashboard main) {
+    public void setMainDashboard(dashboard main) {
     this.mainDashboard = main;
 }
 
