@@ -12,7 +12,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DaoCompras extends Conexion {
 
-    public List<String> obtenerProveedor() {
+    public List<String> obtenerEstadosDeCompra() {
+    conectar(); // Método para conectar a la base de datos
+    List<String> estados = new ArrayList<>();
+    try {
+        String sql = "SELECT ESTADO_COMPRA FROM EDO_COMPRA"; // SELECT ESTADO_COMPRA FROM EDO_COMPRA
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            estados.add(rs.getString("ESTADO_COMPRA"));
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener estados de compra: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar(); // Método para cerrar la conexión
+    }
+    return estados;
+}
+    
+public List<String> obtenerProveedor() {
     conectar();
     List<String> proveedores = new ArrayList<>();
     try {
