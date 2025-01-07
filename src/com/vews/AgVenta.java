@@ -335,6 +335,8 @@ import javax.swing.table.DefaultTableModel;
         jScrollPane3.setViewportView(jTable3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage( getClass().getResource("/img/icono.png")));
+        setResizable(false);
 
         jLabel1.setText("EMPLEADO");
 

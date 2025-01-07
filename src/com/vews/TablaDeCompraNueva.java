@@ -38,11 +38,17 @@ public TablaDeCompraNueva(String usuarioActivo) {
     cargarProductosTabla();
     cargarProveedores();
     cargarEstadosDeCompra();
+    configComponents();
 
     // Establece el usuario activo en el JLabel
     Usuario.setText(usuarioActivo);
 }
-
+private void configComponents(){
+        // Titulo de la ventana
+        setTitle("Nueva Compra");
+        // posición de la ventana
+        setLocationRelativeTo(null);
+    }
 
 private void configurarNombreEmpleado(String nombreEmpleado) {
         Usuario.setText(nombreEmpleado);
@@ -242,6 +248,7 @@ public TablaDeCompraNueva() {
         Usuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage( getClass().getResource("/img/icono.png")));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

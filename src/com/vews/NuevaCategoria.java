@@ -82,6 +82,7 @@ private void configComponents(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(java.awt.Toolkit.getDefaultToolkit().getImage( getClass().getResource("/img/icono.png")));
+        setResizable(false);
 
         jLabel1.setText("NOMBRE:");
 

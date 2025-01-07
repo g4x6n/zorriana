@@ -439,6 +439,61 @@ public String obtenerCodigoMarca(String marca) {
     return idMarca;
 }
 
+
+public boolean actualizarProducto(String idProducto, String nombre, String descripcion, String sku, String idCategoria,
+                                  String idEstadoProducto, String idProveedor, int stock, double precio,
+                                  int piso, String zona, int estanteria, String idMarca) {
+    conectar();
+    boolean exito = false;
+
+    try {
+        String sql = "UPDATE PRODUCTO " +
+                     "SET NOMBRE = ?, " +
+                     "DESCRIPCION = ?, " +
+                     "SKU = ?, " +
+                     "ID_CATEGORIA = ?, " +
+                     "ID_EDO_PRODUCTO = ?, " +
+                     "ID_PROVEEDOR = ?, " +
+                     "STOCK = ?, " +
+                     "PRECIO = ?, " +
+                     "PISO = ?, " +
+                     "ZONA = ?, " +
+                     "ESTANTERIA = ?, " +
+                     "ID_MARCA = ? " +
+                     "WHERE TRIM(ID_PRODUCTO) = ?";
+
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombre);
+        ps.setString(2, descripcion);
+        ps.setString(3, sku);
+        ps.setString(4, idCategoria);
+        ps.setString(5, idEstadoProducto);
+        ps.setString(6, idProveedor);
+        ps.setInt(7, stock);
+        ps.setDouble(8, precio);
+        ps.setInt(9, piso);
+        ps.setString(10, zona);
+        ps.setInt(11, estanteria);
+        ps.setString(12, idMarca);
+        ps.setString(13, idProducto);
+
+        int filasAfectadas = ps.executeUpdate();
+        if (filasAfectadas > 0) {
+            exito = true;
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar el producto: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
+    }
+    return exito;
+}
+
+
+
+
+
 }
 
 
