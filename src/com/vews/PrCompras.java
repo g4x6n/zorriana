@@ -1,5 +1,6 @@
 
 package com.vews;
+import com.dashboard.dashboard;
 import database.dao.DaoCompras;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +17,7 @@ import javax.swing.table.TableColumn;
 public class PrCompras extends javax.swing.JPanel {
 
      private final DaoCompras daoCompras = new DaoCompras();
-
+     private dashboard mainDashboard;
     public static PrCompras comp;
 
    
@@ -28,6 +29,13 @@ public class PrCompras extends javax.swing.JPanel {
         cargarCompras();
     }
 
+  public PrCompras(dashboard mainDashboard) {
+        this(); // Llama al constructor por defecto
+        this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
+    }
+    public void setMainDashboard(dashboard main) {
+    this.mainDashboard = main;
+}
     private void cargarProveedores() {
         // Llenar la lista de proveedores en el combo box
         try {
