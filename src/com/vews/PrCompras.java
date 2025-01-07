@@ -65,6 +65,13 @@ public class PrCompras extends javax.swing.JPanel {
     }
 }
     
+    
+    private void ocultarColumnaID(javax.swing.JTable tabla, int indiceColumna) {
+    tabla.getColumnModel().getColumn(indiceColumna).setMinWidth(0);
+    tabla.getColumnModel().getColumn(indiceColumna).setMaxWidth(0);
+    tabla.getColumnModel().getColumn(indiceColumna).setWidth(0);
+}
+
     private void cargarEdoCompra() {
         // Llenar la lista de proveedores en el combo box
         try {
@@ -78,7 +85,7 @@ public class PrCompras extends javax.swing.JPanel {
         }
     }
 
-    private void cargarCompras() { 
+  private void cargarCompras() { 
     try {
         // Obtiene las compras desde el DAO
         List<Object[]> compras = daoCompras.listCompras();
@@ -97,19 +104,19 @@ public class PrCompras extends javax.swing.JPanel {
         // Llena el modelo con los datos
         for (Object[] compra : compras) {
             model.addRow(new Object[]{
-                compra[0] != null ? compra[0] : "N/A",                           // ID de la compra
-                compra[1] != null ? compra[1] : "N/A",                           // Fecha de compra
-                compra[2] != null ? compra[2] : "N/A",                           // Estado de la compra
-                compra[3] != null ? compra[3] : "N/A",                           // Proveedor
-                compra[4] != null ? compra[4] : "N/A"                            // Empleado
+                compra[0] != null ? compra[0] : "N/A", // ID de la compra
+                compra[1] != null ? compra[1] : "N/A", // Fecha de compra
+                compra[2] != null ? compra[2] : "N/A", // Estado de la compra
+                compra[3] != null ? compra[3] : "N/A", // Proveedor
+                compra[4] != null ? compra[4] : "N/A"  // Empleado
             });
         }
 
         // Asigna el modelo a la tabla
         TablaCompra.setModel(model);
 
-        // Configura las columnas de la tabla
-        configurarColumnasTabla(TablaCompra);
+        // Ocultar la columna de ID (asumiendo que está en el índice 0)
+        ocultarColumnaID(TablaCompra, 0);
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar compras: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
