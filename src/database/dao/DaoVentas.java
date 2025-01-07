@@ -110,11 +110,15 @@ public boolean actualizarVenta(String idVenta, String idCliente, String idEmplea
     }
     return exito;
 }
+
 public String obtenerIdCliente(String nombreCompleto) {
     conectar();
     String idCliente = null;
     try {
-        String sql = "SELECT ID_CLIENTE FROM CLIENTE WHERE TRIM(NOMBRE || ' ' || AP_PATERNO || ' ' || NVL(AP_MATERNO, '')) = ?";
+        // Asegúrate de utilizar la función TRIM y COALESCE correctamente
+        // y de que todos los nombres están en mayúsculas o en minúsculas según sea necesario
+        String sql = "SELECT ID_CLIENTE FROM CLIENTE " +
+                     "WHERE UPPER(TRIM(NOMBRE) || ' ' || TRIM(AP_PATERNO) || ' ' || TRIM(COALESCE(AP_MATERNO, ''))) = UPPER(?)";
         ps = conn.prepareStatement(sql);
         ps.setString(1, nombreCompleto.trim());
         rs = ps.executeQuery();
@@ -130,6 +134,8 @@ public String obtenerIdCliente(String nombreCompleto) {
     }
     return idCliente;
 }
+
+
 
 public String obtenerIdEmpleado(String nombreCompleto) {
     conectar();
