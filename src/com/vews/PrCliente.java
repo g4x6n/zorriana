@@ -24,6 +24,8 @@ public class PrCliente extends javax.swing.JPanel {
         initComponents(); // Inicializa los componentes del formulario
         cargarEstados();
         cargarClientes();
+        setFechaActual();
+        jTextFieldFechaReg.setEditable(false);
         resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         manejarTablaCliente();
@@ -73,6 +75,7 @@ public class PrCliente extends javax.swing.JPanel {
         ELIMINAR_BOTON = new javax.swing.JButton();
         ESTADO = new javax.swing.JLabel();
         jComboBoxEstado = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -326,6 +329,10 @@ public class PrCliente extends javax.swing.JPanel {
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxEstado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel1.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 470, 110, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel2.setText("LIMPIAR CAMPOS");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 480, -1, -1));
 
         jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -695,6 +702,7 @@ private void setFechaActual() {
 
     // Establecer la fecha en el campo correspondiente
     jTextFieldFechaReg.setText(fechaActual);
+    
 }
 
     private void jTextFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreActionPerformed
@@ -710,7 +718,7 @@ private void setFechaActual() {
     }//GEN-LAST:event_jTextFieldApMaternoActionPerformed
 
     private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
-    setFechaActual();
+        setFechaActual();
     }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
 
     private void jTextFieldCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldCorreoActionPerformed
@@ -813,6 +821,7 @@ private void setFechaActual() {
     private javax.swing.JLabel NOMBRE;
     private javax.swing.JComboBox<String> jComboBoxEstado;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

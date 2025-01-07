@@ -1,5 +1,4 @@
 package com.vews;
-import database.dao.DaoProveedor;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
@@ -20,7 +19,7 @@ import database.dao.DaoProveedor;
         cargarProveedores();
     }
     
-    private void cargarEstados() {
+    void cargarEstados() {
         try {
             List<String> estados = daoProveedor.obtenerEstados(); // Implementar este método en DaoEmpleado
             EDO_BOX.removeAllItems();
@@ -405,6 +404,9 @@ import database.dao.DaoProveedor;
         Editar = new javax.swing.JButton();
         Borrar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -466,6 +468,11 @@ import database.dao.DaoProveedor;
 
         EDO_BOX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         EDO_BOX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        EDO_BOX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EDO_BOXActionPerformed(evt);
+            }
+        });
         fondo.add(EDO_BOX, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 150, -1));
 
         NombreEmpresa.setText("NOMBRE EMPRESA");
@@ -478,7 +485,7 @@ import database.dao.DaoProveedor;
                 jTextFieldNombreEmpresaActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldNombreEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 310, -1));
+        fondo.add(jTextFieldNombreEmpresa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 300, -1));
 
         NombreContacto.setText("NOMBRE CONTACTO");
         fondo.add(NombreContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, 20));
@@ -489,7 +496,7 @@ import database.dao.DaoProveedor;
                 jTextFieldContactoActionPerformed(evt);
             }
         });
-        fondo.add(jTextFieldContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 300, -1));
+        fondo.add(jTextFieldContacto, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 290, -1));
 
         Lada.setText("LADA");
         fondo.add(Lada, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, 20));
@@ -642,7 +649,28 @@ import database.dao.DaoProveedor;
                 jLabel1MouseClicked(evt);
             }
         });
-        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 410, -1, -1));
+        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, -1, -1));
+
+        jButton2.setText("ESTADOS");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 470, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel2.setText(" ¿NUEVO ESTADO?");
+        fondo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, -1, 20));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel3.setText("LIMPIAR CAMPOS");
+        fondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, -1, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
@@ -736,6 +764,19 @@ import database.dao.DaoProveedor;
         limpiarCampos();
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        TablaEstado tablaEstado = new TablaEstado(this);
+        tablaEstado.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void EDO_BOXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EDO_BOXActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EDO_BOXActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AlcalMun;
@@ -766,7 +807,10 @@ import database.dao.DaoProveedor;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldContacto;
