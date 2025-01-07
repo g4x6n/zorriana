@@ -10,11 +10,11 @@ import javax.swing.*; // Para componentes gráficos como JComboBox, JLabel, etc.
 import javax.swing.table.DefaultTableModel;
 
     public class AgVenta extends javax.swing.JFrame {
-        
     private final DaoProducto daoProducto; // Acceso a la base de datos para productos
     private final String empleadoActual; // Empleado que inició sesión
     private final DaoVentas daoVentas = new DaoVentas(); // Acceso a la base de datos
     
+    //comentario para push nuevo
     
     public AgVenta(String empleadoActual) {
         this.empleadoActual = empleadoActual;
