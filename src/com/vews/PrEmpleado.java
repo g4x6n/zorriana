@@ -20,7 +20,9 @@ public class PrEmpleado extends javax.swing.JPanel {
     initComponents();
     cargarEstados();
     cargarPuestos();
+    setFechaActual();
     cargarEmpleados();
+    jTextFieldFechaReg.setEditable(false);
     }
     
     private void botonAgregar() {
@@ -448,6 +450,7 @@ public class PrEmpleado extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -721,6 +724,10 @@ public class PrEmpleado extends javax.swing.JPanel {
         });
         fondo.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, -1, -1));
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel3.setText("LIMPIAR CAMPOS");
+        fondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 480, -1, 20));
+
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 900, 530));
 
         add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 570));
@@ -762,7 +769,7 @@ public class PrEmpleado extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextFieldCorreoActionPerformed
 
     private void jTextFieldFechaRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFechaRegActionPerformed
-
+        setFechaActual();
     }//GEN-LAST:event_jTextFieldFechaRegActionPerformed
 
     private void jTextFieldApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldApMaternoActionPerformed
@@ -855,6 +862,7 @@ public class PrEmpleado extends javax.swing.JPanel {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldApMaterno;

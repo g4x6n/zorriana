@@ -365,6 +365,7 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        prEmpleado1 = new com.vews.PrEmpleado();
         bg = new javax.swing.JPanel();
         fondo = new javax.swing.JPanel();
         searchbar1 = new javax.swing.JTextField();
@@ -400,6 +401,10 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
         ELIMINAR_BOTON = new javax.swing.JButton();
         AñadirBoton = new javax.swing.JLabel();
         LimpiarButton = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
@@ -502,9 +507,8 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
             }
         });
 
-        MARCA.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         MARCA.setText("MARCA");
-        MARCA.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        MARCA.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         MARCA.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MARCAMouseClicked(evt);
@@ -529,9 +533,8 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
             }
         });
 
-        Categoria.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         Categoria.setText("CATEGORIA");
-        Categoria.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        Categoria.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Categoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CategoriaMouseClicked(evt);
@@ -618,6 +621,26 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
             }
         });
 
+        jButton1.setText("MARCA");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jButton2.setText("CATEGORIA");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel4.setText("¿NUEVA MARCA?");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel5.setText("¿NUEVA CATEGORÍA?");
+
         javax.swing.GroupLayout productosLayout = new javax.swing.GroupLayout(productos);
         productos.setLayout(productosLayout);
         productosLayout.setHorizontalGroup(
@@ -668,20 +691,28 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
                         .addGap(10, 10, 10)
                         .addComponent(Zona)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ZonaTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(Estantería)
+                        .addGap(5, 5, 5)
+                        .addComponent(EstantTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productosLayout.createSequentialGroup()
                         .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2)
                             .addGroup(productosLayout.createSequentialGroup()
-                                .addComponent(ZonaTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(Estantería)
-                                .addGap(5, 5, 5)
-                                .addComponent(EstantTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(productosLayout.createSequentialGroup()
-                                .addGap(78, 78, 78)
-                                .addComponent(AñadirBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(ELIMINAR_BOTON)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(LimpiarButton)))))
+                                .addGap(12, 12, 12)
+                                .addComponent(jButton1)))
+                        .addGap(35, 35, 35)
+                        .addComponent(AñadirBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(ELIMINAR_BOTON)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(LimpiarButton)
+                        .addGap(19, 19, 19)))
                 .addGap(18, 18, 18))
         );
         productosLayout.setVerticalGroup(
@@ -724,12 +755,24 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
                     .addComponent(ZonaTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Estantería, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(EstantTxtF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ELIMINAR_BOTON, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(AñadirBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LimpiarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(33, 33, 33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(productosLayout.createSequentialGroup()
+                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2)
+                            .addComponent(jLabel5)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productosLayout.createSequentialGroup()
+                        .addGroup(productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, productosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ELIMINAR_BOTON, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(LimpiarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(AñadirBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11)))
+                .addGap(18, 18, 18))
         );
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
@@ -771,9 +814,6 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fondoLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
                         .addGroup(fondoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(fondoLayout.createSequentialGroup()
                                 .addGap(20, 20, 20)
@@ -784,7 +824,10 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fondoLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(productos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -898,13 +941,11 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
     }//GEN-LAST:event_searchbar1KeyPressed
 
     private void MARCAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MARCAMouseClicked
-         TablaMarcas ventanaMarcas = new TablaMarcas(this);
-        ventanaMarcas.setVisible(true);
+         
     }//GEN-LAST:event_MARCAMouseClicked
 
     private void CategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CategoriaMouseClicked
-        TablaCategoria ventanaCategoria = new TablaCategoria(this);
-        ventanaCategoria.setVisible(true);
+
     }//GEN-LAST:event_CategoriaMouseClicked
 
     private void AñadirBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AñadirBotonMouseClicked
@@ -914,6 +955,16 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
     private void LimpiarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarButtonMouseClicked
         limpiarCampos();
     }//GEN-LAST:event_LimpiarButtonMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+       TablaCategoria ventanaCategoria = new TablaCategoria(this);
+        ventanaCategoria.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        TablaMarcas ventanaMarcas = new TablaMarcas(this);
+        ventanaMarcas.setVisible(true);
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -947,9 +998,14 @@ private void seleccionarEnComboBox(javax.swing.JComboBox<String> comboBox, Strin
     private javax.swing.JTextField ZonaTxtF;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel fondo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private com.vews.PrEmpleado prEmpleado1;
     private javax.swing.JPanel productos;
     private javax.swing.JTable resultsTable1;
     private javax.swing.JTextField searchbar1;
