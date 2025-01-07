@@ -31,8 +31,7 @@ public class DaoCompras extends Conexion {
     }
     return estados;
 }
-    
-public List<String> obtenerProveedor() {
+    public List<String> obtenerProveedor() {
     conectar();
     List<String> proveedores = new ArrayList<>();
     try {
@@ -49,7 +48,6 @@ public List<String> obtenerProveedor() {
     }
     return proveedores;
 }
- 
     public List<String> obtenerEmpleado() {
     conectar(); // Método para conectar a la base de datos
     List<String> empleados = new ArrayList<>();
@@ -69,7 +67,6 @@ public List<String> obtenerProveedor() {
     }
     return empleados; // Retornar la lista de empleados
 }
-    
     public List<String> obtenerEdoCompra() {
     conectar();
     List<String> edoscompras = new ArrayList<>();
@@ -87,7 +84,49 @@ public List<String> obtenerProveedor() {
     }
     return edoscompras;
 }
+    public List<Object[]> buscarCompras(String filtro) {
+    conectar();
+    List<Object[]> compras = new ArrayList<>();
+    try {
+        String sql = """
+            SELECT ID_COMPRA, FECHA_COMPRA, ESTADO_COMPRA, NOMBRE_EMPRESA, 
+                   NOMBRE || ' ' || AP_PATERNO || ' ' || NVL(AP_MATERNO, '') AS EMPLEADO
+            FROM COMPRA
+            JOIN EDO_COMPRA USING (ID_EDO_COMPRA)
+            JOIN PROVEEDOR USING (ID_PROVEEDOR)
+            JOIN EMPLEADO USING (ID_EMPLEADO)
+            WHERE UPPER(NOMBRE_EMPRESA) LIKE UPPER(?) OR
+                  UPPER(ESTADO_COMPRA) LIKE UPPER(?) OR
+                  UPPER(NOMBRE || ' ' || AP_PATERNO || ' ' || NVL(AP_MATERNO, '')) LIKE UPPER(?) OR
+                  TO_CHAR(FECHA_COMPRA, 'YYYY-MM-DD') LIKE ?
+            ORDER BY FECHA_COMPRA DESC
+        """;
 
+        ps = conn.prepareStatement(sql);
+        String likeFilter = "%" + filtro.trim() + "%";
+        ps.setString(1, likeFilter);
+        ps.setString(2, likeFilter);
+        ps.setString(3, likeFilter);
+        ps.setString(4, likeFilter);
+
+        rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Object[] compra = new Object[5];
+            compra[0] = rs.getString("ID_COMPRA").trim();
+            compra[1] = rs.getDate("FECHA_COMPRA");
+            compra[2] = rs.getString("ESTADO_COMPRA").trim();
+            compra[3] = rs.getString("NOMBRE_EMPRESA").trim();
+            compra[4] = rs.getString("EMPLEADO").trim();
+            compras.add(compra);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al buscar compras: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return compras;
+}
     public List<Object[]> listCompras() {
     conectar();
     List<Object[]> compras = new ArrayList<>();
@@ -119,7 +158,7 @@ public List<String> obtenerProveedor() {
     }
     return compras;
 }
-public List<Object[]> obtenerProductosPorProveedor(String idProveedor) {
+    public List<Object[]> obtenerProductosPorProveedor(String idProveedor) {
     conectar(); // Conexión a la base de datos
     List<Object[]> productos = new ArrayList<>();
     try {
@@ -227,6 +266,35 @@ public List<Object[]> obtenerProductosPorProveedor(String idProveedor) {
         desconectar();
     }
     return detalleCompra;
+}
+    public boolean eliminarCompra(String idCompra) {
+    conectar();
+    boolean exito = false;
+
+    try {
+        // Eliminar los detalles de la compra primero (clave foránea)
+        String sqlDetalles = "DELETE FROM DETALLE_COMPRA WHERE ID_COMPRA = ?";
+        ps = conn.prepareStatement(sqlDetalles);
+        ps.setString(1, idCompra);
+        ps.executeUpdate();
+
+        // Eliminar la compra
+        String sqlCompra = "DELETE FROM COMPRA WHERE ID_COMPRA = ?";
+        ps = conn.prepareStatement(sqlCompra);
+        ps.setString(1, idCompra);
+        int filasAfectadas = ps.executeUpdate();
+
+        if (filasAfectadas > 0) {
+            exito = true;
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al eliminar la compra: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
+    }
+
+    return exito;
 }
 
      

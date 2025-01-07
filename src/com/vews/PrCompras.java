@@ -8,12 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-
-
-/**
- *
- * @author Alex
- */
 public class PrCompras extends javax.swing.JPanel {
 
      private final DaoCompras daoCompras = new DaoCompras();
@@ -49,7 +43,6 @@ public class PrCompras extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar proveedores: " + e.getMessage());
         }
     }
-    
     private void cargarEmpleados() {
     // Llenar la lista de empleados en el combo box
     try {
@@ -64,14 +57,11 @@ public class PrCompras extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-    
-    
     private void ocultarColumnaID(javax.swing.JTable tabla, int indiceColumna) {
     tabla.getColumnModel().getColumn(indiceColumna).setMinWidth(0);
     tabla.getColumnModel().getColumn(indiceColumna).setMaxWidth(0);
     tabla.getColumnModel().getColumn(indiceColumna).setWidth(0);
 }
-
     private void cargarEdoCompra() {
         // Llenar la lista de proveedores en el combo box
         try {
@@ -84,8 +74,7 @@ public class PrCompras extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar estados de compras: " + e.getMessage());
         }
     }
-
-  private void cargarCompras() { 
+    private void cargarCompras() { 
     try {
         // Obtiene las compras desde el DAO
         List<Object[]> compras = daoCompras.listCompras();
@@ -123,7 +112,6 @@ public class PrCompras extends javax.swing.JPanel {
         e.printStackTrace();
     }
 }
-
     private void configurarColumnasTabla(JTable table) {
     // Establecer tamaños mínimos y preferidos para las columnas
     int[] anchos = {10, 150, 120, 200, 200}; // Anchos para ID, Fecha, Estado, Proveedor, Empleado
@@ -136,7 +124,6 @@ public class PrCompras extends javax.swing.JPanel {
     // Habilitar desplazamiento horizontal
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
-    
     private void manejarTablaCompra() {
     int filaSeleccionada = TablaCompra.getSelectedRow();
     if (filaSeleccionada != -1) {
@@ -214,6 +201,84 @@ public class PrCompras extends javax.swing.JPanel {
         e.printStackTrace();
     }
 }
+    private void BuscarCompras() {
+    String filtro = BarraBusqueda.getText().trim();
+    if (filtro.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Por favor, ingresa un criterio de búsqueda.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        // Realiza la búsqueda a través del DAO
+        List<Object[]> resultados = daoCompras.buscarCompras(filtro);
+
+        // Configura el modelo de la tabla
+        DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Fecha de Compra", "Estado", "Proveedor", "Empleado"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hacer todas las celdas no editables
+            }
+        };
+
+        // Llena el modelo con los datos obtenidos
+        for (Object[] fila : resultados) {
+            model.addRow(fila);
+        }
+
+        // Asigna el modelo a la tabla
+        TablaCompra.setModel(model);
+
+        // Oculta la columna de ID
+        ocultarColumnaID(TablaCompra, 0);
+
+        if (resultados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron compras con el criterio ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al realizar la búsqueda: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+}
+    private void eliminarCompra() {
+    try {
+        // Verificar si hay una fila seleccionada
+        int filaSeleccionada = TablaCompra.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona una compra en la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID de la compra seleccionada
+        String idCompra = TablaCompra.getValueAt(filaSeleccionada, 0).toString().trim();
+
+        if (idCompra.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El ID de la compra seleccionada está vacío. Verifica los datos de la tabla.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmación antes de eliminar
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas eliminar la compra y todos sus detalles?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (confirmacion != JOptionPane.YES_OPTION) {
+            return; // El usuario canceló la operación
+        }
+
+        // Llamar al DAO para eliminar la compra
+        boolean exito = daoCompras.eliminarCompra(idCompra);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Compra y detalles eliminados correctamente.");
+            cargarCompras(); // Recargar la tabla de compras
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la compra. Verifica que la compra exista y que no tenga restricciones asociadas.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -226,7 +291,6 @@ public class PrCompras extends javax.swing.JPanel {
         BarraBusqueda = new javax.swing.JTextField();
         Compra = new javax.swing.JScrollPane();
         TablaCompra = new javax.swing.JTable();
-        AGREGAR_BOTON = new javax.swing.JButton();
         ELIMINAR_BOTON = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         compras = new javax.swing.JPanel();
@@ -238,10 +302,10 @@ public class PrCompras extends javax.swing.JPanel {
         Prov_Box = new javax.swing.JComboBox<>();
         Empleado = new javax.swing.JLabel();
         Empleado_Box = new javax.swing.JComboBox<>();
-        Buscar_Boton = new javax.swing.JLabel();
         DetalleCompra = new javax.swing.JScrollPane();
         TablaEdoCompra = new javax.swing.JTable();
         Agregar_Compra_Botton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(940, 570));
@@ -322,16 +386,6 @@ public class PrCompras extends javax.swing.JPanel {
         }
 
         fondo.add(Compra, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 400, 120));
-
-        AGREGAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
-        AGREGAR_BOTON.setContentAreaFilled(false);
-        AGREGAR_BOTON.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        AGREGAR_BOTON.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AGREGAR_BOTONActionPerformed(evt);
-            }
-        });
-        fondo.add(AGREGAR_BOTON, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         ELIMINAR_BOTON.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eliminar.png"))); // NOI18N
         ELIMINAR_BOTON.setContentAreaFilled(false);
@@ -434,15 +488,6 @@ public class PrCompras extends javax.swing.JPanel {
 
         fondo.add(compras, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 440, 130));
 
-        Buscar_Boton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
-        Buscar_Boton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Buscar_Boton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Buscar_BotonMouseClicked(evt);
-            }
-        });
-        fondo.add(Buscar_Boton, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 90, -1, 40));
-
         TablaEdoCompra.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         TablaEdoCompra.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -490,13 +535,21 @@ public class PrCompras extends javax.swing.JPanel {
 
         fondo.add(DetalleCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 860, 170));
 
-        Agregar_Compra_Botton.setText("jButton1");
+        Agregar_Compra_Botton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva venta.png"))); // NOI18N
         Agregar_Compra_Botton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Agregar_Compra_BottonActionPerformed(evt);
             }
         });
-        fondo.add(Agregar_Compra_Botton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, -1, -1));
+        fondo.add(Agregar_Compra_Botton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, -1, -1));
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        fondo.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(835, 90, 60, -1));
 
         bg.add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 910, 530));
 
@@ -522,10 +575,6 @@ public class PrCompras extends javax.swing.JPanel {
 
     }//GEN-LAST:event_TablaEdoCompraMouseClicked
 
-    private void AGREGAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AGREGAR_BOTONActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AGREGAR_BOTONActionPerformed
-
     private void EdoCompra_BoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EdoCompra_BoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EdoCompra_BoxActionPerformed
@@ -537,10 +586,6 @@ public class PrCompras extends javax.swing.JPanel {
     private void TablaCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaCompraMouseClicked
         manejarTablaCompra();
     }//GEN-LAST:event_TablaCompraMouseClicked
-
-    private void Buscar_BotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Buscar_BotonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Buscar_BotonMouseClicked
 
     private void TablaCompraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TablaCompraKeyPressed
        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
@@ -567,15 +612,17 @@ public class PrCompras extends javax.swing.JPanel {
     }//GEN-LAST:event_Agregar_Compra_BottonActionPerformed
 
     private void ELIMINAR_BOTONActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ELIMINAR_BOTONActionPerformed
-        // TODO add your handling code here:
+       eliminarCompra();
     }//GEN-LAST:event_ELIMINAR_BOTONActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       BuscarCompras();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AGREGAR_BOTON;
     private javax.swing.JButton Agregar_Compra_Botton;
     private javax.swing.JTextField BarraBusqueda;
-    private javax.swing.JLabel Buscar_Boton;
     private javax.swing.JLabel COMPRAS;
     private javax.swing.JScrollPane Compra;
     private javax.swing.JScrollPane DetalleCompra;
@@ -594,6 +641,7 @@ public class PrCompras extends javax.swing.JPanel {
     private javax.swing.JPanel bg;
     private javax.swing.JPanel compras;
     private javax.swing.JPanel fondo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 
