@@ -420,7 +420,7 @@ public class dashboard extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void Boton_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Boton_InicioActionPerformed
      ShowJPanel (new Principal ());   
     }//GEN-LAST:event_Boton_InicioActionPerformed
