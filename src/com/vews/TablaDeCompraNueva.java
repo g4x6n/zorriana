@@ -30,31 +30,24 @@ private void resetFormulario() {
 }
 
 
-public TablaDeCompraNueva(String usuarioActivo) {
-    this.usuarioActivo = usuarioActivo; // Guarda el usuario activo
-
+public TablaDeCompraNueva(String empleadoActual) {
+    this.usuarioActivo = empleadoActual; // Guarda el empleado actual como usuario activo
     initComponents(); // Inicializa los componentes de la interfaz gráfica
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    setLocationRelativeTo(null); // Centrar ventana
+    setTitle("Nueva Compra"); // Título de la ventana
 
-    // Listener para reforzar el cierre correcto
-    addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent evt) {
-            System.out.println("Cerrando sólo TablaDeCompraNueva");
-            dispose(); // Cierra sólo esta ventana
-        }
-    });
+    // Configurar los componentes iniciales
+    configurarNombreEmpleado(usuarioActivo); // Establecer el nombre del empleado actual
+    cargarProductosTabla(); // Cargar productos
+    cargarProveedores(); // Cargar proveedores
+    cargarEstadosDeCompra(); // Cargar estados de compra
 
-    // Configuración adicional
-    setFechaActual(); // Establecer la fecha actual en el cuadro de texto
-    cargarProductosTabla();
-    cargarProveedores();
-    cargarEstadosDeCompra();
-    configComponents();
-
-    // Establece el usuario activo en el JLabel
-    Usuario.setText(usuarioActivo);
+    // Configurar campos de la interfaz
+    setFechaActual(); // Configurar la fecha actual
 }
+
+
 private void configComponents(){
         // Titulo de la ventana
         setTitle("Nueva Compra");
@@ -63,8 +56,8 @@ private void configComponents(){
     }
 
 private void configurarNombreEmpleado(String nombreEmpleado) {
-        Usuario.setText(nombreEmpleado);
- }
+    Usuario.setText(nombreEmpleado); 
+}
 private void cargarEstadosDeCompra() {
     try {
         DaoCompras daoCompras = new DaoCompras();
@@ -234,6 +227,7 @@ private void agregarProductoAlCarrito() {
 // Constructor sin argumentos
 public TablaDeCompraNueva() {
     this("UsuarioDesconocido"); // Llama al constructor principal con un valor por defecto
+    
 }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -457,13 +451,17 @@ public TablaDeCompraNueva() {
     }//GEN-LAST:event_EstadosDeCompraActionPerformed
 
     private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
- try {
+                                       
+     try {
+        DaoCompras dao = new DaoCompras();
+
+        // Obtener y limpiar la entrada del usuario
+        String empleado = Usuario.getText().trim().replaceAll("\\s+", " ");
+        System.out.println("Empleado procesado para búsqueda: '" + empleado + "'");
+
         String fechaCompra = FechaDelDia.getText().trim();
-        String empleado = Usuario.getText().trim();
         String estadoCompra = (String) EstadosDeCompra.getSelectedItem();
         String proveedor = (String) Proveedores.getSelectedItem();
-
-        DaoCompras dao = new DaoCompras();
 
         // Validar empleado
         String idEmpleado = dao.obtenerIdEmpleadoPorNombre(empleado);
@@ -472,67 +470,32 @@ public TablaDeCompraNueva() {
             return;
         }
 
-        // Validar proveedor
-        String idProveedor = (String) Proveedores.getClientProperty(proveedor);
+        // Obtener ID del proveedor
+        String idProveedor = dao.obtenerIdProveedorPorNombre(proveedor); // Método para obtener el ID del proveedor.
         if (idProveedor == null) {
             JOptionPane.showMessageDialog(this, "Error: No se encontró el proveedor '" + proveedor + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validar estado de compra
+        // Obtener ID del estado de compra
         String idEstadoCompra = dao.obtenerIdEstadoCompraPorNombre(estadoCompra);
         if (idEstadoCompra == null) {
             JOptionPane.showMessageDialog(this, "Error: No se encontró el estado de compra '" + estadoCompra + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Validar carrito
-        DefaultTableModel modeloCarrito = (DefaultTableModel) CarritoTabla.getModel();
-        if (modeloCarrito.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Error: El carrito está vacío. Agrega productos antes de registrar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
         // Crear compra
-        boolean exitoCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra);
-        if (!exitoCompra) {
-            JOptionPane.showMessageDialog(this, "Error al guardar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Obtener ID de la compra recién creada
-        String idCompra = dao.obtenerUltimaCompraId();
-
-        // Registrar los detalles de la compra
-        boolean detallesGuardados = true;
-        for (int i = 0; i < modeloCarrito.getRowCount(); i++) {
-            String nombreProducto = modeloCarrito.getValueAt(i, 0).toString();
-            int cantidad = Integer.parseInt(modeloCarrito.getValueAt(i, 1).toString());
-            String idProducto = dao.obtenerIdProductoPorNombre(nombreProducto);
-
-            if (idProducto == null || cantidad <= 0) {
-                JOptionPane.showMessageDialog(this, "Error con el producto: " + nombreProducto, "Error", JOptionPane.ERROR_MESSAGE);
-                detallesGuardados = false;
-                break;
-            }
-
-            boolean exitoDetalle = dao.crearDetalleCompra(idCompra, idProducto, cantidad);
-            if (!exitoDetalle) {
-                detallesGuardados = false;
-                break;
-            }
-        }
-
-        if (detallesGuardados) {
-            JOptionPane.showMessageDialog(this, "Compra registrada correctamente.");
-            resetFormulario();
+        boolean compraCreada = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra, idProveedor);
+        if (compraCreada) {
+            JOptionPane.showMessageDialog(this, "Compra creada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar los detalles de la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al crear la compra.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
+
     }//GEN-LAST:event_ComprarActionPerformed
 
     /**

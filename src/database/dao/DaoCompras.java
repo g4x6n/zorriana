@@ -89,6 +89,51 @@ public class DaoCompras extends Conexion {
     }
     return edoscompras;
 }
+    
+   public String obtenerIdProveedorPorNombre(String nombreProveedor) {
+    conectar();
+    String idProveedor = null;
+    try {
+        String sql = """
+            SELECT ID_PROVEEDOR
+            FROM PROVEEDOR
+            WHERE TRIM(UPPER(NOMBRE_EMPRESA)) = TRIM(UPPER(?))
+        """;
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreProveedor.trim()); // Asegúrate de eliminar espacios adicionales
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idProveedor = rs.getString("ID_PROVEEDOR").trim();
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el ID del proveedor: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
+    }
+    return idProveedor;
+}
+
+
+    public String obtenerIdProveedor(String nombreProveedor) {
+    conectar();
+    String idProveedor = null;
+    try {
+        String sql = "SELECT id_proveedor FROM proveedor WHERE nombre_empresa = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreProveedor);
+        rs = ps.executeQuery();
+        if (rs.next()) {
+            idProveedor = rs.getString("id_proveedor").trim();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        desconectar();
+    }
+    return idProveedor;
+}
+
     public String obtenerIdProductoPorNombre(String nombreProducto) {
     conectar();
     String idProducto = null;
@@ -107,6 +152,50 @@ public class DaoCompras extends Conexion {
     }
     return idProducto;
 }
+
+    public void listarEmpleadosDesdeJava() {
+    conectar();
+    try {
+        String sql = "SELECT id_empleado, nombre, ap_paterno, ap_materno FROM empleado";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        System.out.println("Datos en la tabla empleado desde Java:");
+        while (rs.next()) {
+            String id = rs.getString("id_empleado").trim();
+            String nombre = rs.getString("nombre");
+            String apPaterno = rs.getString("ap_paterno");
+            String apMaterno = rs.getString("ap_materno");
+            System.out.println("ID: " + id + ", Nombre: '" + nombre + "', Apellido Paterno: '" + apPaterno + "', Apellido Materno: '" + apMaterno + "'");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        desconectar();
+    }
+}
+
+   public void listarEmpleados() {
+    conectar();
+    try {
+        String sql = "SELECT id_empleado, nombre, ap_paterno, NVL(ap_materno, '') AS ap_materno FROM empleado";
+        ps = conn.prepareStatement(sql);
+        rs = ps.executeQuery();
+
+        System.out.println("Datos en la tabla empleado desde Java:");
+        while (rs.next()) {
+            System.out.println("ID: " + rs.getString("id_empleado") +
+                               ", Nombre: '" + rs.getString("nombre").trim() + "'" +
+                               ", Apellido Paterno: '" + rs.getString("ap_paterno").trim() + "'" +
+                               ", Apellido Materno: '" + rs.getString("ap_materno").trim() + "'");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al listar empleados: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
+    }
+}
+
     public List<Object[]> buscarCompras(String filtro) {
     conectar();
     List<Object[]> compras = new ArrayList<>();
@@ -264,34 +353,53 @@ public class DaoCompras extends Conexion {
     }
     return productos; // Retornar la lista de productos
 }
+
 public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
     conectar();
     String idEmpleado = null;
 
     try {
-        // Consulta SQL ajustada
-        String sql = "SELECT id_empleado " +
-                     "FROM empleado " +
-                     "WHERE UPPER(REPLACE(TRIM(nombre) || ' ' || TRIM(ap_paterno) || ' ' || TRIM(ap_materno), '  ', ' ')) = UPPER(?)";
+        System.out.println("Empleado procesado para búsqueda: '" + nombreEmpleado + "'");
+
+        // Ajusta la consulta para incluir nombres completos con y sin apellido materno
+        String sql = """
+            SELECT id_empleado, 
+                   TRIM(UPPER(nombre)) || ' ' || TRIM(UPPER(ap_paterno)) || ' ' || NVL(TRIM(UPPER(ap_materno)), '') AS nombre_completo,
+                   TRIM(UPPER(nombre)) || ' ' || TRIM(UPPER(ap_paterno)) AS nombre_sin_materno
+            FROM empleado
+        """;
+
         System.out.println("Consulta generada: " + sql);
 
-        // Limpiar completamente el parámetro para evitar problemas de espacios
-        String parametroLimpio = nombreEmpleado.trim().replaceAll("\\s+", " ");
-        System.out.println("Parámetro enviado: '" + parametroLimpio + "'");
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
 
-        // Preparar la consulta
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, parametroLimpio); // Pasar el parámetro limpio
-        rs = ps.executeQuery();
+        // Limpia el parámetro ingresado por el usuario
+        String parametroLimpio = nombreEmpleado.trim().toUpperCase().replaceAll("\\s+", " ");
+        System.out.println("Parámetro limpio: '" + parametroLimpio + "'");
 
-        if (rs.next()) {
-            idEmpleado = rs.getString("id_empleado");
-            System.out.println("ID del empleado encontrado: " + idEmpleado);
-        } else {
+        // Itera sobre los resultados de la consulta y compara con ambos formatos
+        while (rs.next()) {
+            String nombreCompleto = rs.getString("nombre_completo").trim();
+            String nombreSinMaterno = rs.getString("nombre_sin_materno").trim();
+            String id = rs.getString("id_empleado").trim();
+
+            System.out.println("Comparando con: '" + nombreCompleto + "' o '" + nombreSinMaterno + "'");
+
+            // Comparación flexible: permite coincidencia con o sin apellido materno
+            if (nombreCompleto.equals(parametroLimpio) || nombreSinMaterno.equals(parametroLimpio)) {
+                System.out.println("¡Coincidencia encontrada!");
+                idEmpleado = id;
+                break;
+            } else {
+                System.out.println("No coincide con: '" + nombreCompleto + "' ni con '" + nombreSinMaterno + "'");
+            }
+        }
+
+        if (idEmpleado == null) {
             System.out.println("Empleado no encontrado: '" + parametroLimpio + "'");
         }
     } catch (SQLException ex) {
-        System.out.println("Error SQL: " + ex.getMessage());
         ex.printStackTrace();
     } finally {
         desconectar();
@@ -300,31 +408,56 @@ public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
     return idEmpleado;
 }
 
-
-
-
-
-
-
-public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra) {
+public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra, String idProveedor) {
     conectar();
     try {
-        // Asegúrate de usar el nombre correcto de la tabla: COMPRA
-        String sql = "INSERT INTO compra (id_empleado, fecha_compra, id_estado_compra) VALUES (?, ?, ?)";
-        ps = conn.prepareStatement(sql);
-        ps.setString(1, idEmpleado);
-        ps.setString(2, fechaCompra);
-        ps.setString(3, idEstadoCompra);
+        // Obtener los dos últimos dígitos del año y el mes
+        String año = fechaCompra.substring(2, 4); // Extrae los dos últimos dígitos del año
+        String mes = fechaCompra.substring(5, 7); // Extrae el mes (ya formateado como "01", "02", etc.)
 
-        int result = ps.executeUpdate();
-        return result > 0;
+        // Obtener la última secuencia del mes
+        String sqlSecuencia = """
+            SELECT NVL(MAX(TO_NUMBER(SUBSTR(ID_COMPRA, 7, 2))), 0) + 1 AS siguiente_secuencia
+            FROM COMPRA
+            WHERE SUBSTR(ID_COMPRA, 3, 4) = ?
+        """;
+        ps = conn.prepareStatement(sqlSecuencia);
+        ps.setString(1, año + mes);
+        rs = ps.executeQuery();
+
+        String secuencia = "01"; // Valor por defecto
+        if (rs.next()) {
+            int secuenciaInt = rs.getInt("siguiente_secuencia");
+            secuencia = String.format("%02d", secuenciaInt); // Formatea la secuencia con dos dígitos
+        }
+
+        // Generar el ID_COMPRA
+        String idCompra = "C" + año + mes + secuencia;
+
+        // Inserción en la tabla COMPRA
+        String sqlInsercion = """
+            INSERT INTO COMPRA (ID_COMPRA, ID_EMPLEADO, FECHA_COMPRA, ID_EDO_COMPRA, ID_PROVEEDOR)
+            VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?)
+        """;
+        ps = conn.prepareStatement(sqlInsercion);
+        ps.setString(1, idCompra);
+        ps.setString(2, idEmpleado);
+        ps.setString(3, fechaCompra);
+        ps.setString(4, idEstadoCompra);
+        ps.setString(5, idProveedor);
+
+        int resultado = ps.executeUpdate();
+        if (resultado > 0) {
+            System.out.println("Compra creada exitosamente con ID_COMPRA: " + idCompra);
+            return true;
+        }
     } catch (SQLException e) {
         System.out.println("Error al crear la compra: " + e.getMessage());
         e.printStackTrace();
-        return false;
     } finally {
         desconectar();
     }
+    return false;
 }
 
     public String obtenerUltimaCompraId() {
