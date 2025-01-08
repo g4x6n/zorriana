@@ -34,17 +34,63 @@ import javax.swing.JPanel;
 public class dashboard extends javax.swing.JFrame {
 
     private String usuarioAutenticado;
+    private final List<String> permisos;
     
-    public dashboard(String usuarioAutenticado) {
-            this.usuarioAutenticado = usuarioAutenticado;
+       public dashboard(String empleadoActual, List<String> permisos) {
+        this.usuarioAutenticado = empleadoActual;
+        this.permisos = permisos;
+         
         initComponents();
         configComponents();
+        configurarAcceso(); // Configura el acceso según los permisos
+        SetUsuario();
         SetDate();
         startClock();
         SetUsuario();
         initContent();
         
     }
+       
+       private void SetUsuario() {
+        if (usuarioAutenticado != null && !usuarioAutenticado.isEmpty()) {
+            USUARIOTXT.setText(usuarioAutenticado); // Establece el nombre del usuario
+        } else {
+            USUARIOTXT.setText("Usuario no identificado");
+        }
+    }
+    
+      private void configurarAcceso() {
+    // Inicialmente, deshabilita todos los botones
+    Boton_Cliente.setEnabled(false);
+    Boton_Ventas.setEnabled(false);
+    Boton_Empleados.setEnabled(false);
+    Boton_Compras.setEnabled(false);
+    Boton_Proveedores.setEnabled(false);
+    Boton_Productos.setEnabled(false);
+    Boton_Inicio.setEnabled(true); // Inicio siempre debe estar habilitado
+
+    // Habilita solo los botones según los permisos del rol
+    if (permisos.contains("Clientes")) {
+        Boton_Cliente.setEnabled(true);
+    }
+    if (permisos.contains("Ventas")) {
+        Boton_Ventas.setEnabled(true);
+    }
+    if (permisos.contains("Empleados")) {
+        Boton_Empleados.setEnabled(true);
+    }
+    if (permisos.contains("Compras")) {
+        Boton_Compras.setEnabled(true);
+    }
+    if (permisos.contains("Proveedores")) {
+        Boton_Proveedores.setEnabled(true);
+    }
+    if (permisos.contains("Productos")) {
+        Boton_Productos.setEnabled(true);
+    }
+}
+
+      
     private void initContent(){
         ShowJPanel (new Principal());
         
@@ -66,7 +112,7 @@ public class dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
     
-  private void SetUsuario() {
+ /* private void SetUsuario() {
     // Dividir el nombre completo en partes (separadas por espacios)
     String[] partesNombre = usuarioAutenticado.split(" ");
 
@@ -100,7 +146,7 @@ public class dashboard extends javax.swing.JFrame {
     USUARIOTXT.setFont(new java.awt.Font("Jost", 1, 14)); // Estilo del texto
     USUARIOTXT.setForeground(new java.awt.Color(255, 255, 255)); // Color del texto
 }
-
+*/
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -326,6 +372,8 @@ public class dashboard extends javax.swing.JFrame {
         dateText.setForeground(new java.awt.Color(255, 255, 255));
         dateText.setText("{dayname} {day} {month} {year}");
 
+        USUARIOTXT.setFont(new java.awt.Font("Jost", 1, 14)); // NOI18N
+        USUARIOTXT.setForeground(new java.awt.Color(255, 255, 255));
         USUARIOTXT.setText("jLabel1");
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clock.png"))); // NOI18N
@@ -522,7 +570,8 @@ public class dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dashboard("Nombre del Usuario").setVisible(true);
+                 List<String> permisos = java.util.Arrays.asList("Clientes", "Ventas", "Empleados", "Compras");
+            new dashboard("Nombre del Usuario", permisos).setVisible(true);
             }
         });
     }

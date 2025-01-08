@@ -328,6 +328,11 @@ public class PrCompras extends javax.swing.JPanel {
                 BarraBusquedaActionPerformed(evt);
             }
         });
+        BarraBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BarraBusquedaKeyPressed(evt);
+            }
+        });
         fondo.add(BarraBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 280, -1));
 
         TablaCompra.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -541,7 +546,7 @@ public class PrCompras extends javax.swing.JPanel {
                 Agregar_Compra_BottonActionPerformed(evt);
             }
         });
-        fondo.add(Agregar_Compra_Botton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, -1, -1));
+        fondo.add(Agregar_Compra_Botton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/buscar.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -618,6 +623,13 @@ public class PrCompras extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        BuscarCompras();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BarraBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BarraBusquedaKeyPressed
+           if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        BuscarCompras();
+        evt.consume();
+    }
+    }//GEN-LAST:event_BarraBusquedaKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

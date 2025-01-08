@@ -1,13 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-
 package login;
 
 import java.awt.Color;
 import database.dao.DaoEmpleado;
 import javax.swing.JOptionPane;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 import com.dashboard.dashboard; 
 /**
  *
@@ -17,9 +16,14 @@ import com.dashboard.dashboard;
 public class login extends javax.swing.JFrame {
     DaoEmpleado daoempleado;
     int intent = 0;
-    /**
-     * Creates new form login
-     */
+    
+    private static final Map<String, List<String>> permisosPorRol = new HashMap<>();
+static {
+    permisosPorRol.put("1", List.of("Clientes", "Ventas", "Empleados", "Compras", "Proveedores", "Productos")); // Gerente
+    permisosPorRol.put("2", List.of("Clientes", "Ventas", "Empleados", "Compras")); // Sub-Gerente
+    permisosPorRol.put("3", List.of("Clientes", "Ventas")); // Empleado General
+}
+
     public login() {
         initComponents();
         daoempleado = new DaoEmpleado();
@@ -314,11 +318,13 @@ public class login extends javax.swing.JFrame {
             UsrTxtF.setForeground(Color.gray);
         }
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-        iniciarSesion(); // Llama al método para iniciar sesión
+            String usuario = UsrTxtF.getText();
+            char[] password = PswField.getPassword();
+            autenticar(usuario, password);
     }
     }//GEN-LAST:event_PswFieldKeyPressed
 
-   private void iniciarSesion() {
+   /*private void iniciarSesion() {
     String usuario = UsrTxtF.getText();
     char[] password = PswField.getPassword();
 
@@ -340,12 +346,42 @@ public class login extends javax.swing.JFrame {
         new dashboard(nombreCompleto).setVisible(true); // Pasa el nombre al dashboard
         this.dispose(); // Cierra la ventana actual
     }
+}*/
+
+   private void autenticar(String usuario, char[] contrasenia) {
+    Object[] empleado = daoempleado.getEmployeeByUsr(usuario, contrasenia);
+
+    if (empleado != null && empleado[0] != null) {
+        String idPuesto = (String) empleado[1]; // ID del puesto
+        List<String> permisos = permisosPorRol.getOrDefault(idPuesto, new ArrayList<>());
+
+        // Verificar que se obtuvo el nombre completo del empleado
+        String nombreCompleto = empleado[3] + " " + empleado[4];
+        if (nombreCompleto == null || nombreCompleto.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener el nombre del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear el dashboard con permisos
+        dashboard db = new dashboard(nombreCompleto, permisos);
+        db.setVisible(true);
+        this.dispose();
+    } else {
+        intent++;
+        if (intent >= 3) {
+            JOptionPane.showMessageDialog(this, "Demasiados intentos fallidos. Cerrando aplicación.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        } else {
+            JOptionPane.showMessageDialog(this, "Credenciales incorrectas. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
 
 
-
     private void BTNEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNEntrarMouseClicked
-     iniciarSesion();
+        String usuario = UsrTxtF.getText();
+        char[] password = PswField.getPassword();
+        autenticar(usuario, password);
     }//GEN-LAST:event_BTNEntrarMouseClicked
 
     /**
