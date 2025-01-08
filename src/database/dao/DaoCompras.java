@@ -433,11 +433,7 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
         desconectar();
     }
 }
-
-     
-     
-     
-     
+      
 }
 
    

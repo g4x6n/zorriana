@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 public class PrVenta extends javax.swing.JPanel {
     private final DaoVentas daoVentas = new DaoVentas();
@@ -35,15 +37,51 @@ public class PrVenta extends javax.swing.JPanel {
             }
         });
     }
-    private void jTable4MouseClicked(MouseEvent evt) {
+private void jTable4MouseClicked(MouseEvent evt) {
     int filaSeleccionada = jTable4.getSelectedRow();
     if (filaSeleccionada != -1) {
         String idVenta = jTable4.getValueAt(filaSeleccionada, 0).toString().trim(); // Acceder a la columna oculta (ID_VENTA)
-        System.out.println("ID de Venta seleccionada: " + idVenta);  // Debug print
         mostrarDetallesVenta(idVenta); // Mostrar los detalles de la venta seleccionada
+
+        // Luego de mostrar los detalles, calculamos el total pagado
+        calcularYMostrarTotalPagado();
+
+        // Obtener los valores de cada columna de la fila seleccionada
+        String fechaVenta = jTable4.getValueAt(filaSeleccionada, 1).toString().trim();
+        String cliente = jTable4.getValueAt(filaSeleccionada, 2).toString().trim().toUpperCase();
+        String empleado = jTable4.getValueAt(filaSeleccionada, 3).toString().trim().toUpperCase();
+        String estadoVenta = jTable4.getValueAt(filaSeleccionada, 4).toString().trim();
+        String metodoPago = jTable4.getValueAt(filaSeleccionada, 5).toString().trim();
+
+        // Asignar los valores obtenidos a los campos de texto y comboboxes
+        jTextField1.setText(fechaVenta); // Campo de texto para 'FECHA VENTA'
+        
+        // Ajustar combobox 'ESTADO VENTA'
+        setSelectedItemSafely(jComboBox2, estadoVenta);
+        
+        // Ajustar combobox 'CLIENTE'
+        setSelectedItemSafely(jComboBox1, cliente);
+        
+        // Ajustar combobox 'EMPLEADO'
+        setSelectedItemSafely(jComboBox3, empleado);
+        
+        // Ajustar combobox 'METODO PAGO'
+        setSelectedItemSafely(jComboBox4, metodoPago);
     }
 }
-
+    private void setSelectedItemSafely(JComboBox<String> comboBox, String item) {
+        String cleanedItem = normalizeString(item).toUpperCase(); // Normalizar y convertir a mayúsculas
+        for (int i = 0; i < comboBox.getItemCount(); i++) {
+            if (normalizeString(comboBox.getItemAt(i)).toUpperCase().equals(cleanedItem)) {
+                comboBox.setSelectedIndex(i);
+                return;
+            }
+        }
+        System.out.println("Item not found in ComboBox: " + item);
+    }
+    private String normalizeString(String input) {
+        return input.trim().replaceAll("\\s+", " "); // Normalizar sin cambiar a minúsculas
+    }
     void cargarVentas() {
     List<Object[]> ventas = daoVentas.listarVentas();
 
@@ -85,18 +123,11 @@ public class PrVenta extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Error al cargar empleados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
-    private void cargarClientes() {
-    // Llenar la lista de empleados en el combo box
-    try {
-        List<String> clientes = daoVentas.obtenerCliente(); // Obtener la lista de empleados
-        jComboBox1.removeAllItems(); // Limpiar los ítems del combo box antes de llenarlo
-        for (String cliente : clientes) {
-            // Asegurarse de que los valores estén bien formateados antes de agregarlos
-            jComboBox1.addItem(cliente.trim());
-        }
-    } catch (Exception e) {
-        // Mostrar un mensaje de error en caso de fallo
-        JOptionPane.showMessageDialog(this, "Error al cargar clientes: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    public void cargarClientes() {
+    List<String> clientes = daoVentas.obtenerCliente(); // Simula la obtención de datos
+    jComboBox1.removeAllItems();
+    for (String cliente : clientes) {
+        jComboBox1.addItem(normalizeString(cliente)); // Asegurarte de normalizar los datos aquí también
     }
 }
     private void cargarEdoVenta() {
@@ -181,6 +212,18 @@ public class PrVenta extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
+    private void calcularYMostrarTotalPagado() {
+    DefaultTableModel modelo = (DefaultTableModel) jTable3.getModel();
+    double totalPagado = 0.0;  // Usamos double para manejar decimales
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        double valor = Double.parseDouble(modelo.getValueAt(i, 3).toString());  // Asumiendo que la columna 3 es 'Total'
+        totalPagado += valor;
+    }
+
+    jTextField2.setText(String.format("%.2f", totalPagado));  // Formateamos a 2 decimales
+}
+
     private void eliminarVenta() {
     try {
         int filaSeleccionada = jTable4.getSelectedRow();
@@ -271,7 +314,6 @@ public class PrVenta extends javax.swing.JPanel {
         ex.printStackTrace();
     }
 }
-
     public PrVenta(dashboard mainDashboard) {
         this(); // Llama al constructor por defecto
         this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
