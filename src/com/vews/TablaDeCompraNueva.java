@@ -55,21 +55,18 @@ private void configurarNombreEmpleado(String nombreEmpleado) {
  }
 private void cargarEstadosDeCompra() {
     try {
-        // Lista de estados para el ejemplo
-        String[] estados = {"Pendiente", "Completada", "Cancelada"};
+        DaoCompras daoCompras = new DaoCompras();
+        List<String> estados = daoCompras.obtenerEstadosDeCompra(); // Método ajustado para obtener estados desde la base de datos
 
-        // Limpia los elementos actuales y agrega los nuevos estados
         EstadosDeCompra.removeAllItems();
         for (String estado : estados) {
             EstadosDeCompra.addItem(estado);
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error al cargar los estados de compra: " + e.getMessage(),
-                                      "Error", JOptionPane.ERROR_MESSAGE);
-    
+        JOptionPane.showMessageDialog(this, "Error al cargar los estados de compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
 }
+
  private void filtrarProductosPorProveedor() {
     String proveedorSeleccionado = (String) Proveedores.getSelectedItem();
     String idProveedor = (String) Proveedores.getClientProperty(proveedorSeleccionado); // Obtén el ID
@@ -355,6 +352,11 @@ public TablaDeCompraNueva() {
         jPanel1.add(AgregarALaCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 300, 60, 50));
 
         Comprar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/compra.png"))); // NOI18N
+        Comprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComprarActionPerformed(evt);
+            }
+        });
         jPanel1.add(Comprar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, -1, -1));
 
         ProveedoresLabe.setText("PROVEEDOR");
@@ -441,6 +443,50 @@ public TablaDeCompraNueva() {
     private void EstadosDeCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EstadosDeCompraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_EstadosDeCompraActionPerformed
+
+    private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
+        // Recoger datos de la interfaz
+    String fechaCompra = FechaDelDia.getText().trim();
+    String empleado = Usuario.getText().trim();
+    String estadoCompra = (String) EstadosDeCompra.getSelectedItem();
+
+    // Convertir a IDs usando DaoCompras
+    DaoCompras dao = new DaoCompras();
+    String idEmpleado = dao.obtenerIdEmpleadoPorNombre(empleado);
+    String idEstadoCompra = dao.obtenerIdEstadoCompraPorNombre(estadoCompra);
+
+    // Crear la compra
+    boolean exitoCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra);
+
+    if (exitoCompra) {
+        // Obtener el ID de la compra recién creada
+        String idCompra = dao.obtenerUltimaCompraId();
+
+        // Guardar cada detalle de la compra
+        DefaultTableModel modelo = (DefaultTableModel) CarritoTabla.getModel();
+        boolean detallesGuardados = true;
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            String nombreProducto = modelo.getValueAt(i, 0).toString();
+            int cantidad = Integer.parseInt(modelo.getValueAt(i, 1).toString());
+            String idProducto = dao.obtenerIdProductoPorNombre(nombreProducto);
+
+            boolean exitoDetalle = dao.crearDetalleCompra(idCompra, idProducto, cantidad);
+            if (!exitoDetalle) {
+                detallesGuardados = false;
+                break;
+            }
+        }
+
+        if (detallesGuardados) {
+            JOptionPane.showMessageDialog(null, "Compra y detalles guardados correctamente.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al guardar detalles de la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Error al guardar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_ComprarActionPerformed
 
     /**
      * @param args the command line arguments

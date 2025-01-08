@@ -1,9 +1,14 @@
 package database.dao;
 
 import database.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -83,6 +88,24 @@ public class DaoCompras extends Conexion {
         desconectar();
     }
     return edoscompras;
+}
+    public String obtenerIdProductoPorNombre(String nombreProducto) {
+    conectar();
+    String idProducto = null;
+    try {
+        String sql = "SELECT id_producto FROM productos WHERE nombre = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreProducto);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            idProducto = rs.getString("id_producto");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        desconectar();
+    }
+    return idProducto;
 }
     public List<Object[]> buscarCompras(String filtro) {
     conectar();
@@ -241,6 +264,74 @@ public class DaoCompras extends Conexion {
     }
     return productos; // Retornar la lista de productos
 }
+    public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
+        conectar();
+        try {
+            String sql = "SELECT id_empleado FROM empleados WHERE nombre = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, nombreEmpleado);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("id_empleado");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            desconectar();
+        }
+        return null;
+    }
+    public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra) {
+        conectar();
+        try {
+            String sql = "INSERT INTO compras (id_empleado, fecha_compra, id_estado_compra) VALUES (?, ?, ?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, idEmpleado);
+            ps.setString(2, fechaCompra);
+            ps.setString(3, idEstadoCompra);
+            int result = ps.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            desconectar();
+        }
+    }
+    public String obtenerUltimaCompraId() {
+        conectar();
+        try {
+            String sql = "SELECT MAX(id_compra) AS last_id FROM compras";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("last_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            desconectar();
+        }
+        return null;
+    }
+    public String obtenerIdEstadoCompraPorNombre(String nombreEstado) {
+    conectar();
+    String idEstado = null;
+    try {
+        String sql = "SELECT ID_EDO_COMPRA FROM EDO_COMPRA WHERE ESTADO_COMPRA = ?";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, nombreEstado);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            idEstado = rs.getString("ID_EDO_COMPRA");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener el ID del estado de compra: " + ex.getMessage());
+    } finally {
+        desconectar();
+    }
+    return idEstado;
+}
     public List<Object[]> obtenerDetalleCompra(String idCompra) {
     conectar();
     List<Object[]> detalleCompra = new ArrayList<>();
@@ -295,6 +386,23 @@ public class DaoCompras extends Conexion {
     }
 
     return exito;
+}
+    public boolean crearDetalleCompra(String idCompra, String idProducto, int cantidad) {
+    conectar();
+    try {
+        String sql = "INSERT INTO detalle_compra (id_compra, id_producto, cantidad) VALUES (?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, idCompra);
+        ps.setString(2, idProducto);
+        ps.setInt(3, cantidad);
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    } finally {
+        desconectar();
+    }
 }
 
      
