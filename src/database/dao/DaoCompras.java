@@ -264,40 +264,69 @@ public class DaoCompras extends Conexion {
     }
     return productos; // Retornar la lista de productos
 }
-    public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
-        conectar();
-        try {
-            String sql = "SELECT id_empleado FROM empleados WHERE nombre = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nombreEmpleado);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("id_empleado");
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            desconectar();
+public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
+    conectar();
+    String idEmpleado = null;
+
+    try {
+        // Consulta SQL ajustada
+        String sql = "SELECT id_empleado " +
+                     "FROM empleado " +
+                     "WHERE UPPER(REPLACE(TRIM(nombre) || ' ' || TRIM(ap_paterno) || ' ' || TRIM(ap_materno), '  ', ' ')) = UPPER(?)";
+        System.out.println("Consulta generada: " + sql);
+
+        // Limpiar completamente el parámetro para evitar problemas de espacios
+        String parametroLimpio = nombreEmpleado.trim().replaceAll("\\s+", " ");
+        System.out.println("Parámetro enviado: '" + parametroLimpio + "'");
+
+        // Preparar la consulta
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, parametroLimpio); // Pasar el parámetro limpio
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idEmpleado = rs.getString("id_empleado");
+            System.out.println("ID del empleado encontrado: " + idEmpleado);
+        } else {
+            System.out.println("Empleado no encontrado: '" + parametroLimpio + "'");
         }
-        return null;
+    } catch (SQLException ex) {
+        System.out.println("Error SQL: " + ex.getMessage());
+        ex.printStackTrace();
+    } finally {
+        desconectar();
     }
-    public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra) {
-        conectar();
-        try {
-            String sql = "INSERT INTO compras (id_empleado, fecha_compra, id_estado_compra) VALUES (?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, idEmpleado);
-            ps.setString(2, fechaCompra);
-            ps.setString(3, idEstadoCompra);
-            int result = ps.executeUpdate();
-            return result > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            desconectar();
-        }
+
+    return idEmpleado;
+}
+
+
+
+
+
+
+
+public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra) {
+    conectar();
+    try {
+        // Asegúrate de usar el nombre correcto de la tabla: COMPRA
+        String sql = "INSERT INTO compra (id_empleado, fecha_compra, id_estado_compra) VALUES (?, ?, ?)";
+        ps = conn.prepareStatement(sql);
+        ps.setString(1, idEmpleado);
+        ps.setString(2, fechaCompra);
+        ps.setString(3, idEstadoCompra);
+
+        int result = ps.executeUpdate();
+        return result > 0;
+    } catch (SQLException e) {
+        System.out.println("Error al crear la compra: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+    } finally {
+        desconectar();
     }
+}
+
     public String obtenerUltimaCompraId() {
         conectar();
         try {

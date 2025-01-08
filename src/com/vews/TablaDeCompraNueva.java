@@ -16,6 +16,18 @@ import javax.swing.table.DefaultTableModel;
 public class TablaDeCompraNueva extends javax.swing.JFrame {
 private String usuarioActivo;
 
+private void resetFormulario() {
+    // Limpiar tablas
+    DefaultTableModel modeloCarrito = (DefaultTableModel) CarritoTabla.getModel();
+    modeloCarrito.setRowCount(0);
+
+    // Resetear listas desplegables
+    EstadosDeCompra.setSelectedIndex(0);
+    Proveedores.setSelectedIndex(0);
+
+    // Recargar productos
+    cargarProductosTabla();
+}
 
 
 public TablaDeCompraNueva(String usuarioActivo) {
@@ -445,31 +457,64 @@ public TablaDeCompraNueva() {
     }//GEN-LAST:event_EstadosDeCompraActionPerformed
 
     private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
-        // Recoger datos de la interfaz
-    String fechaCompra = FechaDelDia.getText().trim();
-    String empleado = Usuario.getText().trim();
-    String estadoCompra = (String) EstadosDeCompra.getSelectedItem();
+ try {
+        String fechaCompra = FechaDelDia.getText().trim();
+        String empleado = Usuario.getText().trim();
+        String estadoCompra = (String) EstadosDeCompra.getSelectedItem();
+        String proveedor = (String) Proveedores.getSelectedItem();
 
-    // Convertir a IDs usando DaoCompras
-    DaoCompras dao = new DaoCompras();
-    String idEmpleado = dao.obtenerIdEmpleadoPorNombre(empleado);
-    String idEstadoCompra = dao.obtenerIdEstadoCompraPorNombre(estadoCompra);
+        DaoCompras dao = new DaoCompras();
 
-    // Crear la compra
-    boolean exitoCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra);
+        // Validar empleado
+        String idEmpleado = dao.obtenerIdEmpleadoPorNombre(empleado);
+        if (idEmpleado == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se encontró el empleado '" + empleado + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    if (exitoCompra) {
-        // Obtener el ID de la compra recién creada
+        // Validar proveedor
+        String idProveedor = (String) Proveedores.getClientProperty(proveedor);
+        if (idProveedor == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se encontró el proveedor '" + proveedor + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar estado de compra
+        String idEstadoCompra = dao.obtenerIdEstadoCompraPorNombre(estadoCompra);
+        if (idEstadoCompra == null) {
+            JOptionPane.showMessageDialog(this, "Error: No se encontró el estado de compra '" + estadoCompra + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar carrito
+        DefaultTableModel modeloCarrito = (DefaultTableModel) CarritoTabla.getModel();
+        if (modeloCarrito.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Error: El carrito está vacío. Agrega productos antes de registrar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear compra
+        boolean exitoCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra);
+        if (!exitoCompra) {
+            JOptionPane.showMessageDialog(this, "Error al guardar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener ID de la compra recién creada
         String idCompra = dao.obtenerUltimaCompraId();
 
-        // Guardar cada detalle de la compra
-        DefaultTableModel modelo = (DefaultTableModel) CarritoTabla.getModel();
+        // Registrar los detalles de la compra
         boolean detallesGuardados = true;
-
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            String nombreProducto = modelo.getValueAt(i, 0).toString();
-            int cantidad = Integer.parseInt(modelo.getValueAt(i, 1).toString());
+        for (int i = 0; i < modeloCarrito.getRowCount(); i++) {
+            String nombreProducto = modeloCarrito.getValueAt(i, 0).toString();
+            int cantidad = Integer.parseInt(modeloCarrito.getValueAt(i, 1).toString());
             String idProducto = dao.obtenerIdProductoPorNombre(nombreProducto);
+
+            if (idProducto == null || cantidad <= 0) {
+                JOptionPane.showMessageDialog(this, "Error con el producto: " + nombreProducto, "Error", JOptionPane.ERROR_MESSAGE);
+                detallesGuardados = false;
+                break;
+            }
 
             boolean exitoDetalle = dao.crearDetalleCompra(idCompra, idProducto, cantidad);
             if (!exitoDetalle) {
@@ -479,12 +524,14 @@ public TablaDeCompraNueva() {
         }
 
         if (detallesGuardados) {
-            JOptionPane.showMessageDialog(null, "Compra y detalles guardados correctamente.");
+            JOptionPane.showMessageDialog(this, "Compra registrada correctamente.");
+            resetFormulario();
         } else {
-            JOptionPane.showMessageDialog(null, "Error al guardar detalles de la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al guardar los detalles de la compra.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        JOptionPane.showMessageDialog(null, "Error al guardar la compra.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
     }//GEN-LAST:event_ComprarActionPerformed
 
