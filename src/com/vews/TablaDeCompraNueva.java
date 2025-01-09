@@ -460,7 +460,6 @@ public TablaDeCompraNueva() {
 
         // Obtener y limpiar la entrada del usuario
         String empleado = Usuario.getText().trim().replaceAll("\\s+", " ");
-        System.out.println("Empleado procesado para búsqueda: '" + empleado + "'");
 
         String fechaCompra = FechaDelDia.getText().trim();
         String estadoCompra = (String) EstadosDeCompra.getSelectedItem();

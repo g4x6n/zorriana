@@ -55,7 +55,6 @@ public AgVenta(String empleadoActual) {
 }
     private void configurarNombreEmpleado(String nombreEmpleado) {
         jLabel7.setText(empleadoActual); // Mostramos el nombre del empleado en el JLabel
-        System.out.println("Empleado actual configurado: " + nombreEmpleado);
     }
     private void cargarProductos() {
         try {
@@ -158,7 +157,6 @@ public AgVenta(String empleadoActual) {
             }
 
             String idVenta = "V" + String.format("%06d", new java.util.Random().nextInt(1000000));
-            System.out.println("ID Venta Generado: " + idVenta);
 
             boolean ventaGuardada = daoVentas.guardarVenta(idVenta, idCliente, idEmpleado, idEstadoVenta, idMetodoPago, fechaVenta);
             if (!ventaGuardada) {

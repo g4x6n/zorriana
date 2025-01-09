@@ -26,7 +26,7 @@ public class muestra extends javax.swing.JFrame {
         initComponents();
         configComponents();
         
-        playAudio("/img/uh.wav"); 
+        playAudio("/img/nomicompa.wav"); 
     }
     
     public void mostrarConTemporizador(int segundos) {
@@ -37,7 +37,7 @@ public class muestra extends javax.swing.JFrame {
             public void run() {
                 System.exit(0); // Cerrar el programa después del tiempo
             }
-        }, segundos * 480);
+        }, segundos * 2000);
     }
     private void configComponents(){
         // Titulo de la ventana

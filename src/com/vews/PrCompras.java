@@ -186,9 +186,6 @@ public class PrCompras extends javax.swing.JPanel {
         // Llamar al DAO para obtener los detalles de la compra
         List<Object[]> detalles = daoCompras.obtenerDetalleCompra(idCompra);
 
-        // Imprime los detalles para depuración
-        System.out.println("Cargando detalles para ID_COMPRA: " + idCompra);
-        System.out.println("Cantidad de detalles obtenidos: " + detalles.size());
 
         // Configurar un nuevo modelo para la tabla
         DefaultTableModel model = new DefaultTableModel(
@@ -202,7 +199,6 @@ public class PrCompras extends javax.swing.JPanel {
 
         // Agregar los detalles al modelo
         for (Object[] detalle : detalles) {
-            System.out.println("Producto: " + detalle[0] + ", Cantidad: " + detalle[1]);
             model.addRow(new Object[]{
                 detalle[0] != null ? detalle[0] : "N/A", // Producto
                 detalle[1] != null ? detalle[1] : 0      // Cantidad
@@ -212,8 +208,6 @@ public class PrCompras extends javax.swing.JPanel {
         // Asignar el modelo a la tabla
         TablaEdoCompra.setModel(model);
 
-        // Validar si la tabla contiene filas
-        System.out.println("Filas en TablaEdoCompra: " + model.getRowCount());
 
         // Forzar la actualización de la tabla
         TablaEdoCompra.repaint();
@@ -434,6 +428,7 @@ public class PrCompras extends javax.swing.JPanel {
 
         FechaVenta.setText("FECHA DE COMPRA");
 
+        FechaVTxtf.setEditable(false);
         FechaVTxtf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FechaVTxtfActionPerformed(evt);
