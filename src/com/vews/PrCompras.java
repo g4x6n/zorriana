@@ -124,73 +124,43 @@ public class PrCompras extends javax.swing.JPanel {
     // Habilitar desplazamiento horizontal
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
-    private void manejarTablaCompra() {
+ private void manejarTablaCompra() {
     int filaSeleccionada = TablaCompra.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
-            // Obtener los valores de la fila seleccionada
+            // Obtener el ID de la compra seleccionada
             String idCompra = TablaCompra.getValueAt(filaSeleccionada, 0).toString().trim();
-            String fechaCompra = TablaCompra.getValueAt(filaSeleccionada, 1).toString().trim();
-            String estadoCompra = TablaCompra.getValueAt(filaSeleccionada, 2).toString().trim();
-            String proveedor = TablaCompra.getValueAt(filaSeleccionada, 3).toString().trim();
-            String empleado = TablaCompra.getValueAt(filaSeleccionada, 4).toString().replaceAll("\\s+", " ").trim();
+            System.out.println("ID de la compra seleccionada: " + idCompra);
 
+            // Cargar los detalles de la compra
             cargarDetalleCompra(idCompra);
-            // Asignar los valores a los campos
-            FechaVTxtf.setText(fechaCompra);
-
-            for (int i = 0; i < EdoCompra_Box.getItemCount(); i++) {
-                if (EdoCompra_Box.getItemAt(i).trim().equalsIgnoreCase(estadoCompra)) {
-                    EdoCompra_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-            for (int i = 0; i < Prov_Box.getItemCount(); i++) {
-                if (Prov_Box.getItemAt(i).trim().equalsIgnoreCase(proveedor)) {
-                    Prov_Box.setSelectedIndex(i);
-                    break;
-                }
-            }
-
-            boolean empleadoEncontrado = false;
-            for (int i = 0; i < Empleado_Box.getItemCount(); i++) {
-                String itemEmpleado = Empleado_Box.getItemAt(i).replaceAll("\\s+", " ").trim();
-                if (itemEmpleado.equalsIgnoreCase(empleado)) {
-                    Empleado_Box.setSelectedIndex(i);
-                    empleadoEncontrado = true;
-                    break;
-                }
-            }
-
-            if (!empleadoEncontrado) {
-                JOptionPane.showMessageDialog(this, "No se encontró coincidencia para el empleado: " + empleado, "Advertencia", JOptionPane.WARNING_MESSAGE);
-            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar los datos seleccionados: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al manejar la selección de la tabla: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
 }
-    private void cargarDetalleCompra(String idCompra) {
+
+   private void cargarDetalleCompra(String idCompra) {
     try {
         // Llamar al DAO para obtener los detalles de la compra
         List<Object[]> detalles = daoCompras.obtenerDetalleCompra(idCompra);
+        System.out.println("Detalles obtenidos para ID_COMPRA: " + idCompra + " - " + detalles.size() + " registros encontrados.");
 
         // Configurar el modelo de la tabla
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"Producto", "Cantidad"}, 0
-        ){
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Ninguna celda será editable
-                return false;
+                return false; // Hacer todas las celdas no editables
             }
         };
 
         // Agregar los datos al modelo
         for (Object[] detalle : detalles) {
+            System.out.println("Producto: " + detalle[0] + ", Cantidad: " + detalle[1]);
             model.addRow(detalle);
         }
 
@@ -201,6 +171,8 @@ public class PrCompras extends javax.swing.JPanel {
         e.printStackTrace();
     }
 }
+
+
     private void BuscarCompras() {
     String filtro = BarraBusqueda.getText().trim();
     if (filtro.isEmpty()) {

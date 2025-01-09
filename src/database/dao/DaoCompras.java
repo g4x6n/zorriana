@@ -138,12 +138,12 @@ public class DaoCompras extends Conexion {
     conectar();
     String idProducto = null;
     try {
-        String sql = "SELECT id_producto FROM productos WHERE nombre = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "SELECT ID_PRODUCTO FROM PRODUCTO WHERE NOMBRE = ?";
+        ps = conn.prepareStatement(sql);
         ps.setString(1, nombreProducto);
-        ResultSet rs = ps.executeQuery();
+        rs = ps.executeQuery();
         if (rs.next()) {
-            idProducto = rs.getString("id_producto");
+            idProducto = rs.getString("ID_PRODUCTO").trim();
         }
     } catch (SQLException e) {
         e.printStackTrace();
@@ -408,33 +408,32 @@ public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
     return idEmpleado;
 }
 
-public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra, String idProveedor) {
+public String crearCompra(String idEmpleado, String fechaCompra, String idEstadoCompra, String idProveedor) {
     conectar();
     try {
-        // Obtener los dos últimos dígitos del año y el mes
-        String año = fechaCompra.substring(2, 4); // Extrae los dos últimos dígitos del año
-        String mes = fechaCompra.substring(5, 7); // Extrae el mes (ya formateado como "01", "02", etc.)
+        String año = fechaCompra.substring(2, 4);
+        String mes = fechaCompra.substring(5, 7);
 
-        // Obtener la última secuencia del mes
+        // Obtener la siguiente secuencia
         String sqlSecuencia = """
-            SELECT NVL(MAX(TO_NUMBER(SUBSTR(ID_COMPRA, 7, 2))), 0) + 1 AS siguiente_secuencia
+            SELECT NVL(MAX(TO_NUMBER(SUBSTR(ID_COMPRA, 6, 2))), 0) + 1 AS siguiente_secuencia
             FROM COMPRA
-            WHERE SUBSTR(ID_COMPRA, 3, 4) = ?
+            WHERE SUBSTR(ID_COMPRA, 2, 4) = ?
         """;
         ps = conn.prepareStatement(sqlSecuencia);
         ps.setString(1, año + mes);
         rs = ps.executeQuery();
 
-        String secuencia = "01"; // Valor por defecto
+        String secuencia = "01";
         if (rs.next()) {
             int secuenciaInt = rs.getInt("siguiente_secuencia");
-            secuencia = String.format("%02d", secuenciaInt); // Formatea la secuencia con dos dígitos
+            secuencia = String.format("%02d", secuenciaInt);
         }
 
         // Generar el ID_COMPRA
         String idCompra = "C" + año + mes + secuencia;
 
-        // Inserción en la tabla COMPRA
+        // Insertar la compra
         String sqlInsercion = """
             INSERT INTO COMPRA (ID_COMPRA, ID_EMPLEADO, FECHA_COMPRA, ID_EDO_COMPRA, ID_PROVEEDOR)
             VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?)
@@ -449,7 +448,7 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
         int resultado = ps.executeUpdate();
         if (resultado > 0) {
             System.out.println("Compra creada exitosamente con ID_COMPRA: " + idCompra);
-            return true;
+            return idCompra; // Devuelve el ID de la compra
         }
     } catch (SQLException e) {
         System.out.println("Error al crear la compra: " + e.getMessage());
@@ -457,8 +456,9 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
     } finally {
         desconectar();
     }
-    return false;
+    return null;
 }
+
 
     public String obtenerUltimaCompraId() {
         conectar();
@@ -494,7 +494,8 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
     }
     return idEstado;
 }
-    public List<Object[]> obtenerDetalleCompra(String idCompra) {
+    
+public List<Object[]> obtenerDetalleCompra(String idCompra) {
     conectar();
     List<Object[]> detalleCompra = new ArrayList<>();
     try {
@@ -502,7 +503,6 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
                      "FROM DETALLE_COMPRA " +
                      "JOIN PRODUCTO USING (ID_PRODUCTO) " +
                      "WHERE ID_COMPRA = ?";
-
         ps = conn.prepareStatement(sql);
         ps.setString(1, idCompra);
         rs = ps.executeQuery();
@@ -512,14 +512,18 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
             detalle[0] = rs.getString("PRODUCTO").trim(); // Nombre del producto
             detalle[1] = rs.getInt("CANTIDAD");          // Cantidad
             detalleCompra.add(detalle);
+            System.out.println("Detalle encontrado - Producto: " + detalle[0] + ", Cantidad: " + detalle[1]);
         }
     } catch (SQLException ex) {
         System.out.println("Error al obtener detalles de la compra: " + ex.getMessage());
+        ex.printStackTrace();
     } finally {
         desconectar();
     }
     return detalleCompra;
 }
+
+    
     public boolean eliminarCompra(String idCompra) {
     conectar();
     boolean exito = false;
@@ -549,23 +553,26 @@ public boolean crearCompra(String idEmpleado, String fechaCompra, String idEstad
 
     return exito;
 }
-    public boolean crearDetalleCompra(String idCompra, String idProducto, int cantidad) {
+public boolean crearDetalleCompra(String idCompra, String idProducto, int cantidad) {
     conectar();
     try {
-        String sql = "INSERT INTO detalle_compra (id_compra, id_producto, cantidad) VALUES (?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "INSERT INTO DETALLE_COMPRA (ID_COMPRA, ID_PRODUCTO, CANTIDAD) VALUES (?, ?, ?)";
+        ps = conn.prepareStatement(sql);
         ps.setString(1, idCompra);
         ps.setString(2, idProducto);
         ps.setInt(3, cantidad);
-        int result = ps.executeUpdate();
-        return result > 0;
+        int resultado = ps.executeUpdate();
+        return resultado > 0;
     } catch (SQLException e) {
+        System.out.println("Error al insertar detalle de compra: " + e.getMessage());
         e.printStackTrace();
         return false;
     } finally {
         desconectar();
     }
 }
+
+
       
 }
 

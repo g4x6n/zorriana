@@ -451,8 +451,7 @@ public TablaDeCompraNueva() {
     }//GEN-LAST:event_EstadosDeCompraActionPerformed
 
     private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
-                                       
-     try {
+        try {
         DaoCompras dao = new DaoCompras();
 
         // Obtener y limpiar la entrada del usuario
@@ -471,7 +470,7 @@ public TablaDeCompraNueva() {
         }
 
         // Obtener ID del proveedor
-        String idProveedor = dao.obtenerIdProveedorPorNombre(proveedor); // Método para obtener el ID del proveedor.
+        String idProveedor = dao.obtenerIdProveedorPorNombre(proveedor);
         if (idProveedor == null) {
             JOptionPane.showMessageDialog(this, "Error: No se encontró el proveedor '" + proveedor + "' en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -484,10 +483,29 @@ public TablaDeCompraNueva() {
             return;
         }
 
-        // Crear compra
-        boolean compraCreada = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra, idProveedor);
-        if (compraCreada) {
-            JOptionPane.showMessageDialog(this, "Compra creada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        // Crear compra y obtener el ID generado
+        String idCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra, idProveedor);
+        if (idCompra != null) {
+            JOptionPane.showMessageDialog(this, "Compra creada exitosamente. ID: " + idCompra, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Iterar sobre los productos seleccionados y agregar los detalles
+            for (int i = 0; i < CarritoTabla.getRowCount(); i++) {
+                String nombreProducto = CarritoTabla.getValueAt(i, 0).toString().trim(); // Columna de nombre del producto
+                int cantidad = Integer.parseInt(CarritoTabla.getValueAt(i, 1).toString().trim()); // Columna de cantidad
+
+                // Obtener el ID del producto
+                String idProducto = dao.obtenerIdProductoPorNombre(nombreProducto);
+                if (idProducto == null) {
+                    System.out.println("Error: No se encontró el producto '" + nombreProducto + "' en la base de datos.");
+                    continue;
+                }
+
+                // Insertar el detalle de la compra
+                boolean detalleCreado = dao.crearDetalleCompra(idCompra, idProducto, cantidad);
+                if (!detalleCreado) {
+                    System.out.println("Error al insertar detalle para el producto: " + nombreProducto);
+                }
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Error al crear la compra.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -495,7 +513,6 @@ public TablaDeCompraNueva() {
         JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
-
     }//GEN-LAST:event_ComprarActionPerformed
 
     /**
