@@ -324,7 +324,7 @@ static {
     }
     }//GEN-LAST:event_PswFieldKeyPressed
 
-   /*private void iniciarSesion() {
+private void iniciarSesion() {
     String usuario = UsrTxtF.getText();
     char[] password = PswField.getPassword();
 
@@ -342,28 +342,35 @@ static {
         JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.", 
                                       "Error de autenticación", JOptionPane.ERROR_MESSAGE);
     } else {
-        String nombreCompleto = empleado[3] + " " + empleado[4] + " " + (empleado[5] != null ? empleado[5] : "");
-        new dashboard(nombreCompleto).setVisible(true); // Pasa el nombre al dashboard
+        String idEmpleado = (String) empleado[0]; // ID del empleado
+        String nombreCompleto = empleado[3] + " " + empleado[4] + (empleado[5] != null ? " " + empleado[5] : ""); // Concatenación del nombre completo
+        List<String> permisos = permisosPorRol.getOrDefault(empleado[1], new ArrayList<>());
+
+        // Crear el dashboard con permisos y pasar tanto el nombre como el ID del empleado
+        dashboard db = new dashboard(nombreCompleto, idEmpleado, permisos);
+        db.setVisible(true); // Pasa el nombre y el ID al dashboard
         this.dispose(); // Cierra la ventana actual
     }
-}*/
+}
 
-   private void autenticar(String usuario, char[] contrasenia) {
+
+private void autenticar(String usuario, char[] contrasenia) {
     Object[] empleado = daoempleado.getEmployeeByUsr(usuario, contrasenia);
 
     if (empleado != null && empleado[0] != null) {
+        String idEmpleado = (String) empleado[0]; // ID del empleado
         String idPuesto = (String) empleado[1]; // ID del puesto
         List<String> permisos = permisosPorRol.getOrDefault(idPuesto, new ArrayList<>());
 
         // Verificar que se obtuvo el nombre completo del empleado
-        String nombreCompleto = empleado[3] + " " + empleado[4];
-        if (nombreCompleto == null || nombreCompleto.trim().isEmpty()) {
+        String nombreCompleto = empleado[3] + " " + empleado[4] + (empleado[5] != null ? " " + empleado[5] : ""); // Incluyendo el apellido materno
+        if (nombreCompleto.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se pudo obtener el nombre del empleado.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // Crear el dashboard con permisos
-        dashboard db = new dashboard(nombreCompleto, permisos);
+        dashboard db = new dashboard(nombreCompleto, idEmpleado, permisos);
         db.setVisible(true);
         this.dispose();
     } else {
@@ -376,6 +383,7 @@ static {
         }
     }
 }
+
 
 
     private void BTNEntrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BTNEntrarMouseClicked

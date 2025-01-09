@@ -5,6 +5,7 @@
 package com.vews;
 import database.dao.DaoProducto;
 import database.dao.DaoVentas; // Para interactuar con el DAO
+import java.util.ArrayList;
 import java.util.List; // Para manejar listas
 import javax.swing.*; // Para componentes gráficos como JComboBox, JLabel, etc.
 import javax.swing.table.DefaultTableModel;
@@ -16,19 +17,18 @@ import javax.swing.table.DefaultTableModel;
     
     //comentario para push nuevo
     
-    public AgVenta(String empleadoActual) {
-        this.empleadoActual = empleadoActual;
-        this.daoProducto = new DaoProducto();
-        initComponents();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        cargarProductos(); // Cargar productos al inicializar
-        TOTAL.setEditable(false);
-        configurarNombreEmpleado(empleadoActual);
-        configurarComponentes();
-        
-        
-    }
+public AgVenta(String empleadoActual) {
+    this.empleadoActual = empleadoActual.trim(); // Normalizar el espacio
+    this.daoProducto = new DaoProducto();
+    initComponents();
+    setLocationRelativeTo(null);
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    cargarProductos();
+    TOTAL.setEditable(false);
+    configurarNombreEmpleado(empleadoActual);
+    configurarComponentes();
+}
+
     private void configurarComponentes() {
     // Configurar el título de la ventana
     setTitle("Registrar Venta");
@@ -54,7 +54,8 @@ import javax.swing.table.DefaultTableModel;
     cargarProductos();
 }
     private void configurarNombreEmpleado(String nombreEmpleado) {
-        jLabel7.setText(nombreEmpleado); // Asignar el nombre del empleado a jLabel7
+        jLabel7.setText(empleadoActual); // Mostramos el nombre del empleado en el JLabel
+        System.out.println("Empleado actual configurado: " + nombreEmpleado);
     }
     private void cargarProductos() {
         try {
@@ -202,6 +203,9 @@ import javax.swing.table.DefaultTableModel;
             e.printStackTrace();
         }
     }
+
+
+
     private void botonQuitar() {
       int filaSeleccionada = AgDVenta.getSelectedRow();
     if (filaSeleccionada != -1) {

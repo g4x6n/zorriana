@@ -32,24 +32,24 @@ import javax.swing.JPanel;
  * @author Alex/ldelatorrep2000/CesarCarmona
  */
 public class dashboard extends javax.swing.JFrame {
-
     private String usuarioAutenticado;
-    private final List<String> permisos;
-    
-       public dashboard(String empleadoActual, List<String> permisos) {
-        this.usuarioAutenticado = empleadoActual;
+    private String idEmpleado;
+    private List<String> permisos;
+
+    public dashboard(String nombreCompleto, String idEmpleado, List<String> permisos) {
+        this.usuarioAutenticado = nombreCompleto;
+        this.idEmpleado = idEmpleado;
         this.permisos = permisos;
-         
+        
         initComponents();
         configComponents();
         configurarAcceso(); // Configura el acceso según los permisos
         SetUsuario();
         SetDate();
         startClock();
-        SetUsuario();
         initContent();
-        
     }
+
        
        private void SetUsuario() {
         if (usuarioAutenticado != null && !usuarioAutenticado.isEmpty()) {
@@ -544,37 +544,35 @@ public class dashboard extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                 List<String> permisos = java.util.Arrays.asList("Clientes", "Ventas", "Empleados", "Compras");
-            new dashboard("Nombre del Usuario", permisos).setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            String nombreCompleto = "Nombre del Usuario"; // Ejemplo de nombre completo
+            String idEmpleado = "E12345"; // Ejemplo de ID de empleado
+            List<String> permisos = java.util.Arrays.asList("Clientes", "Ventas", "Empleados", "Compras");
+            new dashboard(nombreCompleto, idEmpleado, permisos).setVisible(true);
+        }
+    });
+}
+
 public String getUsuarioAutenticado() {
     return usuarioAutenticado;
 }

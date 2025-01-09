@@ -45,7 +45,7 @@ public class DaoProducto extends Conexion {
     }
     return marcas;
 }
-    public String obtenerIdProductoPorNombre(String nombreProducto) {
+public String obtenerIdProductoPorNombre(String nombreProducto) {
     conectar();
     String idProducto = null;
     try {
@@ -55,14 +55,19 @@ public class DaoProducto extends Conexion {
         rs = ps.executeQuery();
         if (rs.next()) {
             idProducto = rs.getString("ID_PRODUCTO");
+            System.out.println("ID de Producto obtenido: " + idProducto); // Imprime el ID obtenido
+        } else {
+            System.out.println("No se encontró un producto con el nombre: " + nombreProducto); // Informa si no se encuentra el producto
         }
     } catch (SQLException ex) {
         System.out.println("Error al obtener el ID del producto: " + ex.getMessage());
+        ex.printStackTrace();
     } finally {
         desconectar();
     }
     return idProducto;
 }
+
 
     public List<String> obtenerEdoProd() {
     conectar();
@@ -359,9 +364,6 @@ public boolean insertarProducto(String nombre, String descripcion, String sku, S
     return exito; // Devuelve el estado de la operación
 }
 
-
-
-
 public String obtenerCodigoCategoria(String tipo) {
     conectar();
     String idCategoria = null;
@@ -438,7 +440,6 @@ public String obtenerCodigoMarca(String marca) {
     }
     return idMarca;
 }
-
 
 public boolean actualizarProducto(String idProducto, String nombre, String descripcion, String sku, String idCategoria,
                                   String idEstadoProducto, String idProveedor, int stock, double precio,
