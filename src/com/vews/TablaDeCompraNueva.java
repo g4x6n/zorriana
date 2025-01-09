@@ -15,6 +15,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class TablaDeCompraNueva extends javax.swing.JFrame {
 private String usuarioActivo;
+private void ocultarColumnaID(javax.swing.JTable tabla, int indiceColumna) {
+    tabla.getColumnModel().getColumn(indiceColumna).setMinWidth(0);
+    tabla.getColumnModel().getColumn(indiceColumna).setMaxWidth(0);
+    tabla.getColumnModel().getColumn(indiceColumna).setWidth(0);
+    tabla.getColumnModel().getColumn(indiceColumna).setPreferredWidth(0);
+}
 
 private void resetFormulario() {
     // Limpiar tablas
@@ -96,6 +102,7 @@ private void cargarEstadosDeCompra() {
             }
 
             ProductosTabla.setModel(modelo);
+            ocultarColumnaID(ProductosTabla, 0);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al filtrar productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -172,12 +179,7 @@ private void agregarProductoAlCarrito() {
     }
 }
 
-    private void ocultarColumnaID(javax.swing.JTable tabla, int indiceColumna) {
-    tabla.getColumnModel().getColumn(indiceColumna).setMinWidth(0);
-    tabla.getColumnModel().getColumn(indiceColumna).setMaxWidth(0);
-    tabla.getColumnModel().getColumn(indiceColumna).setWidth(0);
-    tabla.getColumnModel().getColumn(indiceColumna).setPreferredWidth(0);
-}
+
 
  private void cargarProductosTabla() {
     try {
@@ -216,6 +218,8 @@ private void agregarProductoAlCarrito() {
         e.printStackTrace();
     }
 }
+
+
 
 
   private void setFechaActual() {
@@ -486,7 +490,7 @@ public TablaDeCompraNueva() {
         // Crear compra y obtener el ID generado
         String idCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra, idProveedor);
         if (idCompra != null) {
-            JOptionPane.showMessageDialog(this, "Compra creada exitosamente. ID: " + idCompra, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Compra creada exitosamente.");
 
             // Iterar sobre los productos seleccionados y agregar los detalles
             for (int i = 0; i < CarritoTabla.getRowCount(); i++) {
