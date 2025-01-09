@@ -491,6 +491,7 @@ public TablaDeCompraNueva() {
         String idCompra = dao.crearCompra(idEmpleado, fechaCompra, idEstadoCompra, idProveedor);
         if (idCompra != null) {
             JOptionPane.showMessageDialog(this, "Compra creada exitosamente.");
+            dispose();
 
             // Iterar sobre los productos seleccionados y agregar los detalles
             for (int i = 0; i < CarritoTabla.getRowCount(); i++) {

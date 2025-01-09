@@ -347,13 +347,13 @@ private void jTable4MouseClicked(MouseEvent evt) {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jButtonEliminar = new javax.swing.JButton();
         jButtonEditarVenta = new javax.swing.JButton();
         BUSQUEDA = new javax.swing.JButton();
+        jTextField3 = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -500,13 +500,6 @@ private void jTable4MouseClicked(MouseEvent evt) {
 
         fondo.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 430, 140));
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 320, -1));
-
         jLabel10.setText("FILTRAR:");
         fondo.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, -1, 20));
 
@@ -557,6 +550,18 @@ private void jTable4MouseClicked(MouseEvent evt) {
         });
         fondo.add(BUSQUEDA, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 90, 40, 40));
 
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+        });
+        fondo.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 110, 320, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -601,10 +606,6 @@ private void jTable4MouseClicked(MouseEvent evt) {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
     private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
 
         eliminarVenta();
@@ -624,6 +625,17 @@ private void jTable4MouseClicked(MouseEvent evt) {
     private void BUSQUEDAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BUSQUEDAActionPerformed
           BuscarVenta();
     }//GEN-LAST:event_BUSQUEDAActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            BuscarVenta();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField3KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

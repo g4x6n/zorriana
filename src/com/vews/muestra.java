@@ -7,6 +7,8 @@ package com.vews;
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.sound.sampled.*;
+import java.io.File;
 /**
  *
  * @author Alex
@@ -24,7 +26,7 @@ public class muestra extends javax.swing.JFrame {
         initComponents();
         configComponents();
         
-     
+        playAudio("/img/uh.wav"); 
     }
     
     public void mostrarConTemporizador(int segundos) {
@@ -35,14 +37,31 @@ public class muestra extends javax.swing.JFrame {
             public void run() {
                 System.exit(0); // Cerrar el programa después del tiempo
             }
-        }, segundos * 150);
+        }, segundos * 480);
     }
-private void configComponents(){
+    private void configComponents(){
         // Titulo de la ventana
         setTitle("Saliendo....");
         // posición de la ventana
         setLocationRelativeTo(null);
     }
+
+    private void playAudio(String audioPath) {
+    try {
+        // Cargar el archivo de audio como recurso
+        File audioFile = new File(getClass().getResource(audioPath).toURI());
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+
+        // Reproducir el audio
+        clip.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al reproducir el audio: " + e.getMessage());
+    }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
