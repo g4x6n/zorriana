@@ -15,7 +15,8 @@ public class PrCompras extends javax.swing.JPanel {
     public static PrCompras comp;
     private String usuarioActivo;
 
-   
+ 
+
     public PrCompras(String usuarioActivo) {
         this.usuarioActivo = usuarioActivo;
         initComponents();
@@ -24,8 +25,7 @@ public class PrCompras extends javax.swing.JPanel {
         cargarEdoCompra();
         cargarCompras();
     }
-
-  public PrCompras(dashboard mainDashboard) {
+    public PrCompras(dashboard mainDashboard) {
         this.mainDashboard = mainDashboard; // Establece la referencia al dashboard
     }
     public void setMainDashboard(dashboard main) {
@@ -124,11 +124,12 @@ public class PrCompras extends javax.swing.JPanel {
     // Habilitar desplazamiento horizontal
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
- private void manejarTablaCompra() {
-     int filaSeleccionada = TablaCompra.getSelectedRow();
+    private void manejarTablaCompra() {
+    int filaSeleccionada = TablaCompra.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
             // Obtener los valores seleccionados
+            String idCompra = TablaCompra.getValueAt(filaSeleccionada, 0).toString().trim(); // ID de la compra (columna 0)
             String fechaCompra = TablaCompra.getValueAt(filaSeleccionada, 1).toString().trim(); // Columna 1: Fecha
             String estadoCompra = TablaCompra.getValueAt(filaSeleccionada, 2).toString().trim(); // Columna 2: Estado
             String proveedor = TablaCompra.getValueAt(filaSeleccionada, 3).toString().trim(); // Columna 3: Proveedor
@@ -162,6 +163,10 @@ public class PrCompras extends javax.swing.JPanel {
                 Empleado_Box.addItem(empleado);
                 Empleado_Box.setSelectedItem(empleado);
             }
+
+            // Cargar el detalle de la compra
+            cargarDetalleCompra(idCompra);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Error al manejar la selección de la tabla: " + e.getMessage(),
@@ -176,13 +181,16 @@ public class PrCompras extends javax.swing.JPanel {
     }
 }
 
-   private void cargarDetalleCompra(String idCompra) {
+    private void cargarDetalleCompra(String idCompra) {
     try {
         // Llamar al DAO para obtener los detalles de la compra
         List<Object[]> detalles = daoCompras.obtenerDetalleCompra(idCompra);
-        System.out.println("Detalles obtenidos para ID_COMPRA: " + idCompra + " - " + detalles.size() + " registros encontrados.");
 
-        // Configurar el modelo de la tabla
+        // Imprime los detalles para depuración
+        System.out.println("Cargando detalles para ID_COMPRA: " + idCompra);
+        System.out.println("Cantidad de detalles obtenidos: " + detalles.size());
+
+        // Configurar un nuevo modelo para la tabla
         DefaultTableModel model = new DefaultTableModel(
             new String[]{"Producto", "Cantidad"}, 0
         ) {
@@ -192,21 +200,29 @@ public class PrCompras extends javax.swing.JPanel {
             }
         };
 
-        // Agregar los datos al modelo
+        // Agregar los detalles al modelo
         for (Object[] detalle : detalles) {
             System.out.println("Producto: " + detalle[0] + ", Cantidad: " + detalle[1]);
-            model.addRow(detalle);
+            model.addRow(new Object[]{
+                detalle[0] != null ? detalle[0] : "N/A", // Producto
+                detalle[1] != null ? detalle[1] : 0      // Cantidad
+            });
         }
 
         // Asignar el modelo a la tabla
         TablaEdoCompra.setModel(model);
+
+        // Validar si la tabla contiene filas
+        System.out.println("Filas en TablaEdoCompra: " + model.getRowCount());
+
+        // Forzar la actualización de la tabla
+        TablaEdoCompra.repaint();
+
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Error al cargar el detalle de la compra: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         e.printStackTrace();
     }
 }
-
-
     private void BuscarCompras() {
     String filtro = BarraBusqueda.getText().trim();
     if (filtro.isEmpty()) {
