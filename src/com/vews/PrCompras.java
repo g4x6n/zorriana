@@ -125,20 +125,54 @@ public class PrCompras extends javax.swing.JPanel {
     table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 }
  private void manejarTablaCompra() {
-    int filaSeleccionada = TablaCompra.getSelectedRow();
+     int filaSeleccionada = TablaCompra.getSelectedRow();
     if (filaSeleccionada != -1) {
         try {
-            // Obtener el ID de la compra seleccionada
-            String idCompra = TablaCompra.getValueAt(filaSeleccionada, 0).toString().trim();
-            System.out.println("ID de la compra seleccionada: " + idCompra);
+            // Obtener los valores seleccionados
+            String fechaCompra = TablaCompra.getValueAt(filaSeleccionada, 1).toString().trim(); // Columna 1: Fecha
+            String estadoCompra = TablaCompra.getValueAt(filaSeleccionada, 2).toString().trim(); // Columna 2: Estado
+            String proveedor = TablaCompra.getValueAt(filaSeleccionada, 3).toString().trim(); // Columna 3: Proveedor
+            String empleado = TablaCompra.getValueAt(filaSeleccionada, 4).toString().trim(); // Columna 4: Empleado
 
-            // Cargar los detalles de la compra
-            cargarDetalleCompra(idCompra);
+            // Llenar los campos con los valores obtenidos
+            FechaVTxtf.setText(fechaCompra);
+            EdoCompra_Box.setSelectedItem(estadoCompra); // Selecciona el estado en el combo box
+            Prov_Box.setSelectedItem(proveedor); // Selecciona el proveedor en el combo box
+
+            // Verificar si el empleado está en el ComboBox antes de seleccionarlo
+            boolean empleadoEncontrado = false;
+            String empleadoNormalizado = empleado.replaceAll("\\s+", " ").trim().toLowerCase();
+
+            for (int i = 0; i < Empleado_Box.getItemCount(); i++) {
+                String item = Empleado_Box.getItemAt(i).replaceAll("\\s+", " ").trim().toLowerCase();
+                if (item.equals(empleadoNormalizado)) { // Ignora diferencias de mayúsculas y espacios
+                    Empleado_Box.setSelectedItem(Empleado_Box.getItemAt(i)); // Selecciona el empleado original
+                    empleadoEncontrado = true;
+                    break;
+                }
+            }
+
+            // Si no se encuentra, mostrar advertencia y opción de agregarlo
+            if (!empleadoEncontrado) {
+                JOptionPane.showMessageDialog(this,
+                        "El empleado '" + empleado + "' no se encontró en la lista.",
+                        "Advertencia",
+                        JOptionPane.WARNING_MESSAGE);
+                // Opcional: agregar el empleado al ComboBox
+                Empleado_Box.addItem(empleado);
+                Empleado_Box.setSelectedItem(empleado);
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error al manejar la selección de la tabla: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al manejar la selección de la tabla: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     } else {
-        JOptionPane.showMessageDialog(this, "Por favor selecciona una fila.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this,
+                "Por favor selecciona una fila.",
+                "Advertencia",
+                JOptionPane.WARNING_MESSAGE);
     }
 }
 

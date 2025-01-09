@@ -152,7 +152,7 @@ public class DaoCompras extends Conexion {
     }
     return idProducto;
 }
-
+//QUITAR ESTA
     public void listarEmpleadosDesdeJava() {
     conectar();
     try {
@@ -383,8 +383,6 @@ public String obtenerIdEmpleadoPorNombre(String nombreEmpleado) {
             String nombreCompleto = rs.getString("nombre_completo").trim();
             String nombreSinMaterno = rs.getString("nombre_sin_materno").trim();
             String id = rs.getString("id_empleado").trim();
-
-            System.out.println("Comparando con: '" + nombreCompleto + "' o '" + nombreSinMaterno + "'");
 
             // Comparación flexible: permite coincidencia con o sin apellido materno
             if (nombreCompleto.equals(parametroLimpio) || nombreSinMaterno.equals(parametroLimpio)) {
