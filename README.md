@@ -7,9 +7,7 @@ Computer Engineering Degree.
 ## Table of contents:
 
 - 🚀 [Installation](#installation)
-- 📺 [Playlists](#playlists)
 - 🗓 [Screenshots](#screenshots)
-- 🗄 [Database](#database)
 
 ## Installation:
 
@@ -63,9 +61,7 @@ Now with SQL Developer, you can run the first document to create tables: [Tables
 
 Then, after creating them to fill them you can use the following document: [Tables Filled](.readme/llenadotablas.txt)
 
-
-
-
+Finally, to set up triggers and sequences, use the following: [Triggers and Sequences](.readme/secuenciasytriggers.txt)
 
 
 ## Screenshots
