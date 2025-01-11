@@ -59,9 +59,10 @@ Connect to the new user:
 ```
 conn ltcgun/mheealx@localhost:1521/xepdb1
 ```
-Now with SQL Developer, you can run the first document to create tables:
+Now with SQL Developer, you can run the first document to create tables: [Tables](.readme/tablas.txt)
 
-[Tables](.readme/tablas.txt)
+Then, after creating them to fill them you can use the following document: [Tables Filled](.readme/llenadotablas.txt)
+
 
 
 
