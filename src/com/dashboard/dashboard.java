@@ -8,7 +8,7 @@ package com.dashboard;
 import java.awt.event.ActionEvent;
 import com.vews.PrCliente;
 import com.vews.AgVenta;
-import com.dashboard.dashboard; // Asegúrate de importar la clase dashboard
+import com.dashboard.dashboard;
 import com.vews.PrVenta;
 import com.vews.PrCompras;
 import com.vews.PrEmpleado;
