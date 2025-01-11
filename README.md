@@ -4,6 +4,10 @@
 This project was made in Apache NetBeans IDE 12.6 using an Oracle Database XE connection for Databases course of 7th semester in ESIME Culhuacan IPN.
 Computer Engineering Degree.
 
+## IMPORTANT NOTE
+
+THIS PROGRAM IS MADE ENTIRELY IN SPANISH, FEEL FREE TO TRANSLATE IT INTO ANY LANGUAGE
+
 ## Table of contents:
 
 - 🚀 [Installation](#installation)
@@ -68,4 +72,11 @@ Finally, to set up triggers and sequences, use the following: [Triggers and Sequ
 
 ![Login](https://github.com/g4x6n/zorriana/raw/master/.readme/login.png)
 ![Dashboard](https://github.com/g4x6n/zorriana/raw/master/.readme/dashboard.png)
+![Clientes](https://github.com/g4x6n/zorriana/raw/master/.readme/cliente.png)
+![Empleados](https://github.com/g4x6n/zorriana/raw/master/.readme/empleados.png)
+![Proveedores](https://github.com/g4x6n/zorriana/raw/master/.readme/proveedor.png)
+![Ventas](https://github.com/g4x6n/zorriana/raw/master/.readme/ventas.png)
+![Compras](https://github.com/g4x6n/zorriana/raw/master/.readme/compras.png)
+![Productos](https://github.com/g4x6n/zorriana/raw/master/.readme/productos.png)
+
 
