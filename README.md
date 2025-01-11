@@ -61,7 +61,7 @@ conn ltcgun/mheealx@localhost:1521/xepdb1
 ```
 Now with SQL Developer, you can run the first document to create tables:
 
-[Tables](tablas.txt)
+[Tables](.readme/tablas.txt)
 
 
 
